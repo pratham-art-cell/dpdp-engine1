@@ -1,0 +1,36 @@
+<table class="w-full text-left border-collapse border border-gray-200">
+    <thead>
+        <tr class="bg-gray-50 border-b border-gray-200">
+            <th class="p-3 text-sm font-semibold text-gray-600">ID</th>
+            <th class="p-3 text-sm font-semibold text-gray-600">Lab Name</th>
+            <th class="p-3 text-sm font-semibold text-gray-600">Ledgers</th>
+            <th class="p-3 text-sm font-semibold text-gray-600">Compliance Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for lab in labs %}
+        <tr class="border-b border-gray-100 hover:bg-gray-50">
+            <td class="p-3 text-sm text-gray-800">{{ lab.id }}</td>
+            <td class="p-3 text-sm font-medium text-gray-900">{{ lab.lab_name }}</td>
+            <td class="p-3 text-sm text-gray-600">
+                {% if lab.uses_paper_ledgers %}
+                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Paper Ledgers</span>
+                {% else %}
+                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Fully Digital</span>
+                {% endif %}
+            </td>
+            <td class="p-3 text-sm">
+                {% if lab.compliance_status == 'Compliant' %}
+                <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Compliant</span>
+                {% else %}
+                <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-semibold">Section 8 Violation</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4" class="p-4 text-center text-sm text-gray-500">No lab records found. Run an audit above.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
