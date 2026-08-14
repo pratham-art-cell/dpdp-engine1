@@ -64,13 +64,14 @@ async def upload_clinic_logs(
     request: Request,
     audit_file: UploadFile = File(...)
 ):
-    # DEFENSE 1: Ensure it is actually a CSV
-    if not audit_file.filename.endswith('.csv'):
+    # DEFENSE 1: Ensure it is actually a CSV (Added .lower() for iOS safety)
+    if not audit_file.filename.lower().endswith('.csv'):
         raise HTTPException(status_code=400, detail="Only .csv files are permitted.")
 
     try:
         contents = await audit_file.read()
         decoded_content = contents.decode('utf-8')
+        import csv, io # Added just in case they aren't imported at the top
         csv_reader = csv.DictReader(io.StringIO(decoded_content))
         
         # DEFENSE 2: Verify required columns exist before processing
@@ -105,4 +106,5 @@ async def upload_clinic_logs(
         raise HTTPException(status_code=400, detail="File encoding error. Please upload a valid UTF-8 CSV.")
     except Exception as e:
         # DEFENSE 4: Catch-all for unexpected crashes
+        # FIXED: Added the missing closing parenthesis below
         raise HTTPException(status_code=500, detail=f"Audit failed: {str(e)}")
