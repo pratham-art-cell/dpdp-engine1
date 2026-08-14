@@ -1,11 +1,12 @@
 from contextlib import asynccontextmanager
+import os
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
 from database import init_db
-from routers import labs, api, webhooks # IMPORT YOUR NEW ROUTERS
+from routers import labs, api, webhooks
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -14,9 +15,11 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="DPDP Audit Engine", lifespan=lifespan)
 
+# Automatically create the static directory if it doesn't exist on the cloud server
+os.makedirs("static", exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# REGISTER ALL ROUTERS HERE
+# Register all routers
 app.include_router(labs.router)
 app.include_router(api.router)
 app.include_router(webhooks.router)
@@ -29,4 +32,3 @@ def home(request: Request):
         request=request, 
         name="index.html"
     )
-
