@@ -1,104 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DPDP Compliance Engine</title>
-    <!-- HTMX -->
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Custom Stylesheet -->
-    <link href="/static/styles.css" rel="stylesheet">
-</head>
-<body class="bg-gray-50 text-gray-900 min-h-screen">
-
-    <!-- Top Navigation -->
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="h-8 w-8 rounded-lg bg-red-600 flex items-center justify-center text-white font-bold text-lg">
-                    D
-                </div>
-                <span class="text-xl font-bold tracking-tight text-gray-900">DPDP Compliance Engine</span>
-            </div>
-            <div class="flex items-center space-x-4">
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                    <span class="w-1.5 h-1.5 mr-1.5 bg-green-500 rounded-full"></span>
-                    Engine Active (Sec. 33)
-                </span>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Dashboard Container -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <!-- Header Introduction -->
-        <div class="mb-8">
-            <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">Clinic Audit & Telemetry Portal</h1>
-            <p class="mt-1 text-sm text-gray-500">
-                Automated compliance monitoring and penalty assessment under the Digital Personal Data Protection Act.
-            </p>
-        </div>
-
-        <!-- Metric Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Active Policy</div>
-                <div class="mt-2 text-2xl font-bold text-gray-900">DPDP Act 2023</div>
-                <div class="mt-1 text-xs text-gray-500">Section 33 Compliance Enforcement</div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Default Retainer</div>
-                <div class="mt-2 text-2xl font-bold text-gray-900">₹1,500 / month</div>
-                <div class="mt-1 text-xs text-emerald-600 font-medium">B2B Clinic Subscription</div>
-            </div>
-
-            <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-                <div class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Audit Protocol</div>
-                <div class="mt-2 text-2xl font-bold text-gray-900">Zero-Retention</div>
-                <div class="mt-1 text-xs text-gray-500">In-Memory Telemetry Analysis</div>
-            </div>
-        </div>
-
-        <!-- Offline CSV Audit Upload Section -->
-        <div class="bg-white p-8 rounded-xl border border-gray-200 shadow-sm mb-8">
-            <h2 class="text-lg font-semibold text-gray-900 mb-1">Run Offline CSV Audit</h2>
-            <p class="text-sm text-gray-500 mb-6">
-                Upload an exported clinic log to inspect consent records and calculate liability exposure.
-            </p>
-            
-            <form hx-post="/labs/upload" 
-                  hx-target="#audit-results" 
-                  hx-swap="innerHTML"
-                  hx-encoding="multipart/form-data" 
-                  enctype="multipart/form-data" 
-                  class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
-                
-                <input type="file" 
-                       name="audit_file" 
-                       accept=".csv, text/csv, application/csv, text/x-csv, application/x-csv" 
-                       required 
-                       class="block w-full text-sm text-gray-500
-                              file:mr-4 file:py-2.5 file:px-4
-                              file:rounded-lg file:border-0
-                              file:text-sm file:font-semibold
-                              file:bg-blue-50 file:text-blue-700
-                              hover:file:bg-blue-100 cursor-pointer">
-                
-                <button type="submit" 
-                        class="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-medium px-6 py-2.5 rounded-lg shadow-sm transition duration-150 flex-shrink-0">
-                    Analyze Logs
-                </button>
-            </form>
-
-            <!-- HTMX Audit Report Injection Target -->
-            <div id="audit-results" class="mt-6"></div>
-        </div>
-
-    </main>
-
-</body>
-</html>
+<form hx-post="/labs/upload" 
+      hx-target="#audit-results" 
+      hx-swap="innerHTML"
+      hx-encoding="multipart/form-data" 
+      enctype="multipart/form-data" 
+      hx-headers='{"X-API-Key": "dev_test_key_789"}'
+      class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">
+    
+    <!-- File Input -->
+    <input type="file" name="audit_file" accept=".csv" required ...>
+    
+    <button type="submit" ...>Analyze Logs</button>
+</form>

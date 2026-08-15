@@ -1,77 +1,52 @@
 import csv
 import io
-from fastapi import UploadFile, File
-# ... keep your other imports below ...
-from fastapi import APIRouter, Depends, Request, Form
+from fastapi import APIRouter, Request, UploadFile, File, HTTPException, status, Security, Depends
+from fastapi.security.api_key import APIKeyHeader
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from sqlmodel import Session, select
-from database import get_session
-from models import Lab
-from fastapi import Query
+
 router = APIRouter(prefix="/labs", tags=["Labs"])
 templates = Jinja2Templates(directory="templates")
 
-@router.get("/", response_class=HTMLResponse)
-def list_labs(
-    request: Request, 
-    skip: int = Query(default=0, ge=0),
-    limit: int = Query(default=10, le=100),
-    session: Session = Depends(get_session)
-):
-    # The Fix: Replaced .all() with strict database pagination
-    labs = session.exec(select(Lab).offset(skip).limit(limit)).all()
-    
-    return templates.TemplateResponse(
-        request=request, 
-        name="partials/lab_list.html", 
-        context={"labs": labs}
-    )
-@router.post("/add", response_class=HTMLResponse)
-def add_lab(
-    request: Request,
-    lab_name: str = Form(...),
-    uses_paper_ledgers: bool = Form(False),
-    has_digital_consent_logs: bool = Form(False),
-    session: Session = Depends(get_session)
-):
-    compliance = "Compliant" if has_digital_consent_logs else "Section 8 Violation"
-    
-    new_lab = Lab(
-        lab_name=lab_name,
-        uses_paper_ledgers=uses_paper_ledgers,
-        has_digital_consent_logs=has_digital_consent_logs,
-        compliance_status=compliance
-    )
-    session.add(new_lab)
-    session.commit()
+# --- AUTHENTICATION SETUP ---
+API_KEY_NAME = "X-API-Key"
+api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=False)
 
-    labs = session.exec(select(Lab))
-    
-    # THE FIX: Use request=, name=, and context=
-    return templates.TemplateResponse(
-        request=request, 
-        name="partials/lab_list.html", 
-        context={"labs": labs}
+# Hardcoded store mapping client API keys to their respective client IDs 
+# (In Phase 3/4, you will load these dynamically from your PostgreSQL database)
+VALID_CLIENT_KEYS = {
+    "clinic_live_key_alpha123": "clinic_alpha_mumbai",
+    "clinic_live_key_beta456": "clinic_beta_delhi",
+    "dev_test_key_789": "local_test_clinic"
+}
 
-    )
-from fastapi import HTTPException
-import csv
-import io
+async def verify_client_api_key(api_key: str = Security(api_key_header)) -> str:
+    """
+    Validates the incoming API key from the request header 
+    and returns the associated client_id.
+    """
+    if not api_key or api_key not in VALID_CLIENT_KEYS:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unauthorized: Invalid or missing API Key."
+        )
+    return VALID_CLIENT_KEYS[api_key]
 
+
+# --- PROTECTED ROUTE ---
 @router.post("/upload", response_class=HTMLResponse)
 async def upload_clinic_logs(
     request: Request,
-    audit_file: UploadFile = File(...)
+    audit_file: UploadFile = File(...),
+    client_id: str = Depends(verify_client_api_key)  # <-- Enforces auth on every request & extracts client_id
 ):
-    # DEFENSE 1: Ensure it is actually a CSV (Added .lower() for iOS safety)
+    # DEFENSE 1: Ensure it is actually a CSV (with iOS lowercase safety)
     if not audit_file.filename.lower().endswith('.csv'):
         raise HTTPException(status_code=400, detail="Only .csv files are permitted.")
 
     try:
         contents = await audit_file.read()
         decoded_content = contents.decode('utf-8')
-        import csv, io # Added just in case they aren't imported at the top
         csv_reader = csv.DictReader(io.StringIO(decoded_content))
         
         # DEFENSE 2: Verify required columns exist before processing
@@ -84,6 +59,9 @@ async def upload_clinic_logs(
         total_records = 0
         
         for row in csv_reader:
+            # FILTER/ISOLATION: Bind every row or query check to the authenticated client_id
+            row['client_id'] = client_id
+            
             total_records += 1
             if row.get('Consent_Obtained') == 'No':
                 violations.append(row)
@@ -97,7 +75,8 @@ async def upload_clinic_logs(
                 "total_records": total_records,
                 "violations": violations,
                 "risk_flags": risk_flags,
-                "filename": audit_file.filename
+                "filename": audit_file.filename,
+                "client_id": client_id  # Display which clinic's data was processed
             }
         )
         
@@ -106,5 +85,4 @@ async def upload_clinic_logs(
         raise HTTPException(status_code=400, detail="File encoding error. Please upload a valid UTF-8 CSV.")
     except Exception as e:
         # DEFENSE 4: Catch-all for unexpected crashes
-        # FIXED: Added the missing closing parenthesis below
         raise HTTPException(status_code=500, detail=f"Audit failed: {str(e)}")
