@@ -1,19 +1,20 @@
-import os
-from dotenv import load_dotenv
-from sqlmodel import SQLModel, create_engine, Session
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from config import settings  # Single source of truth for settings
 
-# 🚨 THE FIX: Force SQLModel to read your tables before building the DB
-import models 
+# Only echo SQL queries to the console if DEBUG is explicitly True
+engine = create_engine(
+    settings.database_url, 
+    echo=settings.debug  
+)
 
-load_dotenv()
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./dpdp_audit.db")
-
-engine = create_engine(DATABASE_URL, echo=True, connect_args={"check_same_thread": False})
-
-def init_db():
-    SQLModel.metadata.create_all(engine)
-
-def get_session():
-    with Session(engine) as session:
-        yield session
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
