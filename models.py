@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, Text
 from sqlalchemy.sql import func
-from config import settings
+from database import Base
 
 class LabAuditRecord(Base):
     __tablename__ = "lab_audit_records"
