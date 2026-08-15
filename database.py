@@ -1,9 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from config import settings  # Single source of truth for settings
+from config import settings
 
-# Only echo SQL queries to the console if DEBUG is explicitly True
 engine = create_engine(
     settings.database_url, 
     echo=settings.debug  
@@ -11,6 +10,11 @@ engine = create_engine(
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
+
+# Render needs this function to exist so main.py doesn't crash on startup
+def init_db():
+    import models 
+    Base.metadata.create_all(bind=engine)
 
 def get_db():
     db = SessionLocal()
