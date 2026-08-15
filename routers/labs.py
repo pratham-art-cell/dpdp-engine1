@@ -6,9 +6,8 @@ from fastapi.security.api_key import APIKeyHeader
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-from app.database import get_db
-from app.models import LabAuditRecord
-
+from database import get_db
+from models import LabAuditRecord
 router = APIRouter(prefix="/labs", tags=["Labs"])
 templates = Jinja2Templates(directory="templates")
 
