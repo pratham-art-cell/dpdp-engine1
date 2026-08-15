@@ -1,4 +1,16 @@
+# Environments
 .venv/
+env/
+
+# Cache and compiled files
 __pycache__/
+*.pyc
+
+# Secrets and Config
 .env
+
+# Local Databases
 dpdp_audit.db
+
+# IDEs
+.vscode/
