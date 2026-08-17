@@ -39,7 +39,7 @@ def create_access_token(data: dict) -> str:
 @router.get("/signup", response_class=HTMLResponse)
 @router.get("/auth/signup", response_class=HTMLResponse)
 async def login_page(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse(request, "login.html", {})
 
 
 # --- AUTH POST ROUTES ---
