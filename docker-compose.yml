@@ -27,7 +27,6 @@ services:
     restart: always
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
-      # Maps your local directory to the container for live-reloading code
       - .:/app
     ports:
       - "8000:8000"
@@ -40,5 +39,4 @@ services:
         condition: service_healthy
 
 volumes:
-  # Ensures your database data isn't deleted when the container restarts
   postgres_data:
