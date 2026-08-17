@@ -36,7 +36,7 @@ def create_access_token(data: dict):
 
 @router.get("/login", response_class=HTMLResponse)
 async def login_page(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+    return templates.TemplateResponse(request=request, name="login.html")
 
 @router.post("/login")
 async def login(response: Response, email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
