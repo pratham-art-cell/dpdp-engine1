@@ -1,56 +1,51 @@
-<div class="bg-white border border-slate-200/80 rounded-2xl shadow-sm p-6 sm:p-8 space-y-6">
-    <!-- Header & Summary Meta -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-100 gap-4">
+<div class="bg-elevated border border-border rounded-xl shadow-sm p-6 space-y-6 mt-6">
+    
+    <!-- Summary Meta -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-border gap-4">
         <div>
-            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100 mb-2">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                </svg>
-                DPDP Section 33 Audit Report
+            <div class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-background border border-border text-primary text-[10px] font-tech uppercase tracking-wider mb-2">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"></path></svg>
+                Sec 33 Audit Report
             </div>
-            <h3 class="text-xl font-bold text-slate-900 tracking-tight">Compliance Scan Summary</h3>
+            <h3 class="text-lg font-semibold text-white tracking-tight">Compliance Scan Summary</h3>
         </div>
         <div class="flex flex-wrap items-center gap-2">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-medium text-slate-600">
-                <span class="text-slate-400">File:</span>
-                <strong class="text-slate-800 font-semibold truncate max-w-[180px]">{{ filename }}</strong>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-background border border-border text-xs font-tech text-slate-400">
+                FILE_REF: <strong class="text-white font-normal truncate max-w-[150px]">{{ filename }}</strong>
             </span>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-medium text-slate-600">
-                <span class="text-slate-400">Records Scanned:</span>
-                <strong class="text-indigo-600 font-bold">{{ total_records }}</strong>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded bg-background border border-border text-xs font-tech text-slate-400">
+                RECORDS: <strong class="text-primary font-normal">{{ total_records }}</strong>
             </span>
         </div>
     </div>
 
-    <!-- Critical Consent Violations -->
+    <!-- Critical Violations -->
     {% if violations %}
     <div class="space-y-3">
         <div class="flex items-center justify-between">
-            <h4 class="text-xs font-bold text-rose-700 uppercase tracking-wider flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
-                Critical Consent Violations (₹250 Cr Statutory Risk)
+            <h4 class="text-[10px] font-tech text-danger uppercase tracking-wider flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-danger animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.6)]"></span>
+                Critical Violations (₹250 Cr Risk)
             </h4>
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200">
-                {{ violations|length }} flagged
+            <span class="px-2 py-0.5 rounded text-[10px] font-tech bg-danger/10 text-danger border border-danger/20">
+                {{ violations|length }} FLAGS
             </span>
         </div>
 
-        <div class="space-y-2.5">
+        <div class="space-y-2">
             {% for v in violations %}
-            <div class="bg-rose-50/70 border border-rose-200/80 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm">
-                <div class="space-y-1">
-                    <div class="flex items-center gap-2 flex-wrap">
-                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-semibold bg-rose-100 text-rose-800">
-                            Staff ID: {{ v.Staff_ID }}
-                        </span>
-                        <span class="text-xs font-medium text-rose-700">accessed</span>
-                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-semibold bg-white border border-rose-200 text-slate-800">
-                            {{ v.Patient_File_Accessed }}
-                        </span>
-                        <span class="text-xs font-bold text-rose-800 underline decoration-rose-400">without verified consent</span>
-                    </div>
+            <div class="bg-danger/5 border border-danger/20 rounded p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-tech bg-surface border border-border text-slate-300">
+                        ID: {{ v.Staff_ID }}
+                    </span>
+                    <span class="text-xs text-slate-400 font-tech">accessed</span>
+                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-tech bg-background border border-border text-slate-200">
+                        {{ v.Patient_File_Accessed }}
+                    </span>
+                    <span class="text-[10px] font-tech text-danger">NO_CONSENT_MATCH</span>
                 </div>
-                <div class="text-xs font-mono text-slate-500 shrink-0">
+                <div class="text-[10px] font-tech text-slate-500 shrink-0">
                     {{ v.Date }} • {{ v.Time }}
                 </div>
             </div>
@@ -58,43 +53,41 @@
         </div>
     </div>
     {% else %}
-    <div class="bg-emerald-50/80 border border-emerald-200/80 rounded-xl p-4 flex items-center gap-3 text-emerald-800">
-        <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm shrink-0">
-            ✓
-        </div>
+    <div class="bg-success/5 border border-success/20 rounded p-4 flex items-center gap-3">
+        <div class="w-8 h-8 rounded bg-success/10 text-success flex items-center justify-center font-bold text-sm shrink-0">✓</div>
         <div>
-            <p class="text-sm font-semibold">No Consent Violations Detected</p>
-            <p class="text-xs text-emerald-600/90">All employee patient-file access records match active consent records.</p>
+            <p class="text-sm font-semibold text-white">No Consent Violations Detected</p>
+            <p class="text-xs text-slate-400 font-tech mt-0.5">100% record match with active consent database.</p>
         </div>
     </div>
     {% endif %}
 
-    <!-- Network Risk Flags -->
+    <!-- Network Risks -->
     {% if risk_flags %}
     <div class="space-y-3 pt-2">
         <div class="flex items-center justify-between">
-            <h4 class="text-xs font-bold text-amber-700 uppercase tracking-wider flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
-                Network Perimeter Risk Flags
+            <h4 class="text-[10px] font-tech text-warning uppercase tracking-wider flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-warning shadow-[0_0_8px_rgba(245,158,11,0.6)]"></span>
+                Perimeter Risk Flags
             </h4>
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200">
-                {{ risk_flags|length }} warnings
+            <span class="px-2 py-0.5 rounded text-[10px] font-tech bg-warning/10 text-warning border border-warning/20">
+                {{ risk_flags|length }} WARNS
             </span>
         </div>
 
-        <div class="space-y-2.5">
+        <div class="space-y-2">
             {% for r in risk_flags %}
-            <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm">
+            <div class="bg-warning/5 border border-warning/20 rounded p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm">
                 <div class="flex items-center gap-2 flex-wrap">
-                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-semibold bg-amber-100 text-amber-800">
-                        Staff ID: {{ r.Staff_ID }}
+                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-tech bg-surface border border-border text-slate-300">
+                        ID: {{ r.Staff_ID }}
                     </span>
-                    <span class="text-xs text-amber-900">accessed system from unverified network:</span>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-white border border-amber-300 text-amber-900">
-                        Outside_Network
+                    <span class="text-xs font-tech text-slate-400">unverified node:</span>
+                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-tech bg-background border border-warning/30 text-warning">
+                        OUTSIDE_NETWORK
                     </span>
                 </div>
-                <div class="text-xs font-mono text-slate-500 shrink-0">
+                <div class="text-[10px] font-tech text-slate-500 shrink-0">
                     {{ r.Date }} • {{ r.Time }}
                 </div>
             </div>
@@ -102,13 +95,11 @@
         </div>
     </div>
     {% else %}
-    <div class="bg-emerald-50/80 border border-emerald-200/80 rounded-xl p-4 flex items-center gap-3 text-emerald-800">
-        <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm shrink-0">
-            ✓
-        </div>
+    <div class="bg-success/5 border border-success/20 rounded p-4 flex items-center gap-3">
+        <div class="w-8 h-8 rounded bg-success/10 text-success flex items-center justify-center font-bold text-sm shrink-0">✓</div>
         <div>
-            <p class="text-sm font-semibold">Zero Perimeter Anomalies</p>
-            <p class="text-xs text-emerald-600/90">No unauthorized outside network access points recorded.</p>
+            <p class="text-sm font-semibold text-white">Zero Perimeter Anomalies</p>
+            <p class="text-xs text-slate-400 font-tech mt-0.5">All connections originated from authorized static IPs.</p>
         </div>
     </div>
     {% endif %}

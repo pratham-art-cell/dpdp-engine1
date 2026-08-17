@@ -1,18 +1,20 @@
-# Environments
+# Environment Variables & Secrets
 .env
-.venv
-env/
-venv/
+.env.*
 
-# Python Cache
+# Python Cache & Virtual Environments
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
+venv/
+env/
+.venv/
 
-# Databases
-*.db
+# Logs and Databases
+*.log
 *.sqlite3
+db_backups/
 
-# Docker
-.dockerignore
+# OS Generated Files
+.DS_Store
+Thumbs.db
