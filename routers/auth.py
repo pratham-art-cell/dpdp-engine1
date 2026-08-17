@@ -6,17 +6,13 @@ from fastapi.templating import Jinja2Templates
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
-from config import settings
 from database import get_db
 import models
 
 router = APIRouter(tags=["Authentication"])
 templates = Jinja2Templates(directory="templates")
 
-# Password Hashing Configuration
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-# JWT Configuration
 SECRET_KEY = "your-super-secret-development-key"
 ALGORITHM = "HS256"
 
@@ -31,28 +27,29 @@ def get_password_hash(password: str) -> str:
 
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
-    expire = datetime.datetime.utcnow() + datetime.timedelta(days=7)  # 7-day login session
+    expire = datetime.datetime.utcnow() + datetime.timedelta(days=7)
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
-# --- ROUTES ---
+# --- DUAL-PATHED AUTH ROUTES ---
 
 @router.get("/login", response_class=HTMLResponse)
+@router.get("/auth/login", response_class=HTMLResponse)
 async def login_page(request: Request):
     return templates.TemplateResponse(request=request, name="login.html")
 
 
 @router.post("/login")
+@router.post("/auth/login")
 async def login(
     email: str = Form(...), 
     password: str = Form(...), 
     db: Session = Depends(get_db)
 ):
-    # Normalize email (strip whitespace and convert to lowercase)
     normalized_email = email.strip().lower()
-
     user = db.query(models.User).filter(models.User.email == normalized_email).first()
+    
     if not user or not verify_password(password, user.hashed_password):
         return RedirectResponse(url="/login?error=1", status_code=302)
     
@@ -63,24 +60,22 @@ async def login(
 
 
 @router.post("/signup")
+@router.post("/auth/signup")
 async def signup(
     email: str = Form(...), 
     password: str = Form(...), 
     db: Session = Depends(get_db)
 ):
-    # Normalize email (strip whitespace and convert to lowercase)
     normalized_email = email.strip().lower()
-
     existing_user = db.query(models.User).filter(models.User.email == normalized_email).first()
+    
     if existing_user:
         return RedirectResponse(url="/login?error=exists", status_code=302)
     
-    # Create new user with normalized email
     new_user = models.User(email=normalized_email, hashed_password=get_password_hash(password))
     db.add(new_user)
     db.commit()
     
-    # Issue JWT cookie and redirect to dashboard
     token = create_access_token(data={"sub": new_user.email})
     response = RedirectResponse(url="/", status_code=302)
     response.set_cookie(key="access_token", value=token, httponly=True, max_age=604800)
@@ -88,6 +83,7 @@ async def signup(
 
 
 @router.get("/logout")
+@router.get("/auth/logout")
 async def logout():
     response = RedirectResponse(url="/login", status_code=302)
     response.delete_cookie("access_token")
