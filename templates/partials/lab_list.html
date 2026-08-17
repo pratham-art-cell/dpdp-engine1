@@ -1,36 +1,62 @@
-<table class="w-full text-left border-collapse border border-gray-200">
-    <thead>
-        <tr class="bg-gray-50 border-b border-gray-200">
-            <th class="p-3 text-sm font-semibold text-gray-600">ID</th>
-            <th class="p-3 text-sm font-semibold text-gray-600">Lab Name</th>
-            <th class="p-3 text-sm font-semibold text-gray-600">Ledgers</th>
-            <th class="p-3 text-sm font-semibold text-gray-600">Compliance Status</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for lab in labs %}
-        <tr class="border-b border-gray-100 hover:bg-gray-50">
-            <td class="p-3 text-sm text-gray-800">{{ lab.id }}</td>
-            <td class="p-3 text-sm font-medium text-gray-900">{{ lab.lab_name }}</td>
-            <td class="p-3 text-sm text-gray-600">
-                {% if lab.uses_paper_ledgers %}
-                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Paper Ledgers</span>
+<div class="overflow-hidden bg-white border border-slate-200/80 rounded-2xl shadow-sm">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-slate-50/75 border-b border-slate-200/80">
+                    <th class="py-3.5 px-4 text-xs font-semibold uppercase tracking-wider text-slate-500">ID</th>
+                    <th class="py-3.5 px-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Lab Name</th>
+                    <th class="py-3.5 px-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Ledger Type</th>
+                    <th class="py-3.5 px-4 text-xs font-semibold uppercase tracking-wider text-slate-500">Compliance Status</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+                {% for lab in labs %}
+                <tr class="hover:bg-slate-50/60 transition-colors duration-150">
+                    <td class="py-3.5 px-4 text-xs font-mono text-slate-400">#{{ lab.id }}</td>
+                    <td class="py-3.5 px-4 text-sm font-semibold text-slate-900">{{ lab.lab_name }}</td>
+                    <td class="py-3.5 px-4 text-sm">
+                        {% if lab.uses_paper_ledgers %}
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200/60">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                            Paper Ledgers
+                        </span>
+                        {% else %}
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-sky-50 text-sky-700 border border-sky-200/60">
+                            <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
+                            Fully Digital
+                        </span>
+                        {% endif %}
+                    </td>
+                    <td class="py-3.5 px-4 text-sm">
+                        {% if lab.compliance_status == 'Compliant' %}
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            Compliant
+                        </span>
+                        {% else %}
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200/60">
+                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                            Section 8 Violation
+                        </span>
+                        {% endif %}
+                    </td>
+                </tr>
                 {% else %}
-                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Fully Digital</span>
-                {% endif %}
-            </td>
-            <td class="p-3 text-sm">
-                {% if lab.compliance_status == 'Compliant' %}
-                <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Compliant</span>
-                {% else %}
-                <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-semibold">Section 8 Violation</span>
-                {% endif %}
-            </td>
-        </tr>
-        {% else %}
-        <tr>
-            <td colspan="4" class="p-4 text-center text-sm text-gray-500">No lab records found. Run an audit above.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                <tr>
+                    <td colspan="4" class="py-12 px-4 text-center">
+                        <div class="flex flex-col items-center justify-center space-y-2">
+                            <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                            <p class="text-sm font-medium text-slate-700">No lab records found</p>
+                            <p class="text-xs text-slate-400">Upload an audit log above to populate compliance scan records.</p>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

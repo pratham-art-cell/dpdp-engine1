@@ -1,40 +1,115 @@
-<div class="bg-gray-50 p-6 rounded-lg border border-gray-200 shadow-inner">
-    <h3 class="text-lg font-bold border-b border-gray-300 pb-2 mb-4 text-gray-800">DPDP COMPLIANCE AUDIT REPORT</h3>
-    <p class="text-sm text-gray-600 mb-6">File: <span class="font-semibold text-gray-900">{{ filename }}</span> | Records Scanned: <span class="font-semibold text-gray-900">{{ total_records }}</span></p>
+<div class="bg-white border border-slate-200/80 rounded-2xl shadow-sm p-6 sm:p-8 space-y-6">
+    <!-- Header & Summary Meta -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-100 gap-4">
+        <div>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-100 mb-2">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+                DPDP Section 33 Audit Report
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 tracking-tight">Compliance Scan Summary</h3>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-medium text-slate-600">
+                <span class="text-slate-400">File:</span>
+                <strong class="text-slate-800 font-semibold truncate max-w-[180px]">{{ filename }}</strong>
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-medium text-slate-600">
+                <span class="text-slate-400">Records Scanned:</span>
+                <strong class="text-indigo-600 font-bold">{{ total_records }}</strong>
+            </span>
+        </div>
+    </div>
 
-    <!-- Consent Violations (250 Cr Risk) -->
+    <!-- Critical Consent Violations -->
     {% if violations %}
-    <div class="mb-6">
-        <h4 class="text-red-700 font-bold flex items-center mb-3">🚨 CRITICAL VIOLATIONS (₹250 Crore Risk)</h4>
-        <div class="space-y-3">
+    <div class="space-y-3">
+        <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-rose-700 uppercase tracking-wider flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
+                Critical Consent Violations (₹250 Cr Statutory Risk)
+            </h4>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-200">
+                {{ violations|length }} flagged
+            </span>
+        </div>
+
+        <div class="space-y-2.5">
             {% for v in violations %}
-            <div class="bg-red-50 border-l-4 border-red-600 p-3 text-sm text-red-900 rounded-r shadow-sm">
-                <p><strong>Staff ID {{ v.Staff_ID }}</strong> accessed <strong>{{ v.Patient_File_Accessed }}</strong> without consent on {{ v.Date }} at {{ v.Time }}.</p>
+            <div class="bg-rose-50/70 border border-rose-200/80 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-semibold bg-rose-100 text-rose-800">
+                            Staff ID: {{ v.Staff_ID }}
+                        </span>
+                        <span class="text-xs font-medium text-rose-700">accessed</span>
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-semibold bg-white border border-rose-200 text-slate-800">
+                            {{ v.Patient_File_Accessed }}
+                        </span>
+                        <span class="text-xs font-bold text-rose-800 underline decoration-rose-400">without verified consent</span>
+                    </div>
+                </div>
+                <div class="text-xs font-mono text-slate-500 shrink-0">
+                    {{ v.Date }} • {{ v.Time }}
+                </div>
             </div>
             {% endfor %}
         </div>
     </div>
     {% else %}
-    <div class="bg-green-50 border border-green-200 text-green-800 p-3 rounded mb-6 font-semibold shadow-sm">
-        ✓ No consent violations found.
+    <div class="bg-emerald-50/80 border border-emerald-200/80 rounded-xl p-4 flex items-center gap-3 text-emerald-800">
+        <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm shrink-0">
+            ✓
+        </div>
+        <div>
+            <p class="text-sm font-semibold">No Consent Violations Detected</p>
+            <p class="text-xs text-emerald-600/90">All employee patient-file access records match active consent records.</p>
+        </div>
     </div>
     {% endif %}
 
-    <!-- Network Risks -->
+    <!-- Network Risk Flags -->
     {% if risk_flags %}
-    <div>
-        <h4 class="text-yellow-600 font-bold flex items-center mb-3">⚠️ NETWORK RISK FLAGS</h4>
-        <div class="space-y-3">
+    <div class="space-y-3 pt-2">
+        <div class="flex items-center justify-between">
+            <h4 class="text-xs font-bold text-amber-700 uppercase tracking-wider flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                Network Perimeter Risk Flags
+            </h4>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-200">
+                {{ risk_flags|length }} warnings
+            </span>
+        </div>
+
+        <div class="space-y-2.5">
             {% for r in risk_flags %}
-            <div class="bg-yellow-50 border-l-4 border-yellow-500 p-3 text-sm text-yellow-800 rounded-r shadow-sm">
-                <p><strong>Staff ID {{ r.Staff_ID }}</strong> accessed data from an unverified <strong>Outside_Network</strong> on {{ r.Date }} at {{ r.Time }}.</p>
+            <div class="bg-amber-50/70 border border-amber-200/80 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono font-semibold bg-amber-100 text-amber-800">
+                        Staff ID: {{ r.Staff_ID }}
+                    </span>
+                    <span class="text-xs text-amber-900">accessed system from unverified network:</span>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-semibold bg-white border border-amber-300 text-amber-900">
+                        Outside_Network
+                    </span>
+                </div>
+                <div class="text-xs font-mono text-slate-500 shrink-0">
+                    {{ r.Date }} • {{ r.Time }}
+                </div>
             </div>
             {% endfor %}
         </div>
     </div>
     {% else %}
-    <div class="bg-green-50 border border-green-200 text-green-800 p-3 rounded font-semibold shadow-sm">
-        ✓ No outside network access detected.
+    <div class="bg-emerald-50/80 border border-emerald-200/80 rounded-xl p-4 flex items-center gap-3 text-emerald-800">
+        <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm shrink-0">
+            ✓
+        </div>
+        <div>
+            <p class="text-sm font-semibold">Zero Perimeter Anomalies</p>
+            <p class="text-xs text-emerald-600/90">No unauthorized outside network access points recorded.</p>
+        </div>
     </div>
     {% endif %}
 </div>
