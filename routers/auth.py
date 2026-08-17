@@ -32,11 +32,17 @@ def create_access_token(data: dict) -> str:
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
-# --- DUAL-PATHED AUTH ROUTES ---
+# --- DUAL-PATHED AUTH ROUTES (GET & POST) ---
 
 @router.get("/login", response_class=HTMLResponse)
 @router.get("/auth/login", response_class=HTMLResponse)
 async def login_page(request: Request):
+    return templates.TemplateResponse(request=request, name="login.html")
+
+
+@router.get("/signup", response_class=HTMLResponse)
+@router.get("/auth/signup", response_class=HTMLResponse)
+async def signup_page(request: Request):
     return templates.TemplateResponse(request=request, name="login.html")
 
 
