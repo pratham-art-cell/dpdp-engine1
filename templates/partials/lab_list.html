@@ -4,54 +4,42 @@
             <thead>
                 <tr class="bg-elevated border-b border-border">
                     <th class="py-3 px-4 text-[10px] font-tech uppercase tracking-wider text-slate-500">ID</th>
-                    <th class="py-3 px-4 text-[10px] font-tech uppercase tracking-wider text-slate-500">Node / Lab Name</th>
-                    <th class="py-3 px-4 text-[10px] font-tech uppercase tracking-wider text-slate-500">Ledger_Type</th>
-                    <th class="py-3 px-4 text-[10px] font-tech uppercase tracking-wider text-slate-500">Status</th>
+                    <th class="py-3 px-4 text-[10px] font-tech uppercase tracking-wider text-slate-500">Audit Filename</th>
+                    <th class="py-3 px-4 text-[10px] font-tech uppercase tracking-wider text-slate-500">Records Scanned</th>
+                    <th class="py-3 px-4 text-[10px] font-tech uppercase tracking-wider text-slate-500">Violations Summary</th>
+                    <th class="py-3 px-4 text-[10px] font-tech uppercase tracking-wider text-slate-500">Timestamp</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-border">
-                {% for lab in labs %}
+                {% for audit in labs %}
                 <tr class="hover:bg-elevated/50 transition-colors duration-150">
-                    <td class="py-3 px-4 text-xs font-tech text-slate-400">#{{ lab.id }}</td>
-                    <td class="py-3 px-4 text-sm font-medium text-white">{{ lab.lab_name }}</td>
-                    <td class="py-3 px-4 text-sm">
-                        {% if lab.uses_paper_ledgers %}
-                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-tech bg-warning/10 text-warning border border-warning/20">
-                            <span class="w-1.5 h-1.5 rounded-full bg-warning"></span>
-                            PAPER_LEDGER
-                        </span>
+                    <td class="py-3 px-4 text-xs font-tech text-slate-400">#{{ audit.id }}</td>
+                    <td class="py-3 px-4 text-sm font-medium text-white">{{ audit.filename }}</td>
+                    <td class="py-3 px-4 text-sm font-tech text-primary">{{ audit.total_records }}</td>
+                    <td class="py-3 px-4 text-xs font-tech text-slate-300">
+                        {% if audit.violations_summary %}
+                            <span class="px-2 py-0.5 rounded bg-danger/10 text-danger border border-danger/20">
+                                {{ audit.violations_summary }}
+                            </span>
                         {% else %}
-                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-tech bg-primary/10 text-primary border border-primary/20">
-                            <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
-                            DIGITAL
-                        </span>
+                            <span class="px-2 py-0.5 rounded bg-success/10 text-success border border-success/20">
+                                CLEAN_PASS
+                            </span>
                         {% endif %}
                     </td>
-                    <td class="py-3 px-4 text-sm">
-                        {% if lab.compliance_status == 'Compliant' %}
-                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-tech bg-success/10 text-success border border-success/20">
-                            <span class="w-1.5 h-1.5 rounded-full bg-success"></span>
-                            COMPLIANT
-                        </span>
-                        {% else %}
-                        <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-tech bg-danger/10 text-danger border border-danger/20">
-                            <span class="w-1.5 h-1.5 rounded-full bg-danger"></span>
-                            SEC_8_VIOLATION
-                        </span>
-                        {% endif %}
-                    </td>
+                    <td class="py-3 px-4 text-xs font-tech text-slate-500">{{ audit.created_at.strftime('%Y-%m-%d %H:%M') if audit.created_at else 'N/A' }}</td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="4" class="py-12 px-4 text-center">
+                    <td colspan="5" class="py-12 px-4 text-center">
                         <div class="flex flex-col items-center justify-center space-y-3">
                             <div class="w-10 h-10 rounded bg-elevated border border-border flex items-center justify-center text-slate-500">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
                             </div>
-                            <p class="text-sm font-medium text-slate-400">NO_RECORDS_FOUND</p>
-                            <p class="text-xs font-tech text-slate-500">Upload audit payload to generate nodes.</p>
+                            <p class="text-sm font-medium text-slate-400">NO_AUDIT_RECORDS</p>
+                            <p class="text-xs font-tech text-slate-500">Upload an employee access log CSV to generate audit logs.</p>
                         </div>
                     </td>
                 </tr>
