@@ -1,93 +1,77 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DPDP Compliance Engine | Clinical Audit Portal</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <!-- HTMX CDN (Required for your form to work without page reloads) -->
-    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
-</head>
-<body class="bg-slate-50 text-slate-900 font-sans antialiased min-h-screen flex flex-col justify-between">
-
-    <!-- Header / Navigation Bar -->
-    <header class="bg-white border-b border-slate-200 shadow-xs">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-lg shadow-sm">
-                    🔒
-                </div>
-                <span class="text-xl font-bold tracking-tight text-slate-900">ConsentLayer <span class="text-xs uppercase px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full font-semibold ml-1">Clinical</span></span>
-            </div>
-            <div class="text-sm font-medium text-slate-600">
-                Secure Tenant Portal
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main class="max-w-4xl mx-auto px-6 py-12 flex-grow w-full">
-        
-        <!-- Hero Section -->
-        <div class="mb-8 text-center sm:text-left">
-            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
-                DPDP Section 33 Audit Portal
-            </h1>
-            <p class="mt-2 text-base text-slate-600">
-                Upload your clinic transaction or consent logs to evaluate compliance and generate secure audit records instantly.
-            </p>
-        </div>
-
-        <!-- Upload Card Container -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
-            <form hx-post="/labs/upload" 
-                  hx-target="#audit-results" 
-                  hx-swap="innerHTML"
-                  hx-encoding="multipart/form-data" 
-                  enctype="multipart/form-data" 
-                  hx-headers='{"X-API-Key": "dev_test_key_789"}'
-                  class="space-y-6">
-                
-                <div class="space-y-2">
-                    <label class="block text-sm font-semibold text-slate-700">
-                        Upload Audit Log (.csv)
-                    </label>
-                    <div class="flex items-center justify-center w-full">
-                        <!-- Removed h-36, added py-10 for dynamic expansion -->
-                        <label class="flex flex-col items-center justify-center w-full py-10 border-2 border-slate-300 border-dashed rounded-xl cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors">
-                            <div class="flex flex-col items-center justify-center px-4 text-center">
-                                <svg class="w-10 h-10 mb-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                                <p class="mb-2 text-sm text-slate-600"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                <!-- Added mb-6 to push the button down nicely -->
-                                <p class="text-xs text-slate-500 mb-6">CSV files containing Consent and Location records</p>
-                                
-                                <!-- Adjusted input field width so it doesn't break boundaries -->
-                                <input type="file" name="audit_file" accept=".csv" required class="block w-64 text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer" />
-                            </div>
+<!-- Dynamic Payment / Upload Section -->
+        {% if has_paid %}
+            <!-- Upload Card Container (Visible only to paid users) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                <form hx-post="/labs/upload" 
+                      hx-target="#audit-results" 
+                      hx-swap="innerHTML"
+                      hx-encoding="multipart/form-data" 
+                      enctype="multipart/form-data" 
+                      hx-headers='{"X-API-Key": "dev_test_key_789"}'
+                      class="space-y-6">
+                    
+                    <div class="space-y-2">
+                        <label class="block text-sm font-semibold text-slate-700">
+                            Upload Audit Log (.csv)
                         </label>
+                        <div class="flex items-center justify-center w-full">
+                            <label class="flex flex-col items-center justify-center w-full py-10 border-2 border-slate-300 border-dashed rounded-xl cursor-pointer bg-slate-50 hover:bg-slate-100 transition-colors">
+                                <div class="flex flex-col items-center justify-center px-4 text-center">
+                                    <svg class="w-10 h-10 mb-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                                    <p class="mb-2 text-sm text-slate-600"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                    <p class="text-xs text-slate-500 mb-6">CSV files containing Consent and Location records</p>
+                                    <input type="file" name="audit_file" accept=".csv" required class="block w-64 text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 cursor-pointer" />
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-xl shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Analyze Compliance Logs
+                        </button>
+                    </div>
+                </form>
+            </div>
+        {% else %}
+            <!-- Multi-Tier Paywall Container (Visible to unpaid/expired users) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
+                <div class="text-center mb-10">
+                    <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">🔒</div>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-2">Unlock DPDP Section 33 Log Audits</h2>
+                    <p class="text-slate-600 max-w-lg mx-auto">Select a compliance pass to scan unlimited employee access logs and protect your clinic.</p>
+                </div>
+
+                <!-- Pricing Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- 1-Month Plan -->
+                    <div class="border border-slate-200 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors flex flex-col">
+                        <h3 class="text-lg font-semibold text-slate-900">1 Month</h3>
+                        <div class="my-4 flex-grow"><span class="text-3xl font-bold">₹1,500</span></div>
+                        <a href="https://test.checkout.dodopayments.com/buy/pdt_0NlZ4UpcZ9wg2x7g4mMbI?quantity=1&email={{ user_email }}" class="block w-full py-2 px-4 bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold rounded-lg transition-colors">Select Plan</a>
+                    </div>
+                    
+                    <!-- 3-Month Plan -->
+                    <div class="border border-slate-200 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors flex flex-col">
+                        <h3 class="text-lg font-semibold text-slate-900">3 Months</h3>
+                        <div class="my-4 flex-grow"><span class="text-3xl font-bold">₹4,000</span></div>
+                        <a href="https://test.checkout.dodopayments.com/buy/pdt_0NlZ5CzX6vI56NQFRdZ18?quantity=1&email={{ user_email }}" class="block w-full py-2 px-4 bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold rounded-lg transition-colors">Select Plan</a>
+                    </div>
+
+                    <!-- 6-Month Plan -->
+                    <div class="border border-slate-200 rounded-xl p-6 text-center hover:border-indigo-500 transition-colors flex flex-col">
+                        <h3 class="text-lg font-semibold text-slate-900">6 Months</h3>
+                        <div class="my-4 flex-grow"><span class="text-3xl font-bold">₹7,500</span></div>
+                        <a href="https://test.checkout.dodopayments.com/buy/pdt_0NlZ5k1vnyx5wQjhQbAuS?quantity=1&email={{ user_email }}" class="block w-full py-2 px-4 bg-slate-100 hover:bg-slate-200 text-slate-900 font-semibold rounded-lg transition-colors">Select Plan</a>
+                    </div>
+
+                    <!-- 1-Year Plan (Best Value) -->
+                    <div class="border-2 border-indigo-600 rounded-xl p-6 text-center relative shadow-md flex flex-col">
+                        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Best Value</div>
+                        <h3 class="text-lg font-semibold text-slate-900">1 Year</h3>
+                        <div class="my-4 flex-grow"><span class="text-3xl font-bold">₹15,000</span></div>
+                        <a href="https://test.checkout.dodopayments.com/buy/pdt_0NlYwi6cX3FUPNGT3VXo4?quantity=1&email={{ user_email }}" class="block w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors">Select Plan</a>
                     </div>
                 </div>
-
-                <div class="flex justify-end">
-                    <button type="submit" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm rounded-xl shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                        Analyze Compliance Logs
-                    </button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Target Container for HTMX Results -->
-        <div id="audit-results" class="mt-8"></div>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-6 mt-12">
-        <div class="max-w-7xl mx-auto px-6 text-center text-xs text-slate-500">
-            &copy; 2026 ConsentLayer Infrastructure. All rights reserved. Secured under DPDP Act protocols.
-        </div>
-    </footer>
-
-</body>
-</html>
+            </div>
+        {% endif %}

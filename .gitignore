@@ -1,16 +1,18 @@
 # Environments
-.venv/
+.env
+.venv
 env/
+venv/
 
-# Cache and compiled files
+# Python Cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
-# Secrets and Config
-.env
+# Databases
+*.db
+*.sqlite3
 
-# Local Databases
-dpdp_audit.db
-
-# IDEs
-.vscode/
+# Docker
+.dockerignore

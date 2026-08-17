@@ -1,51 +1,56 @@
 import csv
 import io
 import json
-from fastapi import APIRouter, Request, UploadFile, File, HTTPException, status, Security, Depends
-from fastapi.security.api_key import APIKeyHeader
+import jwt
+from fastapi import APIRouter, Request, UploadFile, File, HTTPException, status, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from database import get_db
 from models import LabAuditRecord
+
 router = APIRouter(prefix="/labs", tags=["Labs"])
 templates = Jinja2Templates(directory="templates")
 
-# --- AUTHENTICATION SETUP ---
-API_KEY_NAME = "X-API-Key"
-api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=False)
+# JWT Secret (Must match the one in auth.py)
+SECRET_KEY = "your-super-secret-development-key"
+ALGORITHM = "HS256"
 
-# Hardcoded per-client API keys (Transitioning to PostgreSQL table storage in Phase 3)
-VALID_CLIENT_KEYS = {
-    "clinic_mumbai_live_key_99": "clinic_mumbai_01",
-    "clinic_delhi_live_key_88": "clinic_delhi_02",
-    "dev_test_key_789": "local_test_clinic"
-}
-
-async def verify_client_api_key(api_key: str = Security(api_key_header)) -> str:
+async def get_current_client_id(request: Request) -> str:
     """
-    Enforces authentication on every route and returns the isolated client_id.
+    Extracts and verifies the JWT token from the HTTP-only cookie, 
+    returning the user's email as their unique tenant client_id.
     """
-    if not api_key or api_key not in VALID_CLIENT_KEYS:
+    token = request.cookies.get("access_token")
+    if not token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Unauthorized: Invalid or missing API Key. Access denied."
+            detail="Unauthorized: Please log in to access audit tools."
         )
-    return VALID_CLIENT_KEYS[api_key]
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        email: str = payload.get("sub")
+        if not email:
+            raise HTTPException(status_code=401, detail="Invalid authentication token.")
+        return email
+    except jwt.PyJWTError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Session expired or invalid. Please log in again."
+        )
 
 
 # --- ROUTE 1: GET LABS (Strictly Filtered by Authenticated Client) ---
 @router.get("/", response_class=HTMLResponse)
 async def list_client_labs(
     request: Request,
-    client_id: str = Depends(verify_client_api_key),
+    client_id: str = Depends(get_current_client_id),
     db: Session = Depends(get_db)
 ):
     """
     Retrieves audit logs belonging ONLY to the authenticated tenant.
     Prevents Clinic A from ever seeing Clinic B's data.
     """
-    # CRITICAL FIX: Filter query strictly by authenticated client_id
     client_labs = db.query(LabAuditRecord).filter(LabAuditRecord.client_id == client_id).all()
     
     return templates.TemplateResponse(
@@ -63,7 +68,7 @@ async def list_client_labs(
 async def upload_clinic_logs(
     request: Request,
     audit_file: UploadFile = File(...),
-    client_id: str = Depends(verify_client_api_key),  # Enforces auth & injects client_id
+    client_id: str = Depends(get_current_client_id),  # Enforces auth & injects client_id
     db: Session = Depends(get_db)
 ):
     # DEFENSE 1: Ensure it is a CSV (with lowercase safety for iOS)

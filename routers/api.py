@@ -4,16 +4,14 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
-# Import your Phase 2 database and models
 from database import get_db
 from models import LabAuditRecord
 
-# Import the exact same security dependency used in your HTMX UI
-from routers.labs import verify_client_api_key
+# Import the JWT cookie dependency from labs
+from routers.labs import get_current_client_id
 
 router = APIRouter(prefix="/api/v1/labs", tags=["JSON API"])
 
-# 1. Define Phase 2 Pydantic schemas (replaces the old Lab/LabCreate)
 class AuditResponse(BaseModel):
     id: int
     client_id: str
@@ -25,10 +23,9 @@ class AuditResponse(BaseModel):
     class Config:
         from_attributes = True
 
-# 2. Secure JSON Endpoint
 @router.get("/", response_model=List[AuditResponse])
 def get_client_audits_api(
-    client_id: str = Depends(verify_client_api_key), 
+    client_id: str = Depends(get_current_client_id), 
     db: Session = Depends(get_db)
 ):
     """
