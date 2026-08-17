@@ -16,7 +16,7 @@ templates = Jinja2Templates(directory="templates")
 # Password Hashing Configuration
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# JWT Configuration (Shared with routers/labs.py and main.py)
+# JWT Configuration
 SECRET_KEY = "your-super-secret-development-key"
 ALGORITHM = "HS256"
 
