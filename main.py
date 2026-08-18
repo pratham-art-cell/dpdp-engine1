@@ -2,6 +2,8 @@ from contextlib import asynccontextmanager
 import os
 import datetime
 from fastapi import FastAPI, Request, Depends
+# 🚀 1. ADD THE GZIP MIDDLEWARE IMPORT
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
@@ -18,6 +20,10 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(title="DPDP Audit Engine", lifespan=lifespan)
+
+# 🚀 2. ENABLE GZIP COMPRESSION (Minimum size 1000 bytes)
+# This compresses all server output, maximizing your PageSpeed metrics.
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 os.makedirs("static", exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -43,7 +49,7 @@ def get_current_user_from_cookie(request: Request, db: Session = Depends(get_db)
             
         user = db.query(models.User).filter(models.User.email == email).first()
         
-        # BUSINESS FIX: Automatically revoke access if their 1-year pass expired
+        # 🚨 BUSINESS FIX: Revoke access if subscription expired
         if user and user.has_paid and user.access_valid_until:
             if datetime.datetime.utcnow() > user.access_valid_until:
                 user.has_paid = False
@@ -61,7 +67,7 @@ def home(request: Request, db: Session = Depends(get_db)):
     if not user:
         return RedirectResponse(url="/login", status_code=302)
 
-    # STABILITY FIX: Added request=request
+    # 🚨 STABILITY FIX: Use explicit request signature for templates
     return templates.TemplateResponse(
         request=request, 
         name="index.html",
