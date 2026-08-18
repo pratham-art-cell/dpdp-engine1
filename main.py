@@ -77,3 +77,22 @@ def home(request: Request, db: Session = Depends(get_db)):
             "user_email": user.email
         }
     )
+
+# 🚀 3. NEW ROUTES FOR SIDEBAR NAVIGATION
+@app.get("/settings", response_class=HTMLResponse)
+def settings_page(request: Request, db: Session = Depends(get_db)):
+    user = get_current_user_from_cookie(request, db)
+    if not user: return RedirectResponse(url="/login", status_code=302)
+    return templates.TemplateResponse(request=request, name="settings.html", context={"request": request, "user_email": user.email})
+
+@app.get("/reports", response_class=HTMLResponse)
+def reports_page(request: Request, db: Session = Depends(get_db)):
+    user = get_current_user_from_cookie(request, db)
+    if not user: return RedirectResponse(url="/login", status_code=302)
+    return templates.TemplateResponse(request=request, name="reports.html", context={"request": request, "user_email": user.email})
+
+@app.get("/support", response_class=HTMLResponse)
+def support_page(request: Request, db: Session = Depends(get_db)):
+    user = get_current_user_from_cookie(request, db)
+    if not user: return RedirectResponse(url="/login", status_code=302)
+    return templates.TemplateResponse(request=request, name="support.html", context={"request": request, "user_email": user.email})

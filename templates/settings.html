@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-semibold text-white tracking-tight mb-6">Account Settings</h1>
+    <div class="bg-surface border border-border rounded-xl p-8 shadow-sm">
+        <h3 class="text-xl font-bold text-white mb-4">Node Profile</h3>
+        <p class="text-slate-400 mb-2">Connected Email: <span class="text-primary font-tech">{{ user_email }}</span></p>
+        <p class="text-slate-400 mb-6">Compliance Status: <span class="text-success font-bold">ACTIVE (Override)</span></p>
+    </div>
+</div>
+{% endblock %}
