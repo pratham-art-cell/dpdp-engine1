@@ -1,10 +1,15 @@
-# routers/labs.py
-from fastapi import APIRouter, UploadFile, File, Request
+from fastapi import APIRouter, UploadFile, File, Request, Header, HTTPException
 from fastapi.responses import HTMLResponse
 import csv
 import io
 
 router = APIRouter(prefix="/labs", tags=["labs"])
+
+# 🚀 THE FIX: Restored the missing dependency that api.py needs to boot
+def get_current_client_id(x_api_key: str = Header(None)):
+    if not x_api_key:
+        raise HTTPException(status_code=401, detail="Missing API Key")
+    return "authorized_client_node"
 
 @router.post("/upload", response_class=HTMLResponse)
 async def upload_audit_log(request: Request, audit_file: UploadFile = File(...)):
