@@ -3,16 +3,42 @@
 <meta name="description" content="DPDP Act 2023 Compliance Platform">
 <meta name="facebook-domain-verification" content="uffk99yb4q5yh05jie9q9bb4yx9u93" />
 
-<!-- 🚀 FAVICON: This puts the ConsentLayer logo in your browser tab -->
+<!-- 🚀 FAVICON -->
 <link rel="icon" type="image/png" href="/static/consentlayer-logo.png">
 
 <!-- HTMX -->
 <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 
-<!-- Fonts: Inter (UI) & JetBrains Mono (Tech/Metrics) -->
+<!-- Fonts: Inter & JetBrains Mono -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-<!-- 🚀 MAXIMUM SPEED FIX: This loads your fast local CSS instead of the slow Tailwind CDN -->
+<!-- 🚀 RESTORE TAILWIND: This brings back your entire mobile and desktop layout -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                    tech: ['JetBrains Mono', 'monospace'],
+                },
+                colors: {
+                    background: '#07111F',
+                    surface: '#0D1B2A',
+                    elevated: '#13263A',
+                    primary: '#2563EB',
+                    primaryHover: '#3B82F6',
+                    success: '#10B981',
+                    warning: '#F59E0B',
+                    danger: '#EF4444',
+                    border: '#1E334A'
+                }
+            }
+        }
+    }
+</script>
+
+<!-- Local CSS -->
 <link rel="stylesheet" href="/static/styles.css">
