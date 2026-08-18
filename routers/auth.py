@@ -20,10 +20,8 @@ ALGORITHM = "HS256"
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
-
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
-
 
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
@@ -39,8 +37,9 @@ def create_access_token(data: dict) -> str:
 @router.get("/signup", response_class=HTMLResponse)
 @router.get("/auth/signup", response_class=HTMLResponse)
 async def login_page(request: Request):
-    # 🚨 CRITICAL FIX: Use explicit keyword arguments to prevent 500 Server Crashes
+    # STABILITY FIX: Added request=request
     return templates.TemplateResponse(
+        request=request,
         name="login.html", 
         context={"request": request}
     )
@@ -74,7 +73,7 @@ async def signup(
     password: str = Form(...), 
     db: Session = Depends(get_db)
 ):
-    # 🚨 SECURITY FIX: Do not allow blank or 1-character passwords
+    # SECURITY FIX: Do not allow blank or 1-character passwords
     if len(password) < 6:
         return RedirectResponse(url="/login?error=weak_password", status_code=302)
 

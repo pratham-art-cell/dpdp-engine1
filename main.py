@@ -43,7 +43,7 @@ def get_current_user_from_cookie(request: Request, db: Session = Depends(get_db)
             
         user = db.query(models.User).filter(models.User.email == email).first()
         
-        # 🚨 BUSINESS FIX: Automatically revoke access if their 1-year pass expired
+        # BUSINESS FIX: Automatically revoke access if their 1-year pass expired
         if user and user.has_paid and user.access_valid_until:
             if datetime.datetime.utcnow() > user.access_valid_until:
                 user.has_paid = False
@@ -61,8 +61,9 @@ def home(request: Request, db: Session = Depends(get_db)):
     if not user:
         return RedirectResponse(url="/login", status_code=302)
 
-    # 🚨 STABILITY FIX: Use strict context dictionary to prevent 500 Template Errors
+    # STABILITY FIX: Added request=request
     return templates.TemplateResponse(
+        request=request, 
         name="index.html",
         context={
             "request": request,
