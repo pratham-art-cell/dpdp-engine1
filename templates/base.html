@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" class="bg-background">
 <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MRDDXT7S');</script>
+    <!-- End Google Tag Manager -->
+
     <!-- We try components first, then partials in case your folder structure varies -->
     {% include "components/meta.html" ignore missing %}
     {% include "partials/meta.html" ignore missing %}
@@ -123,6 +131,10 @@
     </style>
 </head>
 <body class="text-slate-300 antialiased h-screen flex overflow-hidden">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRDDXT7S"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     
     <!-- Sidebar -->
     <aside class="w-64 bg-surface border-r border-border flex-shrink-0 flex flex-col h-full z-20">
