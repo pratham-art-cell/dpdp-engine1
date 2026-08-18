@@ -5,6 +5,122 @@
     {% include "components/meta.html" ignore missing %}
     {% include "partials/meta.html" ignore missing %}
     <title>ConsentLayer | DPDP Compliance</title>
+
+    <!-- Consent Banner Styling -->
+    <style>
+      .cl-banner-bg {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.75);
+        backdrop-filter: blur(6px);
+        z-index: 999999;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 24px;
+      }
+      .cl-modal-card {
+        background: #ffffff;
+        width: 100%;
+        max-width: 680px;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+        border: 1px solid #e2e8f0;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      .cl-modal-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+      }
+      .cl-badge {
+        font-size: 11px;
+        font-weight: 700;
+        color: #16a34a;
+        background: #dcfce7;
+        padding: 2px 8px;
+        border-radius: 9999px;
+        text-transform: uppercase;
+      }
+      .cl-title-wrap h3 {
+        margin: 4px 0 0 0;
+        font-size: 17px;
+        color: #0f172a;
+        font-weight: 700;
+      }
+      #cl-lang-select {
+        padding: 4px 8px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 12px;
+        background: #fff;
+        color: #334155;
+      }
+      .cl-desc-text {
+        font-size: 13px;
+        color: #475569;
+        margin: 0 0 16px 0;
+        line-height: 1.5;
+      }
+      .cl-purpose-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        border-top: 1px solid #f1f5f9;
+        border-bottom: 1px solid #f1f5f9;
+        padding: 14px 0;
+        margin-bottom: 18px;
+      }
+      .cl-checkbox-item {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .cl-checkbox-item input {
+        margin-top: 3px;
+      }
+      .cl-checkbox-item strong {
+        color: #1e293b;
+        display: block;
+      }
+      .cl-checkbox-item p {
+        margin: 2px 0 0 0;
+        font-size: 12px;
+        color: #64748b;
+      }
+      .cl-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+      .cl-btn-sec {
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        color: #334155;
+        padding: 9px 16px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .cl-btn-prim {
+        background: #0284c7;
+        border: none;
+        color: #ffffff;
+        padding: 9px 20px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+      }
+      .cl-btn-prim:hover {
+        background: #0369a1;
+      }
+    </style>
 </head>
 <body class="text-slate-300 antialiased h-screen flex overflow-hidden">
     
@@ -44,5 +160,126 @@
         </main>
     </div>
 
+    <!-- DPDP Act Section 5 & 6 Compliant Consent Banner Modal -->
+    <div id="cl-consent-wrapper" class="cl-banner-bg" style="display:none;">
+      <div class="cl-modal-card">
+        <div class="cl-modal-head">
+          <div class="cl-title-wrap">
+            <span class="cl-badge">DPDP Act Compliant</span>
+            <h3 id="cl-title">Data Processing Notice & Consent</h3>
+          </div>
+          <select id="cl-lang-select" onchange="toggleConsentLanguage(this.value)">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+          </select>
+        </div>
+
+        <p id="cl-desc" class="cl-desc-text">
+          Under Section 5(1) of the DPDP Act 2023, ConsentLayer requires your explicit, purpose-specific consent before loading non-essential client telemetry and marketing pixels.
+        </p>
+
+        <div class="cl-purpose-grid">
+          <label class="cl-checkbox-item">
+            <input type="checkbox" checked disabled />
+            <div>
+              <strong id="cl-l-essential">Core Infrastructure (Mandatory)</strong>
+              <p id="cl-d-essential">Authentication tokens, session security, and Section 33 audit log generation.</p>
+            </div>
+          </label>
+
+          <label class="cl-checkbox-item">
+            <input type="checkbox" id="cl-consent-ga" />
+            <div>
+              <strong id="cl-l-analytics">Telemetry & Usage (Google Analytics 4)</strong>
+              <p id="cl-d-analytics">Aggregated analytics to improve audit processing performance.</p>
+            </div>
+          </label>
+
+          <label class="cl-checkbox-item">
+            <input type="checkbox" id="cl-consent-meta" />
+            <div>
+              <strong id="cl-l-marketing">Conversion Attribution (Meta Pixel)</strong>
+              <p id="cl-d-marketing">Conversion tracking for DPDP diagnostic lab audit outreach campaigns.</p>
+            </div>
+          </label>
+        </div>
+
+        <div class="cl-actions">
+          <button type="button" onclick="handleConsentDecision(false)" class="cl-btn-sec" id="cl-btn-reject">Decline Optional</button>
+          <button type="button" onclick="handleConsentDecision(true)" class="cl-btn-prim" id="cl-btn-save">Confirm Choices</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DPDP Logic & Data Layer Script -->
+    <script>
+      const i18nConsent = {
+        en: {
+          title: "Data Processing Notice & Consent",
+          desc: "Under Section 5(1) of the DPDP Act 2023, ConsentLayer requires your explicit consent before loading analytics and marketing pixels.",
+          essentialTitle: "Core Infrastructure (Mandatory)",
+          essentialDesc: "Authentication tokens, session security, and Section 33 audit log generation.",
+          gaTitle: "Telemetry & Usage (Google Analytics 4)",
+          gaDesc: "Aggregated analytics to improve audit processing performance.",
+          metaTitle: "Conversion Attribution (Meta Pixel)",
+          metaDesc: "Attribution for diagnostic lab compliance outreach campaigns.",
+          reject: "Decline Optional",
+          save: "Confirm Choices"
+        },
+        hi: {
+          title: "डेटा प्रोसेसिंग सूचना एवं सहमति (DPDP Act)",
+          desc: "DPDP अधिनियम 2023 की धारा 5(1) के तहत, एनालिटिक्स एवं मार्केटिंग ट्रैकर चलाने से पूर्व आपकी स्पष्ट सहमति आवश्यक है।",
+          essentialTitle: "मुख्य अवसंरचना (अनिवार्य)",
+          essentialDesc: "लॉगिन टोकन, सुरक्षा एवं धारा 33 ऑडिट लॉग निर्माण।",
+          gaTitle: "उपयोग एनालिटिक्स (Google Analytics 4)",
+          gaDesc: "ऑडिट गति और प्लेटफ़ॉर्म प्रदर्शन में सुधार के लिए।",
+          metaTitle: "मार्केटिंग एवं कन्वर्जन (Meta Pixel)",
+          metaDesc: "डायग्नोस्टिक लैब अनुपालन अभियानों के कन्वर्जन मापन हेतु।",
+          reject: "अस्वीकार करें",
+          save: "पसंद सहेजें"
+        }
+      };
+
+      function toggleConsentLanguage(lang) {
+        const data = i18nConsent[lang];
+        document.getElementById("cl-title").innerText = data.title;
+        document.getElementById("cl-desc").innerText = data.desc;
+        document.getElementById("cl-l-essential").innerText = data.essentialTitle;
+        document.getElementById("cl-d-essential").innerText = data.essentialDesc;
+        document.getElementById("cl-l-analytics").innerText = data.gaTitle;
+        document.getElementById("cl-d-analytics").innerText = data.gaDesc;
+        document.getElementById("cl-l-marketing").innerText = data.metaTitle;
+        document.getElementById("cl-d-marketing").innerText = data.metaDesc;
+        document.getElementById("cl-btn-reject").innerText = data.reject;
+        document.getElementById("cl-btn-save").innerText = data.save;
+      }
+
+      function handleConsentDecision(isCustom) {
+        const gaState = isCustom ? document.getElementById("cl-consent-ga").checked : false;
+        const metaState = isCustom ? document.getElementById("cl-consent-meta").checked : false;
+        
+        const consentPayload = {
+          analytics: gaState,
+          marketing: metaState,
+          timestamp: new Date().toISOString()
+        };
+        
+        localStorage.setItem("consentlayer_dpdp_v1", JSON.stringify(consentPayload));
+        document.getElementById("cl-consent-wrapper").style.display = "none";
+        
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "dpdp_consent_update",
+          analytics_storage: gaState ? "granted" : "denied",
+          ad_storage: metaState ? "granted" : "denied"
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        if (!localStorage.getItem("consentlayer_dpdp_v1")) {
+          document.getElementById("cl-consent-wrapper").style.display = "flex";
+        }
+      });
+    </script>
 </body>
 </html>
