@@ -1,57 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-background">
 <head>
-    <title>{% block title %}ConsentLayer | DPDP Portal{% endblock %}</title>
-    
-    {% include 'components/meta.html' %}
-    {% include 'components/analytics.html' %}
+    <!-- We try components first, then partials in case your folder structure varies -->
+    {% include "components/meta.html" ignore missing %}
+    {% include "partials/meta.html" ignore missing %}
+    <title>ConsentLayer | DPDP Compliance</title>
 </head>
-<body class="bg-background text-slate-100 min-h-screen antialiased flex selection:bg-primary selection:text-white">
-
-    <!-- Injected Sidebar (Hidden on Auth pages via Jinja blocks) -->
-    {% block sidebar %}
-    <aside class="w-64 bg-background border-r border-border fixed h-full flex flex-col z-50">
-        <!-- Logo -->
-        <div class="h-16 flex items-center px-6 border-b border-border">
-            <div class="w-6 h-6 rounded bg-primary flex items-center justify-center mr-3 shadow-lg shadow-primary/20">
-                <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 12l2 2 4-4"></path></svg>
-            </div>
-            <span class="font-semibold tracking-tight text-white">Consent<span class="text-primary">Layer</span></span>
+<body class="text-slate-300 antialiased h-screen flex overflow-hidden">
+    
+    <!-- Sidebar -->
+    <aside class="w-64 bg-surface border-r border-border flex-shrink-0 flex flex-col h-full z-20">
+        <div class="p-6 border-b border-border">
+            <a href="/" class="flex items-center gap-3">
+                <img src="/static/consentlayer-logo.png" alt="ConsentLayer Icon" class="h-8 w-auto" />
+                <span class="text-xl font-bold text-white tracking-tight">Consent<span class="text-primary">Layer</span></span>
+            </a>
         </div>
         
-        <!-- Links -->
-        <nav class="flex-1 py-6 px-3 space-y-1">
-            <a href="/" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg bg-elevated text-primary border border-border shadow-sm">
-                Dashboard
-            </a>
-            <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-surface transition-colors">Compliance Reports</a>
-            <a href="#" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg text-slate-400 hover:text-white hover:bg-surface transition-colors">Settings</a>
+        <nav class="p-4 space-y-2 flex-1 overflow-y-auto">
+            <a href="/" class="block px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-elevated hover:text-white rounded-lg transition-colors">Dashboard</a>
+            <a href="/reports" class="block px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-elevated hover:text-white rounded-lg transition-colors">Compliance Reports</a>
+            <a href="/settings" class="block px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-elevated hover:text-white rounded-lg transition-colors">Settings</a>
+            <a href="/support" class="block px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-elevated hover:text-white rounded-lg transition-colors">Support</a>
         </nav>
     </aside>
-    {% endblock %}
-    
-    <!-- Main Content Wrapper -->
-    <div class="flex-1 flex flex-col min-h-screen {% block content_margin %}pl-64{% endblock %}">
-        
-        {% block topnav %}
-        <!-- Top Navigation -->
-        <header class="h-16 border-b border-border bg-surface/80 backdrop-blur-md flex items-center justify-between px-8 sticky top-0 z-40">
-            <div class="flex items-center gap-3">
-                 <span class="text-[10px] uppercase font-tech tracking-wider px-2 py-0.5 bg-elevated text-primary border border-border rounded">DPDP Sec 33</span>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col h-full relative">
+        <!-- Top Header Bar -->
+        <header class="h-16 bg-surface border-b border-border flex items-center justify-between px-8 flex-shrink-0">
+            <div class="flex items-center gap-2">
+                <span class="px-2 py-1 bg-primary/10 text-primary border border-primary/20 rounded text-xs font-tech tracking-wider">DPDP SEC 33</span>
             </div>
-            <div class="flex items-center gap-4 text-sm">
-                {% if user_email %}
-                <span class="text-slate-400 font-tech text-xs">{{ user_email }}</span>
-                <a href="/logout" class="px-3 py-1.5 rounded bg-elevated border border-border hover:border-primary text-slate-300 transition-colors font-medium text-xs">Sign Out</a>
-                {% else %}
-                <a href="/login" class="px-4 py-1.5 rounded bg-primary hover:bg-primaryHover text-white font-medium transition-all text-xs">Sign In</a>
-                {% endif %}
+            <div class="flex items-center gap-4">
+                <span class="text-xs text-slate-400 font-tech">{{ user_email }}</span>
+                <a href="/login" class="px-4 py-1.5 bg-elevated hover:bg-border text-white text-sm font-medium rounded transition-colors border border-border">Sign Out</a>
             </div>
         </header>
-        {% endblock %}
 
-        <!-- Dynamic View Injection -->
-        <main class="p-8">
+        <!-- Dynamic Page Content -->
+        <main class="flex-1 overflow-y-auto p-8">
             {% block content %}{% endblock %}
         </main>
     </div>

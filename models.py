@@ -12,6 +12,11 @@ class User(Base):
     has_paid = Column(Boolean, default=False)
     access_valid_until = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    
+    # Client Profile Details for Settings/Invoicing
+    full_name = Column(String, nullable=True)
+    mobile = Column(String, nullable=True)
+    address = Column(String, nullable=True)
 
 class LabAuditRecord(Base):
     __tablename__ = "lab_audit_records"

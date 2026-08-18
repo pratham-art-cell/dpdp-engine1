@@ -1,8 +1,7 @@
 from contextlib import asynccontextmanager
 import os
 import datetime
-from fastapi import FastAPI, Request, Depends
-# 🚀 1. ADD THE GZIP MIDDLEWARE IMPORT
+from fastapi import FastAPI, Request, Depends, Form
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -21,14 +20,11 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="DPDP Audit Engine", lifespan=lifespan)
 
-# 🚀 2. ENABLE GZIP COMPRESSION (Minimum size 1000 bytes)
-# This compresses all server output, maximizing your PageSpeed metrics.
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 os.makedirs("static", exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# Register all routers
 app.include_router(labs.router)
 app.include_router(api.router)
 app.include_router(webhooks.router)
@@ -36,7 +32,6 @@ app.include_router(auth.router)
 
 templates = Jinja2Templates(directory="templates")
 
-# Dependency to check current user and enforce paywall rules
 def get_current_user_from_cookie(request: Request, db: Session = Depends(get_db)):
     token = request.cookies.get("access_token")
     if not token:
@@ -49,7 +44,6 @@ def get_current_user_from_cookie(request: Request, db: Session = Depends(get_db)
             
         user = db.query(models.User).filter(models.User.email == email).first()
         
-        # 🚨 BUSINESS FIX: Revoke access if subscription expired
         if user and user.has_paid and user.access_valid_until:
             if datetime.datetime.utcnow() > user.access_valid_until:
                 user.has_paid = False
@@ -62,28 +56,48 @@ def get_current_user_from_cookie(request: Request, db: Session = Depends(get_db)
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_from_cookie(request, db)
-    
-    # If not logged in, redirect to login page
     if not user:
         return RedirectResponse(url="/login", status_code=302)
 
-    # 🚨 STABILITY FIX: Use explicit request signature for templates
     return templates.TemplateResponse(
         request=request, 
         name="index.html",
-        context={
-            "request": request,
-            "has_paid": user.has_paid,
-            "user_email": user.email
-        }
+        context={"request": request, "has_paid": user.has_paid, "user_email": user.email}
     )
 
-# 🚀 3. NEW ROUTES FOR SIDEBAR NAVIGATION
 @app.get("/settings", response_class=HTMLResponse)
 def settings_page(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_from_cookie(request, db)
     if not user: return RedirectResponse(url="/login", status_code=302)
-    return templates.TemplateResponse(request=request, name="settings.html", context={"request": request, "user_email": user.email})
+    return templates.TemplateResponse(request=request, name="settings.html", context={
+        "request": request, 
+        "user_email": user.email,
+        "user_full_name": user.full_name,
+        "user_mobile": user.mobile,
+        "user_address": user.address
+    })
+
+@app.post("/settings/update", response_class=HTMLResponse)
+def update_profile_settings(
+    request: Request, 
+    full_name: str = Form(""), 
+    mobile: str = Form(""), 
+    address: str = Form(""), 
+    db: Session = Depends(get_db)
+):
+    user = get_current_user_from_cookie(request, db)
+    if not user: return HTMLResponse("Unauthorized", status_code=401)
+
+    user.full_name = full_name
+    user.mobile = mobile
+    user.address = address
+    db.commit()
+
+    return HTMLResponse("""
+    <div class="mt-4 p-3 bg-success/10 border border-success/30 text-success rounded-lg flex items-center gap-2">
+        <span>✅</span> Profile successfully updated in database.
+    </div>
+    """)
 
 @app.get("/reports", response_class=HTMLResponse)
 def reports_page(request: Request, db: Session = Depends(get_db)):
