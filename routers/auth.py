@@ -39,7 +39,11 @@ def create_access_token(data: dict) -> str:
 @router.get("/signup", response_class=HTMLResponse)
 @router.get("/auth/signup", response_class=HTMLResponse)
 async def login_page(request: Request):
-    return templates.TemplateResponse(request, "login.html", {})
+    # 🚨 CRITICAL FIX: Use explicit keyword arguments to prevent 500 Server Crashes
+    return templates.TemplateResponse(
+        name="login.html", 
+        context={"request": request}
+    )
 
 
 # --- AUTH POST ROUTES ---
@@ -70,6 +74,10 @@ async def signup(
     password: str = Form(...), 
     db: Session = Depends(get_db)
 ):
+    # 🚨 SECURITY FIX: Do not allow blank or 1-character passwords
+    if len(password) < 6:
+        return RedirectResponse(url="/login?error=weak_password", status_code=302)
+
     normalized_email = email.strip().lower()
     existing_user = db.query(models.User).filter(models.User.email == normalized_email).first()
     

@@ -2,12 +2,15 @@ import csv
 import io
 import json
 import jwt
+import codecs  # Required for high-performance file streaming
 from fastapi import APIRouter, Request, UploadFile, File, HTTPException, status, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from database import get_db
-from models import LabAuditRecord
+
+# Import models securely
+from models import LabAuditRecord, User
 
 router = APIRouter(prefix="/labs", tags=["Labs"])
 templates = Jinja2Templates(directory="templates")
@@ -54,16 +57,16 @@ async def list_client_labs(
     client_labs = db.query(LabAuditRecord).filter(LabAuditRecord.client_id == client_id).all()
     
     return templates.TemplateResponse(
-        request=request,
         name="partials/lab_list.html",
         context={
+            "request": request,  # Fixed Template context signature
             "labs": client_labs,
             "client_id": client_id
         }
     )
 
 
-# --- ROUTE 2: UPLOAD & PROCESS LOGS (Scoped to Client) ---
+# --- ROUTE 2: UPLOAD & PROCESS LOGS (Scoped & Memory Protected) ---
 @router.post("/upload", response_class=HTMLResponse)
 async def upload_clinic_logs(
     request: Request,
@@ -71,30 +74,32 @@ async def upload_clinic_logs(
     client_id: str = Depends(get_current_client_id),  # Enforces auth & injects client_id
     db: Session = Depends(get_db)
 ):
-    # DEFENSE 1: Ensure it is a CSV (with lowercase safety for iOS)
+    # 🚨 CRITICAL FIX 1: The Paywall API Bypass
+    # Check if the user exists and actually paid for the subscription.
+    user = db.query(User).filter(User.email == client_id).first()
+    if not user or not user.has_paid:
+        raise HTTPException(status_code=403, detail="Active subscription required. Please upgrade your account.")
+
+    # DEFENSE 1: Ensure it is a CSV
     if not audit_file.filename.lower().endswith('.csv'):
         raise HTTPException(status_code=400, detail="Only .csv files are permitted.")
 
-    MAX_FILE_SIZE = 5 * 1024 * 1024  # 5MB guard against memory exhaustion
-    contents = await audit_file.read()
-    
-    if len(contents) > MAX_FILE_SIZE:
-        raise HTTPException(status_code=413, detail="File too large. Maximum upload size is 5MB.")
-
     try:
-        decoded_content = contents.decode('utf-8')
-        csv_reader = csv.DictReader(io.StringIO(decoded_content))
+        # 🚀 CRITICAL FIX 2: High-Performance RAM Streaming (Prevents server crashes)
+        # Instead of reading the whole file to memory, we stream it directly line-by-line
+        csv_reader = csv.DictReader(codecs.iterdecode(audit_file.file, 'utf-8'))
         
-        # DEFENSE 2: Verify required columns exist
         required_columns = ['Consent_Obtained', 'Location']
-        if not all(col in csv_reader.fieldnames for col in required_columns):
-            raise HTTPException(status_code=422, detail="CSV missing required DPDP Section 33 columns.")
-
         violations = []
         risk_flags = []
         total_records = 0
         
         for row in csv_reader:
+            # DEFENSE 2: Validate columns on the very first row
+            if total_records == 0:
+                if not all(col in csv_reader.fieldnames for col in required_columns):
+                    raise HTTPException(status_code=422, detail="CSV missing required DPDP Section 33 columns.")
+
             total_records += 1
             if row.get('Consent_Obtained') == 'No':
                 violations.append(row)
@@ -111,10 +116,11 @@ async def upload_clinic_logs(
         db.add(db_record)
         db.commit()
                 
+        # 🔧 CRITICAL FIX 3: TemplateResponse Signature
         return templates.TemplateResponse(
-            request=request,
             name="partials/audit_report.html", 
             context={
+                "request": request, 
                 "total_records": total_records,
                 "violations": violations,
                 "risk_flags": risk_flags,
@@ -125,6 +131,12 @@ async def upload_clinic_logs(
         
     except UnicodeDecodeError:
         raise HTTPException(status_code=400, detail="File encoding error. Please upload a valid UTF-8 CSV.")
+    except HTTPException:
+        # Pass HTTPExceptions straight through to the frontend
+        raise
     except Exception as e:
         db.rollback()
         raise HTTPException(status_code=500, detail=f"Audit processing failed: {str(e)}")
+    finally:
+        # Ensure the file stream is closed to prevent OS memory leaks
+        audit_file.file.close()

@@ -13,6 +13,8 @@ env/
 # Logs and Databases
 *.log
 *.sqlite3
+*.db           # <-- ADD THIS LINE
+dpdp_audit.db  # <-- ADD THIS LINE FOR EXTRA SAFETY
 db_backups/
 
 # OS Generated Files
