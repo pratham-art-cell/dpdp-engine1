@@ -34,21 +34,26 @@ def get_articles():
             return json.load(f)
     return []
 
-def get_current_user_from_cookie(request: Request, db: Session):
-    token = request.cookies.get("access_token")
-    if not token:
+def get_current_user_safe(request: Request, db: Session):
+    try:
+        token = request.cookies.get("access_token")
+        if not token:
+            return None
+        
+        # Strip Bearer prefix if present
+        clean_token = token.replace("Bearer ", "").strip()
+        
+        # Strictly only search for the user's actual token
+        user = db.query(models.User).filter(models.User.email == clean_token).first()
+        return user
+    except Exception:
         return None
-    # Support raw email cookie or bearer token lookup
-    cleaned_token = token.replace("Bearer ", "").strip()
-    return db.query(models.User).filter(
-        (models.User.email == cleaned_token) | (models.User.email == "prathamjainyt127@gmail.com")
-    ).first()
 
 # --- PUBLIC & DASHBOARD ROUTES ---
 
 @app.get("/", response_class=HTMLResponse)
 async def home_page(request: Request, db: Session = Depends(get_db)):
-    user = get_current_user_from_cookie(request, db)
+    user = get_current_user_safe(request, db)
     return templates.TemplateResponse(
         request=request,
         name="index.html", 
@@ -63,7 +68,7 @@ async def home_page(request: Request, db: Session = Depends(get_db)):
 
 @app.get("/support", response_class=HTMLResponse)
 async def support_page(request: Request, db: Session = Depends(get_db)):
-    user = get_current_user_from_cookie(request, db)
+    user = get_current_user_safe(request, db)
     return templates.TemplateResponse(
         request=request,
         name="support.html",
@@ -72,7 +77,7 @@ async def support_page(request: Request, db: Session = Depends(get_db)):
 
 @app.get("/reports", response_class=HTMLResponse)
 async def reports_page(request: Request, db: Session = Depends(get_db)):
-    user = get_current_user_from_cookie(request, db)
+    user = get_current_user_safe(request, db)
     return templates.TemplateResponse(
         request=request,
         name="reports.html",
@@ -81,7 +86,7 @@ async def reports_page(request: Request, db: Session = Depends(get_db)):
 
 @app.get("/settings", response_class=HTMLResponse)
 async def settings_page(request: Request, db: Session = Depends(get_db)):
-    user = get_current_user_from_cookie(request, db)
+    user = get_current_user_safe(request, db)
     return templates.TemplateResponse(
         request=request,
         name="settings.html",
