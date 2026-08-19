@@ -1,5 +1,6 @@
 import json
 import os
+import jwt
 from fastapi import FastAPI, Request, Depends, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -43,10 +44,20 @@ def get_current_user_safe(request: Request, db: Session):
         # Strip Bearer prefix if present
         clean_token = token.replace("Bearer ", "").strip()
         
-        # Strictly only search for the user's actual token
-        user = db.query(models.User).filter(models.User.email == clean_token).first()
+        # Decode the JWT to reveal the actual email
+        SECRET_KEY = "your-super-secret-development-key"
+        ALGORITHM = "HS256"
+        payload = jwt.decode(clean_token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_email = payload.get("sub")
+        
+        if not user_email:
+            return None
+            
+        # Strictly search using the decoded email
+        user = db.query(models.User).filter(models.User.email == user_email).first()
         return user
     except Exception:
+        # If the token is expired or tampered with, force logout
         return None
 
 # --- PUBLIC & DASHBOARD ROUTES ---
