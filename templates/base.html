@@ -12,11 +12,15 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-MRDDXT7S');</script>
 
+    <!-- Include meta partials if present -->
+    {% include "components/meta.html" ignore missing %}
+    {% include "partials/meta.html" ignore missing %}
+
     <!-- Synchronous Tailwind CDN & Styles -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="/static/styles.css">
 
-    <!-- DPDP Modal Styling matching Blog Aesthetic -->
+    <!-- DPDP Modal Styling -->
     <style>
       .cl-banner-bg {
         position: fixed;
@@ -57,7 +61,6 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRDDXT7S"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-    {% block layout_body %}
     <!-- Sidebar Navigation -->
     <aside class="w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col h-full z-20 shadow-sm">
         <div class="p-6 border-b border-slate-100">
@@ -95,9 +98,8 @@
             {% block content %}{% endblock %}
         </main>
     </div>
-    {% endblock %}
 
-    <!-- DPDP Act Compliant Consent Modal -->
+    <!-- DPDP Consent Banner Modal -->
     <div id="cl-consent-wrapper" class="cl-banner-bg" style="display:none;">
       <div class="cl-modal-card">
         <div class="flex justify-between items-start mb-3">
@@ -112,7 +114,7 @@
         </div>
 
         <p id="cl-desc" class="text-xs text-slate-600 mb-4 leading-relaxed">
-          Under Section 5(1) of the DPDP Act 2023, ConsentLayer requires your explicit consent before loading analytics and marketing telemetry.
+          Under Section 5(1) of the DPDP Act 2023, ConsentLayer requires your explicit consent before loading analytics and marketing telemetry[cite: 3, 5].
         </p>
 
         <div class="space-y-2.5 border-y border-slate-100 py-3 mb-4 text-xs">
@@ -120,7 +122,7 @@
             <input type="checkbox" checked disabled class="mt-0.5" />
             <div>
               <strong id="cl-l-essential" class="text-slate-800 block">Core Infrastructure (Mandatory)</strong>
-              <p id="cl-d-essential" class="text-slate-500 text-[11px]">Authentication tokens, session security, and Section 33 audit log generation.</p>
+              <p id="cl-d-essential" class="text-slate-500 text-[11px]">Authentication tokens, session security, and Section 33 audit log generation[cite: 5].</p>
             </div>
           </label>
 
@@ -128,7 +130,7 @@
             <input type="checkbox" id="cl-consent-ga" class="mt-0.5" />
             <div>
               <strong id="cl-l-analytics" class="text-slate-800 block">Telemetry & Usage (Google Analytics 4)</strong>
-              <p id="cl-d-analytics" class="text-slate-500 text-[11px]">Aggregated analytics to improve audit processing performance.</p>
+              <p id="cl-d-analytics" class="text-slate-500 text-[11px]">Aggregated analytics to improve audit processing performance[cite: 5].</p>
             </div>
           </label>
 
@@ -136,7 +138,7 @@
             <input type="checkbox" id="cl-consent-meta" class="mt-0.5" />
             <div>
               <strong id="cl-l-marketing" class="text-slate-800 block">Conversion Attribution (Meta Pixel)</strong>
-              <p id="cl-d-marketing" class="text-slate-500 text-[11px]">Conversion tracking for DPDP diagnostic lab audit outreach campaigns.</p>
+              <p id="cl-d-marketing" class="text-slate-500 text-[11px]">Conversion tracking for DPDP diagnostic lab audit outreach campaigns[cite: 5].</p>
             </div>
           </label>
         </div>
@@ -148,7 +150,7 @@
       </div>
     </div>
 
-    <!-- DPDP Logic & Data Layer Script -->
+    <!-- DPDP Script -->
     <script>
       const i18nConsent = {
         en: {
