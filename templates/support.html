@@ -1,4 +1,41 @@
 {% extends "base.html" %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "@id": "https://consentlayers.in/support#webpage",
+      "url": "https://consentlayers.in/support",
+      "name": "Support & Technical Assistance | ConsentLayer",
+      "description": "Get dedicated support for ConsentLayer API keys, DPDP Section 33 audit logs, clinic onboarding, and billing queries.",
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://consentlayers.in/#website",
+        "name": "ConsentLayer",
+        "url": "https://consentlayers.in"
+      },
+      "mainEntity": {
+        "@type": "Organization",
+        "@id": "https://consentlayers.in/#organization",
+        "name": "ConsentLayer",
+        "url": "https://consentlayers.in",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "technical support",
+          "email": "prathamjainyt127@gmail.com",
+          "availableLanguage": ["en", "hi"]
+        }
+      }
+    }
+  ]
+}
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="max-w-4xl mx-auto">
     <h1 class="text-3xl font-semibold text-white tracking-tight mb-6">Support & Contact</h1>
