@@ -1,22 +1,46 @@
-# Environment Variables & Secrets
+# ==========================================
+# 1. Environment & Sensitive Secrets (CRITICAL)
+# ==========================================
 .env
 .env.*
+!.env.example
+*.pem
+*.key
+*.cert
 
-# Python Cache & Virtual Environments
+# ==========================================
+# 2. Local Database & SQLite Files (CRITICAL)
+# ==========================================
+*.db
+*.sqlite
+*.sqlite3
+dpdp_audit.db
+
+# ==========================================
+# 3. Python Virtual Environments & Cache
+# ==========================================
 __pycache__/
 *.py[cod]
 *$py.class
+.venv/
 venv/
 env/
-.venv/
+ENV/
 
-# Logs and Databases
-*.log
-*.sqlite3
-*.db           # <-- ADD THIS LINE
-dpdp_audit.db  # <-- ADD THIS LINE FOR EXTRA SAFETY
-db_backups/
+# ==========================================
+# 4. Uploaded Files & Temporary Data
+# ==========================================
+uploads/
+temp/
+*.csv
+*.xlsx
+*.pdf
 
-# OS Generated Files
+# ==========================================
+# 5. IDE & OS Generated Files
+# ==========================================
+.vscode/
+.idea/
 .DS_Store
 Thumbs.db
+*.log

@@ -52,8 +52,8 @@
             </button>
         </form>
 
-        <!-- Signup Form (Action points to /signup) -->
-        <form id="signup-form" action="/signup" method="POST" class="space-y-4 hidden">
+        <!-- Signup Form (Action points to /signup) with GTM Tracking Added -->
+        <form id="signup-form" action="/signup" method="POST" onsubmit="window.dataLayer = window.dataLayer || []; window.dataLayer.push({'event': 'sign_up'});" class="space-y-4 hidden">
             <div>
                 <label class="block text-[10px] font-tech text-slate-500 mb-1.5" for="signup-email">NEW_USER_EMAIL</label>
                 <input type="email" id="signup-email" name="email" required placeholder="admin@diagnostic-lab.in"

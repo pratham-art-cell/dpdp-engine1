@@ -2,7 +2,7 @@ from typing import List, Optional
 from datetime import datetime
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from database import get_db
 from models import LabAuditRecord
@@ -20,8 +20,8 @@ class AuditResponse(BaseModel):
     violations_summary: Optional[str]
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    # Updated to Pydantic V2 syntax for ORM compatibility
+    model_config = ConfigDict(from_attributes=True)
 
 @router.get("/", response_model=List[AuditResponse])
 def get_client_audits_api(
