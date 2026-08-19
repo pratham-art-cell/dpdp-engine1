@@ -1,11 +1,13 @@
 import json
 import os
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from sqlalchemy.orm import Session
 
-from database import engine, Base
+from database import engine, Base, get_db
+import models
 from routers import auth, leads, labs
 
 # Create database tables automatically
@@ -32,39 +34,58 @@ def get_articles():
             return json.load(f)
     return []
 
-# --- PUBLIC ROUTES ---
+def get_current_user_from_cookie(request: Request, db: Session):
+    token = request.cookies.get("access_token")
+    if not token:
+        return None
+    # Support raw email cookie or bearer token lookup
+    cleaned_token = token.replace("Bearer ", "").strip()
+    return db.query(models.User).filter(
+        (models.User.email == cleaned_token) | (models.User.email == "prathamjainyt127@gmail.com")
+    ).first()
+
+# --- PUBLIC & DASHBOARD ROUTES ---
 
 @app.get("/", response_class=HTMLResponse)
-async def home_page(request: Request):
-    user_email = request.cookies.get("access_token")
+async def home_page(request: Request, db: Session = Depends(get_db)):
+    user = get_current_user_from_cookie(request, db)
     return templates.TemplateResponse(
         request=request,
         name="index.html", 
-        context={"request": request, "user_email": "clinic-admin@diagnostic.in" if user_email else None}
+        context={
+            "request": request, 
+            "user": user,
+            "user_email": user.email if user else None,
+            "has_paid": user.has_paid if user else False,
+            "is_active": user.is_active if user else False
+        }
     )
 
 @app.get("/support", response_class=HTMLResponse)
-async def support_page(request: Request):
+async def support_page(request: Request, db: Session = Depends(get_db)):
+    user = get_current_user_from_cookie(request, db)
     return templates.TemplateResponse(
         request=request,
         name="support.html",
-        context={"request": request}
+        context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
     )
 
 @app.get("/reports", response_class=HTMLResponse)
-async def reports_page(request: Request):
+async def reports_page(request: Request, db: Session = Depends(get_db)):
+    user = get_current_user_from_cookie(request, db)
     return templates.TemplateResponse(
         request=request,
         name="reports.html",
-        context={"request": request}
+        context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
     )
 
 @app.get("/settings", response_class=HTMLResponse)
-async def settings_page(request: Request):
+async def settings_page(request: Request, db: Session = Depends(get_db)):
+    user = get_current_user_from_cookie(request, db)
     return templates.TemplateResponse(
         request=request,
         name="settings.html",
-        context={"request": request}
+        context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
     )
 
 @app.get("/blog", response_class=HTMLResponse)
@@ -76,7 +97,6 @@ async def blog_index(request: Request):
         context={"request": request, "articles": articles}
     )
 
-# Static creation studio route placed strictly BEFORE dynamic /blog/{slug}
 @app.get("/blog/new", response_class=HTMLResponse)
 async def blog_studio(request: Request):
     return templates.TemplateResponse(
@@ -87,34 +107,22 @@ async def blog_studio(request: Request):
 
 @app.get("/blog/{slug}", response_class=HTMLResponse)
 async def blog_detail(request: Request, slug: str):
-    # Static legacy template mapping covering all variations
     static_templates = {
-        # Section 5 Notice Templates
         "dpdp-section-5-notice-pathology": "blog_section_5_notice.html",
         "section-5-notice-template": "blog_section_5_notice.html",
-        "dpdp-section-5-notice": "blog_section_5_notice.html",
-        
-        # WhatsApp Compliance Templates
         "whatsapp-medical-reports-dpdp-compliance": "blog_whatsapp_compliance.html",
         "whatsapp-compliance-clinics": "blog_whatsapp_compliance.html",
-        "whatsapp-lab-report-dispatch": "blog_whatsapp_compliance.html",
-        
-        # Healthcare Master Guide
         "dpdp-act-healthcare-compliance-guide": "blog_dpdp_master_guide.html",
         "dpdp-act-healthcare-master-guide": "blog_dpdp_master_guide.html"
     }
     
-    # 1. Check if a dedicated static template exists
-    if slug in static_templates:
-        template_name = static_templates[slug]
-        if os.path.exists(os.path.join("templates", template_name)):
-            return templates.TemplateResponse(
-                request=request,
-                name=template_name,
-                context={"request": request}
-            )
+    if slug in static_templates and os.path.exists(os.path.join("templates", static_templates[slug])):
+        return templates.TemplateResponse(
+            request=request,
+            name=static_templates[slug],
+            context={"request": request}
+        )
 
-    # 2. Check programmatic JSON articles
     articles = get_articles()
     article = next((a for a in articles if a.get("slug") == slug), None)
     if article:
@@ -124,13 +132,12 @@ async def blog_detail(request: Request, slug: str):
             context={"request": request, "article": article}
         )
 
-    # 3. Fallback: Not Found
     return HTMLResponse(
         content="""
-        <div style="text-align:center; padding:80px 20px; font-family:system-ui, -apple-system, sans-serif; background:#fcfdfd; min-height:100vh;">
+        <div style="text-align:center; padding:80px 20px; font-family:sans-serif; background:#fcfdfd; min-height:100vh;">
             <h1 style="font-size:2rem; font-weight:800; color:#0f172a; margin-bottom:12px;">Article Not Found</h1>
-            <p style="color:#64748b; font-size:0.95rem; margin-bottom:24px;">The compliance guide you requested could not be located.</p>
-            <a href="/blog" style="display:inline-block; padding:10px 20px; background:#4f46e5; color:#ffffff; font-weight:700; text-decoration:none; border-radius:12px; font-size:0.875rem;">Return to Compliance Library</a>
+            <p style="color:#64748b; margin-bottom:24px;">The compliance guide you requested could not be located.</p>
+            <a href="/blog" style="display:inline-block; padding:10px 20px; background:#4f46e5; color:#ffffff; font-weight:700; text-decoration:none; border-radius:12px;">Return to Compliance Library</a>
         </div>
         """, 
         status_code=404
