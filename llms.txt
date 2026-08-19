@@ -1,24 +1,15 @@
-# ConsentLayer - DPDP Act Compliance Platform
+﻿# ConsentLayer
 
-## Overview
-ConsentLayer is an automated compliance auditing and consent governance platform designed exclusively for Indian healthcare providers, including SME clinics, diagnostic laboratories, and polyclinics.
+> ConsentLayer is an automated DPDP Act (Digital Personal Data Protection Act 2023) compliance platform engineered for Indian SME healthcare providers, clinics, and pathology labs.
 
-## Core Problem Solved
-Under the Digital Personal Data Protection (DPDP) Act of 2023 (enforced 2026), Indian healthcare providers are classified as Data Fiduciaries. Mishandling digital patient records (e.g., sending unencrypted WhatsApp reports) or failing to take reasonable security safeguards can trigger Section 33 penalties of up to ₹250 Crores. ConsentLayer prevents this exposure.
+## Core Documentation & Statutory Guides
 
-## Key Features
-* **Automated Privacy Audits:** Scans clinic workflows for WhatsApp distribution risks and endpoint vulnerabilities.
-* **Section 33 Liability Modeling:** Real-time financial penalty exposure calculations.
-* **Multilingual Consent Engine:** Digital consent collection aligned with the 8th Schedule of the Indian Constitution (English, Hindi, etc.).
-* **Audit-Ready Artifacts:** Instant proof-of-compliance certificates for NABH auditors and insurance TPAs.
+- [Healthcare DPDP Compliance Master Guide](https://consentlayers.in/blog/dpdp-act-healthcare-compliance-guide): Complete operational guide for diagnostic labs and clinics covering Data Fiduciary obligations and Section 33 liability calculations.
+- [DPDP Section 5 Notice Compliance](https://consentlayers.in/blog/dpdp-section-5-notice-pathology): Technical requirements for multilingual, unbundled Section 5 consent notices for pathology centers.
+- [WhatsApp Medical Report Risks](https://consentlayers.in/blog/whatsapp-medical-reports-dpdp-compliance): Security breakdown and Section 8 safeguard protocols for patient PDF report dispatch.
+- [DPDP Compliance Library](https://consentlayers.in/blog): Central index and catalog of healthcare data protection guides.
 
-## Target Audience
-Medical practitioners, clinical directors, pathology lab owners, and healthcare administrators in India.
+## Platform Access
 
-## Pricing
-ConsentLayer currently offers a Free Healthcare Pilot Program to deploy automated consent tracking at zero cost during the initial phase.
-
-## Official Resources
-* Master Compliance Guide: https://consentlayers.in/blog/dpdp-act-healthcare-compliance-guide
-* Technical Support: https://consentlayers.in/support
-* Product Dashboard: https://consentlayers.in/login
+- [Clinic Login & Audit Engine](https://consentlayers.in/login): Access portal for running automated privacy scans and compliance audits.
+- [Compliance Support](https://consentlayers.in/support): Public compliance inquiry and account recovery assistance.
