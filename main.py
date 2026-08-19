@@ -76,11 +76,12 @@ async def blog_index(request: Request):
         context={"request": request, "articles": articles}
     )
 
+# Static creation studio route placed strictly BEFORE dynamic /blog/{slug}
 @app.get("/blog/new", response_class=HTMLResponse)
 async def blog_studio(request: Request):
     return templates.TemplateResponse(
         request=request,
-        name="blog_studio.html",
+        name="blog_editor.html",
         context={"request": request}
     )
 
