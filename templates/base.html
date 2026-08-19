@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-background">
+<html lang="en" class="scroll-smooth">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ConsentLayer | DPDP Compliance Engine{% endblock %}</title>
+
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-MRDDXT7S');</script>
-    <!-- End Google Tag Manager -->
 
-    <!-- We try components first, then partials in case your folder structure varies -->
-    {% include "components/meta.html" ignore missing %}
-    {% include "partials/meta.html" ignore missing %}
-    <title>ConsentLayer | DPDP Compliance</title>
+    <!-- Synchronous Tailwind CDN & Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/styles.css">
 
-    <!-- Consent Banner Styling -->
+    <!-- DPDP Modal Styling matching Blog Aesthetic -->
     <style>
       .cl-banner-bg {
         position: fixed;
@@ -31,140 +33,60 @@
         background: #ffffff;
         width: 100%;
         max-width: 680px;
-        border-radius: 12px;
+        border-radius: 16px;
         padding: 24px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         border: 1px solid #e2e8f0;
         font-family: system-ui, -apple-system, sans-serif;
-      }
-      .cl-modal-head {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 12px;
       }
       .cl-badge {
         font-size: 11px;
         font-weight: 700;
-        color: #16a34a;
-        background: #dcfce7;
+        color: #4f46e5;
+        background: #eef2ff;
         padding: 2px 8px;
         border-radius: 9999px;
         text-transform: uppercase;
-      }
-      .cl-title-wrap h3 {
-        margin: 4px 0 0 0;
-        font-size: 17px;
-        color: #0f172a;
-        font-weight: 700;
-      }
-      #cl-lang-select {
-        padding: 4px 8px;
-        border: 1px solid #cbd5e1;
-        border-radius: 6px;
-        font-size: 12px;
-        background: #fff;
-        color: #334155;
-      }
-      .cl-desc-text {
-        font-size: 13px;
-        color: #475569;
-        margin: 0 0 16px 0;
-        line-height: 1.5;
-      }
-      .cl-purpose-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        border-top: 1px solid #f1f5f9;
-        border-bottom: 1px solid #f1f5f9;
-        padding: 14px 0;
-        margin-bottom: 18px;
-      }
-      .cl-checkbox-item {
-        display: flex;
-        gap: 10px;
-        align-items: flex-start;
-        font-size: 13px;
-        cursor: pointer;
-      }
-      .cl-checkbox-item input {
-        margin-top: 3px;
-      }
-      .cl-checkbox-item strong {
-        color: #1e293b;
-        display: block;
-      }
-      .cl-checkbox-item p {
-        margin: 2px 0 0 0;
-        font-size: 12px;
-        color: #64748b;
-      }
-      .cl-actions {
-        display: flex;
-        justify-content: flex-end;
-        gap: 10px;
-      }
-      .cl-btn-sec {
-        background: #f8fafc;
-        border: 1px solid #cbd5e1;
-        color: #334155;
-        padding: 9px 16px;
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 13px;
-        cursor: pointer;
-      }
-      .cl-btn-prim {
-        background: #0284c7;
-        border: none;
-        color: #ffffff;
-        padding: 9px 20px;
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 13px;
-        cursor: pointer;
-      }
-      .cl-btn-prim:hover {
-        background: #0369a1;
+        border: 1px solid #c7d2fe;
       }
     </style>
+    {% block extra_head %}{% endblock %}
 </head>
-<body class="text-slate-300 antialiased h-screen flex overflow-hidden">
+<body class="bg-[#fcfdfd] text-slate-800 antialiased font-sans h-screen flex overflow-hidden">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRDDXT7S"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    
-    <!-- Sidebar -->
-    <aside class="w-64 bg-surface border-r border-border flex-shrink-0 flex flex-col h-full z-20">
-        <div class="p-6 border-b border-border">
-            <a href="/" class="flex items-center gap-3">
-                <img src="/static/consentlayer-logo.png" alt="ConsentLayer Icon" class="h-8 w-auto" />
-                <span class="text-xl font-bold text-white tracking-tight">Consent<span class="text-primary">Layer</span></span>
+
+    {% block layout_body %}
+    <!-- Sidebar Navigation -->
+    <aside class="w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col h-full z-20 shadow-sm">
+        <div class="p-6 border-b border-slate-100">
+            <a href="/" class="flex items-center gap-2">
+                <span class="text-indigo-600 text-xl">🛡️</span>
+                <span class="text-xl font-black text-slate-900 tracking-tight">Consent<span class="text-indigo-600">Layer</span></span>
             </a>
         </div>
         
-        <nav class="p-4 space-y-2 flex-1 overflow-y-auto">
-            <a href="/" class="block px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-elevated hover:text-white rounded-lg transition-colors">Dashboard</a>
-            <a href="/reports" class="block px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-elevated hover:text-white rounded-lg transition-colors">Compliance Reports</a>
-            <a href="/settings" class="block px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-elevated hover:text-white rounded-lg transition-colors">Settings</a>
-            <a href="/blog/new" class="block px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-elevated hover:text-white rounded-lg transition-colors">Blog Studio</a>
-            <a href="/blog" target="_blank" class="block px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-elevated hover:text-white rounded-lg transition-colors">Public Library ↗</a>
-            <a href="/support" class="block px-4 py-2.5 text-sm font-medium text-slate-300 hover:bg-elevated hover:text-white rounded-lg transition-colors">Support</a>
+        <nav class="p-4 space-y-1.5 flex-1 overflow-y-auto">
+            <a href="/" class="block px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl transition-colors">Dashboard</a>
+            <a href="/reports" class="block px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl transition-colors">Compliance Reports</a>
+            <a href="/settings" class="block px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl transition-colors">Settings</a>
+            <a href="/blog/new" class="block px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl transition-colors">Blog Studio</a>
+            <a href="/blog" target="_blank" class="block px-4 py-2.5 text-sm font-semibold text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors">Public Library ↗</a>
+            <a href="/support" class="block px-4 py-2.5 text-sm font-semibold text-slate-700 hover:bg-indigo-50 hover:text-indigo-600 rounded-xl transition-colors">Support</a>
         </nav>
     </aside>
 
     <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col h-full relative">
+    <div class="flex-1 flex flex-col h-full relative overflow-hidden bg-[#fcfdfd]">
         <!-- Top Header Bar -->
-        <header class="h-16 bg-surface border-b border-border flex items-center justify-between px-8 flex-shrink-0">
+        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 flex-shrink-0">
             <div class="flex items-center gap-2">
-                <span class="px-2 py-1 bg-primary/10 text-primary border border-primary/20 rounded text-xs font-tech tracking-wider">DPDP SEC 33</span>
+                <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-full text-xs font-bold uppercase tracking-wider">DPDP SEC 33 ENGINE</span>
             </div>
             <div class="flex items-center gap-4">
-                <span class="text-xs text-slate-400 font-tech">{{ user_email }}</span>
-                <a href="/login" class="px-4 py-1.5 bg-elevated hover:bg-border text-white text-sm font-medium rounded transition-colors border border-border">Sign Out</a>
+                <span class="text-xs text-slate-500 font-medium">{{ user_email }}</span>
+                <a href="/login" class="px-4 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-colors border border-slate-200">Sign Out</a>
             </div>
         </header>
 
@@ -173,54 +95,55 @@
             {% block content %}{% endblock %}
         </main>
     </div>
+    {% endblock %}
 
-    <!-- DPDP Act Section 5 & 6 Compliant Consent Banner Modal -->
+    <!-- DPDP Act Compliant Consent Modal -->
     <div id="cl-consent-wrapper" class="cl-banner-bg" style="display:none;">
       <div class="cl-modal-card">
-        <div class="cl-modal-head">
-          <div class="cl-title-wrap">
+        <div class="flex justify-between items-start mb-3">
+          <div>
             <span class="cl-badge">DPDP Act Compliant</span>
-            <h3 id="cl-title">Data Processing Notice & Consent</h3>
+            <h3 id="cl-title" class="text-lg font-bold text-slate-900 mt-1">Data Processing Notice & Consent</h3>
           </div>
-          <select id="cl-lang-select" onchange="toggleConsentLanguage(this.value)">
+          <select id="cl-lang-select" onchange="toggleConsentLanguage(this.value)" class="text-xs px-2.5 py-1 border border-slate-300 rounded-lg bg-white text-slate-700 focus:outline-none">
             <option value="en">English</option>
             <option value="hi">हिन्दी (Hindi)</option>
           </select>
         </div>
 
-        <p id="cl-desc" class="cl-desc-text">
-          Under Section 5(1) of the DPDP Act 2023, ConsentLayer requires your explicit, purpose-specific consent before loading non-essential client telemetry and marketing pixels.
+        <p id="cl-desc" class="text-xs text-slate-600 mb-4 leading-relaxed">
+          Under Section 5(1) of the DPDP Act 2023, ConsentLayer requires your explicit consent before loading analytics and marketing telemetry.
         </p>
 
-        <div class="cl-purpose-grid">
-          <label class="cl-checkbox-item">
-            <input type="checkbox" checked disabled />
+        <div class="space-y-2.5 border-y border-slate-100 py-3 mb-4 text-xs">
+          <label class="flex gap-2.5 items-start cursor-pointer">
+            <input type="checkbox" checked disabled class="mt-0.5" />
             <div>
-              <strong id="cl-l-essential">Core Infrastructure (Mandatory)</strong>
-              <p id="cl-d-essential">Authentication tokens, session security, and Section 33 audit log generation.</p>
+              <strong id="cl-l-essential" class="text-slate-800 block">Core Infrastructure (Mandatory)</strong>
+              <p id="cl-d-essential" class="text-slate-500 text-[11px]">Authentication tokens, session security, and Section 33 audit log generation.</p>
             </div>
           </label>
 
-          <label class="cl-checkbox-item">
-            <input type="checkbox" id="cl-consent-ga" />
+          <label class="flex gap-2.5 items-start cursor-pointer">
+            <input type="checkbox" id="cl-consent-ga" class="mt-0.5" />
             <div>
-              <strong id="cl-l-analytics">Telemetry & Usage (Google Analytics 4)</strong>
-              <p id="cl-d-analytics">Aggregated analytics to improve audit processing performance.</p>
+              <strong id="cl-l-analytics" class="text-slate-800 block">Telemetry & Usage (Google Analytics 4)</strong>
+              <p id="cl-d-analytics" class="text-slate-500 text-[11px]">Aggregated analytics to improve audit processing performance.</p>
             </div>
           </label>
 
-          <label class="cl-checkbox-item">
-            <input type="checkbox" id="cl-consent-meta" />
+          <label class="flex gap-2.5 items-start cursor-pointer">
+            <input type="checkbox" id="cl-consent-meta" class="mt-0.5" />
             <div>
-              <strong id="cl-l-marketing">Conversion Attribution (Meta Pixel)</strong>
-              <p id="cl-d-marketing">Conversion tracking for DPDP diagnostic lab audit outreach campaigns.</p>
+              <strong id="cl-l-marketing" class="text-slate-800 block">Conversion Attribution (Meta Pixel)</strong>
+              <p id="cl-d-marketing" class="text-slate-500 text-[11px]">Conversion tracking for DPDP diagnostic lab audit outreach campaigns.</p>
             </div>
           </label>
         </div>
 
-        <div class="cl-actions">
-          <button type="button" onclick="handleConsentDecision(false)" class="cl-btn-sec" id="cl-btn-reject">Decline Optional</button>
-          <button type="button" onclick="handleConsentDecision(true)" class="cl-btn-prim" id="cl-btn-save">Confirm Choices</button>
+        <div class="flex justify-end gap-2.5">
+          <button type="button" onclick="handleConsentDecision(false)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-colors" id="cl-btn-reject">Decline Optional</button>
+          <button type="button" onclick="handleConsentDecision(true)" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-md transition-colors" id="cl-btn-save">Confirm Choices</button>
         </div>
       </div>
     </div>
