@@ -6,7 +6,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 
 from database import engine, Base
-from routers import auth, leads
+from routers import auth, leads, labs
 
 # Create database tables automatically
 Base.metadata.create_all(bind=engine)
@@ -22,6 +22,7 @@ templates = Jinja2Templates(directory="templates")
 # Register API Routers
 app.include_router(auth.router)
 app.include_router(leads.router)
+app.include_router(labs.router)
 
 # Load Programmatic SEO Dataset
 def get_articles():
@@ -40,6 +41,30 @@ async def home_page(request: Request):
         request=request,
         name="index.html", 
         context={"request": request, "user_email": "clinic-admin@diagnostic.in" if user_email else None}
+    )
+
+@app.get("/support", response_class=HTMLResponse)
+async def support_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="support.html",
+        context={"request": request}
+    )
+
+@app.get("/reports", response_class=HTMLResponse)
+async def reports_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="reports.html",
+        context={"request": request}
+    )
+
+@app.get("/settings", response_class=HTMLResponse)
+async def settings_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="settings.html",
+        context={"request": request}
     )
 
 @app.get("/blog", response_class=HTMLResponse)
