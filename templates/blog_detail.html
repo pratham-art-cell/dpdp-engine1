@@ -1,10 +1,20 @@
 {% extends "base.html" %}
 
-{% block title %}{{ article.title }} | ConsentLayer Compliance{% endblock %}
+{% block title %}{{ article.title | default('DPDP Compliance Engine') }} | ConsentLayer Compliance{% endblock %}
+
+{% block meta %}
+<!-- Dynamic SEO & Open Graph Tags for Articles -->
+<meta name="description" content="{{ article.meta_description | default('Comprehensive DPDP statutory compliance guide for pathology laboratories and diagnostic clinics.') }}">
+<meta property="og:title" content="{{ article.title | default('ConsentLayer DPDP Guide') }}">
+<meta property="og:description" content="{{ article.summary | default(article.meta_description) | default('Complete statutory compliance guide.') }}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://consentlayers.in/blog/{{ article.slug | default('') }}">
+<link rel="canonical" href="https://consentlayers.in/blog/{{ article.slug | default('') }}">
+{% endblock %}
 
 {% block extra_head %}
 <!-- Dynamic FAQ Schema for Google Rich Snippets -->
-{% if article.faqs %}
+{% if article and article.faqs %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -32,32 +42,32 @@
     <nav class="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-6">
         <a href="/blog" class="hover:text-indigo-600 transition-colors">Compliance Library</a>
         <span>›</span>
-        <span class="text-indigo-600">{{ article.category }}</span>
+        <span class="text-indigo-600">{{ article.category | default('Master Guide') }}</span>
     </nav>
 
     <!-- Article Header -->
     <header class="mb-10">
         <div class="flex items-center gap-3 mb-4">
             <span class="px-3 py-1 bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase rounded-full">
-                {{ article.category }}
+                {{ article.category | default('Master Guide') }}
             </span>
             <span class="text-xs text-slate-400">•</span>
-            <span class="text-xs text-slate-500 font-medium">{{ article.read_time }}</span>
+            <span class="text-xs text-slate-500 font-medium">{{ article.read_time | default('5 min read') }}</span>
             <span class="text-xs text-slate-400">•</span>
-            <span class="text-xs text-slate-500 font-medium">Published {{ article.published_date }}</span>
+            <span class="text-xs text-slate-500 font-medium">Published {{ article.published_date | default('August 2026') }}</span>
         </div>
         <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-4">
-            {{ article.title }}
+            {{ article.title | default('ConsentLayer DPDP Guide') }}
         </h1>
         <p class="text-base text-slate-600 leading-relaxed max-w-3xl">
-            {{ article.summary }}
+            {{ article.summary | default('') }}
         </p>
     </header>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
         <!-- Main Editorial Body -->
         <article class="lg:col-span-8 prose prose-slate max-w-none text-slate-800 leading-relaxed space-y-6">
-            {{ article.content | safe }}
+            {{ article.content | safe | default('<p>Content currently being updated for latest 2026 DPDP regulations.</p>') }}
 
             <!-- In-Article Lead Magnet Capture Box -->
             <div id="lead-capture-container" class="my-10 p-6 sm:p-8 bg-indigo-50/70 border border-indigo-100 rounded-3xl shadow-sm">
@@ -72,7 +82,7 @@
                 </p>
 
                 <form hx-post="/api/leads/capture" hx-target="#lead-capture-container" hx-swap="innerHTML" class="space-y-3">
-                    <input type="hidden" name="source_url" value="/blog/{{ article.slug }}">
+                    <input type="hidden" name="source_url" value="/blog/{{ article.slug | default('unknown') }}">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <input type="email" name="email" required placeholder="lab-admin@diagnostic.in" 
                                class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-indigo-600 transition-colors">
@@ -86,7 +96,7 @@
             </div>
 
             <!-- Programmatic FAQ Section -->
-            {% if article.faqs %}
+            {% if article and article.faqs %}
             <section class="mt-12 pt-8 border-t border-slate-200">
                 <h2 class="text-xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
                 <div class="space-y-4">

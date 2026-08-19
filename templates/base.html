@@ -10,7 +10,18 @@
 
     {% include "components/meta.html" ignore missing %}
     {% include "partials/meta.html" ignore missing %}
+    
     <title>{% block title %}ConsentLayer | DPDP Compliance{% endblock %}</title>
+
+    <!-- Default SEO & OG Metadata -->
+    {% block meta %}
+    <meta name="description" content="DPDP Act 2023 Compliance Software for Indian Pathology Labs and Diagnostic Centers.">
+    <meta property="og:title" content="ConsentLayer | DPDP Compliance Engine">
+    <meta property="og:description" content="Automate Section 33 Audit Logs and Section 5 Consent notices in minutes.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://consentlayers.in{{ request.url.path if request else '/' }}">
+    <link rel="canonical" href="https://consentlayers.in{{ request.url.path if request else '/' }}">
+    {% endblock %}
 
     <style>
       .cl-banner-bg {
@@ -78,7 +89,7 @@
                 <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-full text-xs font-bold uppercase tracking-wider">DPDP SEC 33 ENGINE</span>
             </div>
             <div class="flex items-center gap-4">
-                <span class="text-xs text-slate-500 font-medium">{{ user_email }}</span>
+                <span class="text-xs text-slate-500 font-medium">{{ user_email | default('Guest') }}</span>
                 <a href="/login" class="px-4 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-colors border border-slate-200">Sign Out</a>
             </div>
         </header>
@@ -104,7 +115,7 @@
         </div>
 
         <p id="cl-desc" class="text-xs text-slate-600 mb-4 leading-relaxed">
-          Under Section 5(1) of the DPDP Act 2023, ConsentLayer requires your explicit consent before loading analytics and marketing telemetry[cite: 3, 5].
+          Under Section 5(1) of the DPDP Act 2023, ConsentLayer requires your explicit consent before loading analytics and marketing telemetry.
         </p>
 
         <div class="space-y-2.5 border-y border-slate-100 py-3 mb-4 text-xs">
@@ -112,7 +123,7 @@
             <input type="checkbox" checked disabled class="mt-0.5" />
             <div>
               <strong id="cl-l-essential" class="text-slate-800 block">Core Infrastructure (Mandatory)</strong>
-              <p id="cl-d-essential" class="text-slate-500 text-[11px]">Authentication tokens, session security, and Section 33 audit log generation[cite: 5].</p>
+              <p id="cl-d-essential" class="text-slate-500 text-[11px]">Authentication tokens, session security, and Section 33 audit log generation.</p>
             </div>
           </label>
 
@@ -120,7 +131,7 @@
             <input type="checkbox" id="cl-consent-ga" class="mt-0.5" />
             <div>
               <strong id="cl-l-analytics" class="text-slate-800 block">Telemetry & Usage (Google Analytics 4)</strong>
-              <p id="cl-d-analytics" class="text-slate-500 text-[11px]">Aggregated analytics to improve audit processing performance[cite: 5].</p>
+              <p id="cl-d-analytics" class="text-slate-500 text-[11px]">Aggregated analytics to improve audit processing performance.</p>
             </div>
           </label>
 
@@ -128,7 +139,7 @@
             <input type="checkbox" id="cl-consent-meta" class="mt-0.5" />
             <div>
               <strong id="cl-l-marketing" class="text-slate-800 block">Conversion Attribution (Meta Pixel)</strong>
-              <p id="cl-d-marketing" class="text-slate-500 text-[11px]">Conversion tracking for DPDP diagnostic lab audit outreach campaigns[cite: 5].</p>
+              <p id="cl-d-marketing" class="text-slate-500 text-[11px]">Conversion tracking for DPDP diagnostic lab audit outreach campaigns.</p>
             </div>
           </label>
         </div>

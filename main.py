@@ -1,6 +1,6 @@
 import json
 import os
-from fastapi import FastAPI, Request, Depends
+from fastapi import FastAPI, Request, Depends, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
@@ -147,3 +147,45 @@ async def blog_detail(request: Request, slug: str):
         """, 
         status_code=404
     )
+
+# --- SEO INFRASTRUCTURE ---
+
+@app.get("/robots.txt", response_class=Response)
+async def robots_txt():
+    content = """User-agent: *
+Allow: /
+Disallow: /settings
+Disallow: /reports
+Disallow: /blog/new
+
+Sitemap: https://consentlayers.in/sitemap.xml
+"""
+    return Response(content=content, media_type="text/plain")
+
+@app.get("/sitemap.xml", response_class=Response)
+async def sitemap_xml():
+    articles = get_articles()
+    
+    # Core public pages
+    urls = [
+        "https://consentlayers.in/",
+        "https://consentlayers.in/blog",
+        "https://consentlayers.in/support",
+        "https://consentlayers.in/login"
+    ]
+    
+    # Dynamic SEO pages
+    for article in articles:
+        if "slug" in article:
+            urls.append(f"https://consentlayers.in/blog/{article['slug']}")
+            
+    # Generate XML
+    xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    
+    for url in urls:
+        xml_content += f"  <url>\n    <loc>{url}</loc>\n    <changefreq>weekly</changefreq>\n  </url>\n"
+        
+    xml_content += '</urlset>'
+    
+    return Response(content=xml_content, media_type="application/xml")
