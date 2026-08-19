@@ -42,6 +42,30 @@ def get_dynamic_articles():
     return []
 
 # ==========================================
+# AUTH HELPER
+# ==========================================
+def get_current_user_from_cookie(request: Request, db: Session = Depends(get_db)):
+    token = request.cookies.get("access_token")
+    if not token:
+        return None
+    try:
+        payload = jwt.decode(token, auth.SECRET_KEY, algorithms=[auth.ALGORITHM])
+        email: str = payload.get("sub")
+        if email is None:
+            return None
+            
+        user = db.query(models.User).filter(models.User.email == email).first()
+        
+        if user and user.has_paid and user.access_valid_until:
+            if datetime.datetime.utcnow() > user.access_valid_until:
+                user.has_paid = False
+                db.commit()
+                
+        return user
+    except jwt.PyJWTError:
+        return None
+
+# ==========================================
 # SEO & AI CRAWLER ROUTES
 # ==========================================
 @app.get("/sitemap.xml", include_in_schema=False)
@@ -99,7 +123,7 @@ def get_llms_txt():
     return FileResponse("llms.txt", media_type="text/plain")
 
 # ==========================================
-# PUBLIC ROUTES (Zero Login Required)
+# PUBLIC & BLOG ROUTES
 # ==========================================
 @app.get("/support", response_class=HTMLResponse)
 def public_support_page(request: Request, db: Session = Depends(get_db)):
@@ -143,7 +167,19 @@ def blog_whatsapp(request: Request):
         context={"request": request}
     )
 
-# Dynamic Long-Tail Catch-All Route
+# 1. Explicit /blog/new route must precede the dynamic catch-all route
+@app.get("/blog/new", response_class=HTMLResponse)
+def blog_editor_page(request: Request, db: Session = Depends(get_db)):
+    user = get_current_user_from_cookie(request, db)
+    if not user:
+        return RedirectResponse(url="/login", status_code=302)
+    return templates.TemplateResponse(
+        request=request, 
+        name="blog_editor.html", 
+        context={"request": request, "user_email": user.email}
+    )
+
+# 2. Dynamic Long-Tail Catch-All Route
 @app.get("/blog/{slug}", response_class=HTMLResponse)
 def dynamic_blog_post(slug: str, request: Request):
     articles = get_dynamic_articles()
@@ -151,8 +187,8 @@ def dynamic_blog_post(slug: str, request: Request):
     if not post:
         raise HTTPException(status_code=404, detail="Resource not found")
     return templates.TemplateResponse(
-        request=request,
-        name="blog_dynamic_post.html",
+        request=request, 
+        name="blog_dynamic_post.html", 
         context={"request": request, "article": post}
     )
 
@@ -163,30 +199,6 @@ app.include_router(labs.router)
 app.include_router(api.router)
 app.include_router(webhooks.router)
 app.include_router(auth.router) 
-
-# ==========================================
-# AUTH HELPER
-# ==========================================
-def get_current_user_from_cookie(request: Request, db: Session = Depends(get_db)):
-    token = request.cookies.get("access_token")
-    if not token:
-        return None
-    try:
-        payload = jwt.decode(token, auth.SECRET_KEY, algorithms=[auth.ALGORITHM])
-        email: str = payload.get("sub")
-        if email is None:
-            return None
-            
-        user = db.query(models.User).filter(models.User.email == email).first()
-        
-        if user and user.has_paid and user.access_valid_until:
-            if datetime.datetime.utcnow() > user.access_valid_until:
-                user.has_paid = False
-                db.commit()
-                
-        return user
-    except jwt.PyJWTError:
-        return None
 
 # ==========================================
 # AUTHENTICATED ROUTES
@@ -251,16 +263,5 @@ def reports_page(request: Request, db: Session = Depends(get_db)):
     return templates.TemplateResponse(
         request=request, 
         name="reports.html", 
-        context={"request": request, "user_email": user.email}
-    )
-
-@app.get("/blog/new", response_class=HTMLResponse)
-def blog_editor_page(request: Request, db: Session = Depends(get_db)):
-    user = get_current_user_from_cookie(request, db)
-    if not user:
-        return RedirectResponse(url="/login", status_code=302)
-    return templates.TemplateResponse(
-        request=request, 
-        name="blog_editor.html", 
         context={"request": request, "user_email": user.email}
     )
