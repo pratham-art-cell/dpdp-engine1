@@ -107,6 +107,14 @@ def public_support_page(request: Request, db: Session = Depends(get_db)):
         context={"request": request, "user_email": user_email}
     )
 
+@app.get("/blog", response_class=HTMLResponse)
+def blog_index(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="blog_index.html",
+        context={"request": request}
+    )
+
 @app.get("/blog/dpdp-act-healthcare-compliance-guide", response_class=HTMLResponse)
 def read_dpdp_master_guide(request: Request):
     return templates.TemplateResponse(
@@ -128,14 +136,6 @@ def blog_whatsapp(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="blog_whatsapp_compliance.html",
-        context={"request": request}
-    )
-
-@app.get("/blog", response_class=HTMLResponse)
-def blog_index(request: Request):
-    return templates.TemplateResponse(
-        request=request,
-        name="blog_dpdp_master_guide.html",
         context={"request": request}
     )
 
@@ -182,7 +182,7 @@ def home(request: Request, db: Session = Depends(get_db)):
 
     return templates.TemplateResponse(
         request=request, 
-        name="index.html",
+        name="index.html", 
         context={"request": request, "has_paid": user.has_paid, "user_email": user.email}
     )
 
@@ -243,7 +243,7 @@ def blog_editor_page(request: Request, db: Session = Depends(get_db)):
     if not user:
         return RedirectResponse(url="/login", status_code=302)
     return templates.TemplateResponse(
-        request=request,
-        name="blog_editor.html",
+        request=request, 
+        name="blog_editor.html", 
         context={"request": request, "user_email": user.email}
     )
