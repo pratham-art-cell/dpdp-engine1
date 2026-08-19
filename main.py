@@ -86,10 +86,29 @@ async def blog_studio(request: Request):
 
 @app.get("/blog/{slug}", response_class=HTMLResponse)
 async def blog_detail(request: Request, slug: str):
+    # Static legacy template fallback mapping
+    static_templates = {
+        "dpdp-act-healthcare-master-guide": "blog_dpdp_master_guide.html",
+        "whatsapp-compliance-clinics": "blog_whatsapp_compliance.html",
+        "section-5-notice-template": "blog_section_5_notice.html"
+    }
+    
+    if slug in static_templates and os.path.exists(os.path.join("templates", static_templates[slug])):
+        return templates.TemplateResponse(
+            request=request,
+            name=static_templates[slug],
+            context={"request": request}
+        )
+
+    # Dynamic JSON dataset lookup
     articles = get_articles()
     article = next((a for a in articles if a["slug"] == slug), None)
     if not article:
-        return HTMLResponse(content="<h1>Article Not Found</h1>", status_code=404)
+        return HTMLResponse(
+            content="<div style='text-align:center; padding:50px; font-family:sans-serif;'><h2>Article Not Found</h2><p><a href='/blog'>Return to Compliance Library</a></p></div>", 
+            status_code=404
+        )
+    
     return templates.TemplateResponse(
         request=request,
         name="blog_detail.html",

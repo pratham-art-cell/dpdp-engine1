@@ -1,5 +1,25 @@
 [
   {
+    "slug": "dpdp-act-healthcare-compliance-guide",
+    "title": "DPDP Act 2023: Complete Statutory Compliance Guide for Indian Healthcare & Diagnostic Centers",
+    "meta_description": "Comprehensive compliance roadmap for pathology laboratories, diagnostic chains, and clinics under the Digital Personal Data Protection Act 2023.",
+    "category": "Master Guide",
+    "read_time": "8 min read",
+    "published_date": "August 2026",
+    "summary": "Everything pathology lab owners, radiologists, and hospital administrators need to know about Section 5 multilingual notices, Section 6 consent withdrawal, and Section 33 audit log retention.",
+    "content": "<h2>1. Overview of DPDP 2023 for Healthcare</h2><p>The Digital Personal Data Protection (DPDP) Act 2023 imposes stringent statutory obligations on healthcare providers operating as Data Fiduciaries. Health records, diagnostic reports, and biometric identifiers are classified as sensitive personal data requiring verified lawful consent before processing.</p><h2>2. Section 5 Notice Obligations</h2><p>Prior to collecting patient phone numbers, Aadhaar, or diagnostic samples, clinics must serve a clear, itemized notice available in English and any 8th Schedule constitutional language applicable to their operational state.</p><h2>3. Section 33 Immutable Access Logs</h2><p>LIMS and EHR systems must maintain tamper-evident digital records documenting every access event by staff, laboratory technicians, and third-party referral doctors.</p>",
+    "faqs": [
+      {
+        "question": "Are small independent clinics exempt from DPDP compliance?",
+        "answer": "No. The DPDP Act 2023 applies to all entities processing digital personal data within India, regardless of annual turnover or patient volume."
+      },
+      {
+        "question": "What are the penalties for non-compliance?",
+        "answer": "Violations of personal data security safeguards under Section 33 can attract penalties up to ₹250 Crores per incident."
+      }
+    ]
+  },
+  {
     "slug": "dpdp-compliance-diagnostic-centres-maharashtra",
     "title": "DPDP Compliance Guide for Diagnostic Centres in Maharashtra (2026)",
     "meta_description": "Complete statutory guide for pathology labs and diagnostic centres in Maharashtra to achieve DPDP Act 2023 Section 5 and Section 33 compliance.",
