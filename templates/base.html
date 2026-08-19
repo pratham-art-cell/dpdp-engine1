@@ -1,10 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth bg-[#fcfdfd]">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}ConsentLayer | DPDP Compliance Engine{% endblock %}</title>
-
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -12,15 +8,10 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-MRDDXT7S');</script>
 
-    <!-- Include meta partials if present -->
     {% include "components/meta.html" ignore missing %}
     {% include "partials/meta.html" ignore missing %}
+    <title>{% block title %}ConsentLayer | DPDP Compliance{% endblock %}</title>
 
-    <!-- Synchronous Tailwind CDN & Styles -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="/static/styles.css">
-
-    <!-- DPDP Modal Styling -->
     <style>
       .cl-banner-bg {
         position: fixed;
@@ -57,11 +48,10 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body class="bg-[#fcfdfd] text-slate-800 antialiased font-sans h-screen flex overflow-hidden">
-    <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRDDXT7S"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-
-    <!-- Sidebar Navigation -->
+    
+    <!-- Sidebar -->
     <aside class="w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col h-full z-20 shadow-sm">
         <div class="p-6 border-b border-slate-100">
             <a href="/" class="flex items-center gap-2">
@@ -82,7 +72,7 @@
 
     <!-- Main Content Area -->
     <div class="flex-1 flex flex-col h-full relative overflow-hidden bg-[#fcfdfd]">
-        <!-- Top Header Bar -->
+        <!-- Header -->
         <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 flex-shrink-0">
             <div class="flex items-center gap-2">
                 <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-full text-xs font-bold uppercase tracking-wider">DPDP SEC 33 ENGINE</span>
@@ -99,7 +89,7 @@
         </main>
     </div>
 
-    <!-- DPDP Consent Banner Modal -->
+    <!-- DPDP Modal -->
     <div id="cl-consent-wrapper" class="cl-banner-bg" style="display:none;">
       <div class="cl-modal-card">
         <div class="flex justify-between items-start mb-3">
@@ -150,7 +140,6 @@
       </div>
     </div>
 
-    <!-- DPDP Script -->
     <script>
       const i18nConsent = {
         en: {
