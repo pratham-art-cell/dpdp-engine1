@@ -1,7 +1,26 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Login & Access Portal | ConsentLayer</title>
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MRDDXT7S');</script>
 
-{% block layout_body %}
-<div class="min-h-screen flex flex-col justify-between bg-[#fcfdfd] w-full">
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="bg-[#fcfdfd] text-slate-800 antialiased font-sans min-h-screen flex flex-col justify-between">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRDDXT7S"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
     <!-- Header Navigation -->
     <header class="border-b border-slate-200 bg-white/90 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-4xl mx-auto px-5 h-16 flex items-center justify-between">
@@ -14,7 +33,7 @@
         </div>
     </header>
 
-    <!-- Center Login Card -->
+    <!-- Center Card -->
     <main class="flex-1 flex items-center justify-center px-4 py-12">
         <div class="w-full max-w-md bg-white border border-slate-200 rounded-3xl p-8 sm:p-10 shadow-xl">
             <div class="text-center mb-6">
@@ -80,26 +99,26 @@
     <footer class="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
         <p>© 2026 ConsentLayer Platform. Built for Indian Healthcare DPDP Compliance.</p>
     </footer>
-</div>
 
-<script>
-    function switchAuthTab(mode) {
-        const loginForm = document.getElementById('login-form');
-        const signupForm = document.getElementById('signup-form');
-        const tabLogin = document.getElementById('tab-login');
-        const tabSignup = document.getElementById('tab-signup');
+    <script>
+        function switchAuthTab(mode) {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const tabLogin = document.getElementById('tab-login');
+            const tabSignup = document.getElementById('tab-signup');
 
-        if (mode === 'login') {
-            loginForm.classList.remove('hidden');
-            signupForm.classList.add('hidden');
-            tabLogin.className = "py-2 rounded-lg bg-white text-indigo-600 shadow-sm transition-all";
-            tabSignup.className = "py-2 rounded-lg text-slate-500 hover:text-slate-800 transition-all";
-        } else {
-            loginForm.classList.add('hidden');
-            signupForm.classList.remove('hidden');
-            tabSignup.className = "py-2 rounded-lg bg-white text-indigo-600 shadow-sm transition-all";
-            tabLogin.className = "py-2 rounded-lg text-slate-500 hover:text-slate-800 transition-all";
+            if (mode === 'login') {
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+                tabLogin.className = "py-2 rounded-lg bg-white text-indigo-600 shadow-sm transition-all";
+                tabSignup.className = "py-2 rounded-lg text-slate-500 hover:text-slate-800 transition-all";
+            } else {
+                loginForm.classList.add('hidden');
+                signupForm.classList.remove('hidden');
+                tabSignup.className = "py-2 rounded-lg bg-white text-indigo-600 shadow-sm transition-all";
+                tabLogin.className = "py-2 rounded-lg text-slate-500 hover:text-slate-800 transition-all";
+            }
         }
-    }
-</script>
-{% endblock %}
+    </script>
+</body>
+</html>
