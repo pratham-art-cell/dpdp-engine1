@@ -87,31 +87,51 @@ async def blog_studio(request: Request):
 
 @app.get("/blog/{slug}", response_class=HTMLResponse)
 async def blog_detail(request: Request, slug: str):
-    # Static legacy template fallback mapping
+    # Static legacy template mapping covering all variations
     static_templates = {
-        "dpdp-act-healthcare-master-guide": "blog_dpdp_master_guide.html",
+        # Section 5 Notice Templates
+        "dpdp-section-5-notice-pathology": "blog_section_5_notice.html",
+        "section-5-notice-template": "blog_section_5_notice.html",
+        "dpdp-section-5-notice": "blog_section_5_notice.html",
+        
+        # WhatsApp Compliance Templates
+        "whatsapp-medical-reports-dpdp-compliance": "blog_whatsapp_compliance.html",
         "whatsapp-compliance-clinics": "blog_whatsapp_compliance.html",
-        "section-5-notice-template": "blog_section_5_notice.html"
+        "whatsapp-lab-report-dispatch": "blog_whatsapp_compliance.html",
+        
+        # Healthcare Master Guide
+        "dpdp-act-healthcare-compliance-guide": "blog_dpdp_master_guide.html",
+        "dpdp-act-healthcare-master-guide": "blog_dpdp_master_guide.html"
     }
     
-    if slug in static_templates and os.path.exists(os.path.join("templates", static_templates[slug])):
+    # 1. Check if a dedicated static template exists
+    if slug in static_templates:
+        template_name = static_templates[slug]
+        if os.path.exists(os.path.join("templates", template_name)):
+            return templates.TemplateResponse(
+                request=request,
+                name=template_name,
+                context={"request": request}
+            )
+
+    # 2. Check programmatic JSON articles
+    articles = get_articles()
+    article = next((a for a in articles if a.get("slug") == slug), None)
+    if article:
         return templates.TemplateResponse(
             request=request,
-            name=static_templates[slug],
-            context={"request": request}
+            name="blog_detail.html",
+            context={"request": request, "article": article}
         )
 
-    # Dynamic JSON dataset lookup
-    articles = get_articles()
-    article = next((a for a in articles if a["slug"] == slug), None)
-    if not article:
-        return HTMLResponse(
-            content="<div style='text-align:center; padding:50px; font-family:sans-serif;'><h2>Article Not Found</h2><p><a href='/blog'>Return to Compliance Library</a></p></div>", 
-            status_code=404
-        )
-    
-    return templates.TemplateResponse(
-        request=request,
-        name="blog_detail.html",
-        context={"request": request, "article": article}
+    # 3. Fallback: Not Found
+    return HTMLResponse(
+        content="""
+        <div style="text-align:center; padding:80px 20px; font-family:system-ui, -apple-system, sans-serif; background:#fcfdfd; min-height:100vh;">
+            <h1 style="font-size:2rem; font-weight:800; color:#0f172a; margin-bottom:12px;">Article Not Found</h1>
+            <p style="color:#64748b; font-size:0.95rem; margin-bottom:24px;">The compliance guide you requested could not be located.</p>
+            <a href="/blog" style="display:inline-block; padding:10px 20px; background:#4f46e5; color:#ffffff; font-weight:700; text-decoration:none; border-radius:12px; font-size:0.875rem;">Return to Compliance Library</a>
+        </div>
+        """, 
+        status_code=404
     )
