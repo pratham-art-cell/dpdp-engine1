@@ -1,46 +1,69 @@
 # ==========================================
-# 1. Environment & Sensitive Secrets (CRITICAL)
+# Security & Environment Secrets
 # ==========================================
 .env
 .env.*
-!.env.example
+*.env
 *.pem
 *.key
 *.cert
 
 # ==========================================
-# 2. Local Database & SQLite Files (CRITICAL)
+# Databases & Local Data Stores
 # ==========================================
 *.db
 *.sqlite
 *.sqlite3
 dpdp_audit.db
+postgres_data/
 
 # ==========================================
-# 3. Python Virtual Environments & Cache
+# Python Bytecode & Cache
 # ==========================================
 __pycache__/
 *.py[cod]
 *$py.class
-.venv/
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ==========================================
+# Virtual Environments
+# ==========================================
 venv/
 env/
 ENV/
+env.bak/
+venv.bak/
 
 # ==========================================
-# 4. Uploaded Files & Temporary Data
-# ==========================================
-uploads/
-temp/
-*.csv
-*.xlsx
-*.pdf
-
-# ==========================================
-# 5. IDE & OS Generated Files
+# IDEs & Editor Configuration
 # ==========================================
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 .DS_Store
 Thumbs.db
+
+# ==========================================
+# Docker & System Logs
+# ==========================================
 *.log
+docker-compose.override.yml
+.docker/
