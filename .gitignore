@@ -4,6 +4,7 @@
 .env
 .env.*
 *.env
+!.env.example
 *.pem
 *.key
 *.cert
@@ -18,7 +19,7 @@ dpdp_audit.db
 postgres_data/
 
 # ==========================================
-# Python Bytecode & Cache
+# Python Bytecode, Tests & Cache
 # ==========================================
 __pycache__/
 *.py[cod]
@@ -40,10 +41,14 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+.pytest_cache/
+.coverage
+htmlcov/
 
 # ==========================================
 # Virtual Environments
 # ==========================================
+.venv
 venv/
 env/
 ENV/
