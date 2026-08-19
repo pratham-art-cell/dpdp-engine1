@@ -18,10 +18,14 @@ ALGORITHM = "HS256"
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    # Truncate strictly to 72 bytes to avoid bcrypt limit exceptions
+    truncated_password = plain_password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
+    return pwd_context.verify(truncated_password, hashed_password)
 
 def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
+    # Truncate strictly to 72 bytes to avoid bcrypt limit exceptions
+    truncated_password = password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
+    return pwd_context.hash(truncated_password)
 
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
@@ -37,7 +41,6 @@ def create_access_token(data: dict) -> str:
 @router.get("/signup", response_class=HTMLResponse)
 @router.get("/auth/signup", response_class=HTMLResponse)
 async def login_page(request: Request):
-    # STABILITY FIX: Added request=request
     return templates.TemplateResponse(
         request=request,
         name="login.html", 
@@ -73,7 +76,6 @@ async def signup(
     password: str = Form(...), 
     db: Session = Depends(get_db)
 ):
-    # SECURITY FIX: Do not allow blank or 1-character passwords
     if len(password) < 6:
         return RedirectResponse(url="/login?error=weak_password", status_code=302)
 
