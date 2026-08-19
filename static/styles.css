@@ -1,26 +1,27 @@
-/* static/styles.css */
 body {
-    background-color: #111827; /* Dark background */
-    color: #f1f5f9; /* Light text */
-    font-family: Arial, sans-serif;
+    background-color: #fcfdfd !important;
+    color: #1e293b !important;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-/* 🚀 LOGO ALIGNMENT (from last conversation) */
 .logo-link {
     display: flex;
     align-items: center;
-    gap: 12px; /* Space between icon and text */
+    gap: 12px;
     text-decoration: none;
     padding: 1rem;
 }
 
 .logo-icon {
-    height: 32px; /* Adjust height as needed */
+    height: 32px;
     width: auto;
 }
 
 .logo-text {
-    font-size: 1.25rem; /* Standard text size */
-    font-weight: 600; /* Medium-bold font */
-    color: #f1f5f9; /* Standard text color */
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.025em;
 }
