@@ -1,7 +1,9 @@
 from contextlib import asynccontextmanager
 import os
+import json
 import datetime
-from fastapi import FastAPI, Request, Depends, Form
+from pathlib import Path
+from fastapi import FastAPI, Request, Depends, Form, HTTPException
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import HTMLResponse, RedirectResponse, Response, PlainTextResponse, FileResponse
 from fastapi.templating import Jinja2Templates
@@ -23,54 +25,56 @@ app = FastAPI(title="ConsentLayer DPDP Engine", lifespan=lifespan)
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 os.makedirs("static", exist_ok=True)
+os.makedirs("data", exist_ok=True)
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 templates = Jinja2Templates(directory="templates")
+
+# Helper: Load Programmatic Articles
+def get_dynamic_articles():
+    data_path = Path("data/longtail_articles.json")
+    if data_path.exists():
+        try:
+            with open(data_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            return []
+    return []
 
 # ==========================================
 # SEO & AI CRAWLER ROUTES
 # ==========================================
 @app.get("/sitemap.xml", include_in_schema=False)
 def get_sitemap():
-    xml_content = """<?xml version="1.0" encoding="UTF-8"?>
-    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-       <url>
-          <loc>https://consentlayers.in/</loc>
-          <changefreq>daily</changefreq>
-          <priority>1.0</priority>
-       </url>
-       <url>
-          <loc>https://consentlayers.in/blog</loc>
-          <changefreq>weekly</changefreq>
-          <priority>0.9</priority>
-       </url>
-       <url>
-          <loc>https://consentlayers.in/blog/dpdp-act-healthcare-compliance-guide</loc>
-          <changefreq>weekly</changefreq>
-          <priority>0.9</priority>
-       </url>
-       <url>
-          <loc>https://consentlayers.in/blog/dpdp-section-5-notice-pathology</loc>
-          <changefreq>weekly</changefreq>
-          <priority>0.8</priority>
-       </url>
-       <url>
-          <loc>https://consentlayers.in/blog/whatsapp-medical-reports-dpdp-compliance</loc>
-          <changefreq>weekly</changefreq>
-          <priority>0.8</priority>
-       </url>
-       <url>
-          <loc>https://consentlayers.in/login</loc>
-          <changefreq>weekly</changefreq>
-          <priority>0.8</priority>
-       </url>
-       <url>
-          <loc>https://consentlayers.in/support</loc>
-          <changefreq>monthly</changefreq>
-          <priority>0.5</priority>
-       </url>
-    </urlset>
-    """
+    # Core static endpoints
+    urls = [
+        {"loc": "https://consentlayers.in/", "priority": "1.0", "changefreq": "daily"},
+        {"loc": "https://consentlayers.in/blog", "priority": "0.9", "changefreq": "weekly"},
+        {"loc": "https://consentlayers.in/blog/dpdp-act-healthcare-compliance-guide", "priority": "0.9", "changefreq": "weekly"},
+        {"loc": "https://consentlayers.in/blog/dpdp-section-5-notice-pathology", "priority": "0.8", "changefreq": "weekly"},
+        {"loc": "https://consentlayers.in/blog/whatsapp-medical-reports-dpdp-compliance", "priority": "0.8", "changefreq": "weekly"},
+        {"loc": "https://consentlayers.in/login", "priority": "0.8", "changefreq": "weekly"},
+        {"loc": "https://consentlayers.in/support", "priority": "0.5", "changefreq": "monthly"}
+    ]
+    
+    # Append dynamic long-tail post URLs
+    for post in get_dynamic_articles():
+        urls.append({
+            "loc": f"https://consentlayers.in/blog/{post['slug']}",
+            "priority": "0.7",
+            "changefreq": "weekly"
+        })
+    
+    xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+    for u in urls:
+        xml_content += f"""   <url>
+      <loc>{u['loc']}</loc>
+      <changefreq>{u['changefreq']}</changefreq>
+      <priority>{u['priority']}</priority>
+   </url>\n"""
+    xml_content += '</urlset>'
+    
     return Response(content=xml_content.strip(), media_type="application/xml")
 
 @app.get("/robots.txt", include_in_schema=False)
@@ -137,6 +141,19 @@ def blog_whatsapp(request: Request):
         request=request,
         name="blog_whatsapp_compliance.html",
         context={"request": request}
+    )
+
+# Dynamic Long-Tail Catch-All Route
+@app.get("/blog/{slug}", response_class=HTMLResponse)
+def dynamic_blog_post(slug: str, request: Request):
+    articles = get_dynamic_articles()
+    post = next((a for a in articles if a.get("slug") == slug), None)
+    if not post:
+        raise HTTPException(status_code=404, detail="Resource not found")
+    return templates.TemplateResponse(
+        request=request,
+        name="blog_dynamic_post.html",
+        context={"request": request, "article": post}
     )
 
 # ==========================================

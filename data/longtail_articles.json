@@ -1,0 +1,29 @@
+[
+  {
+    "slug": "dpdp-patient-consent-format-sample-pdf",
+    "title": "DPDP Patient Consent Form Format: Free Statutory Template (2026)",
+    "description": "Compliant DPDP Section 5 patient consent formats and notice templates tailored for Indian private clinics, OPD counters, and diagnostic labs.",
+    "read_time": "5 Min Read",
+    "category": "Templates & Downloads",
+    "target_keyword": "DPDP patient consent format sample PDF",
+    "content_html": "<p class='mb-4'>Indian private clinics and diagnostic centers must transition away from general registration waivers to structured, itemized Section 5 consent notices.</p><h3 class='text-xl font-bold mb-2'>Core Requirements for Clinical Consent Forms</h3><ul class='list-disc pl-5 mb-4 space-y-2'><li><strong>Unbundled Purpose Specification:</strong> Separate testing/diagnostics consent from research, promotional offers, or telemedicine marketing.</li><li><strong>Multilingual Availability:</strong> Provide options in English and regional languages under the 8th Schedule of the Indian Constitution.</li><li><strong>Clear DPO & Grievance Contact:</strong> State the physical clinic address, Grievance Officer name, and designated email.</li><li><strong>Unconditional Right of Withdrawal:</strong> Specify that patients may withdraw processing permissions as easily as they granted them.</li></ul>"
+  },
+  {
+    "slug": "whatsapp-medical-report-sharing-dpdp-legality",
+    "title": "Is Sending Medical Reports via WhatsApp Legal Under the DPDP Act 2023?",
+    "description": "Statutory analysis of staff mobile WhatsApp usage for patient lab reports and technical safeguards required under Section 8.",
+    "read_time": "6 Min Read",
+    "category": "Security & Risk",
+    "target_keyword": "Is WhatsApp report sharing legal under DPDP Act 2023",
+    "content_html": "<p class='mb-4'>Transmitting raw diagnostic PDFs over non-enterprise WhatsApp accounts creates significant Section 8 compliance liabilities for pathology labs.</p><h3 class='text-xl font-bold mb-2'>Key Vulnerabilities in Direct PDF Dispatch</h3><ul class='list-disc pl-5 mb-4 space-y-2'><li>Personal staff devices storing unencrypted patient health records locally.</li><li>Auto-syncing to non-compliant cloud backups (Google Drive, iCloud).</li><li>Lack of verifiable audit trails proving recipient identity before file access.</li></ul><p class='mb-4'>Under Section 8(5), Data Fiduciaries must implement reasonable security safeguards such as short-lived, OTP-authenticated download links rather than raw PDF attachments.</p>"
+  },
+  {
+    "slug": "dpdp-act-section-8-blood-test-record-retention",
+    "title": "DPDP Act Section 8: Health Data Retention & Erasure Periods for Labs",
+    "description": "How Indian pathology centers reconcile mandatory DPDP Act data erasure rules with NABH and statutory clinical establishment record retention laws.",
+    "read_time": "8 Min Read",
+    "category": "Data Governance",
+    "target_keyword": "DPDP Act Section 8 retention periods for blood test records",
+    "content_html": "<p class='mb-4'>Pathology centers face an apparent statutory conflict between clinical record preservation requirements and Section 8(7) DPDP Act data erasure mandates.</p><h3 class='text-xl font-bold mb-2'>Harmonizing Retention Rules</h3><ul class='list-disc pl-5 mb-4 space-y-2'><li><strong>Clinical Records:</strong> Retained in line with national/state clinical establishment guidelines (typically 3–5 years).</li><li><strong>Ancillary Digital Footprints:</strong> Non-clinical tracking cookies, marketing phone lists, and temporary intake logs must be erased when the specific purpose is served.</li><li><strong>Purpose Limitation:</strong> Once the retention period lapses, diagnostic data must be permanently erased or anonymized.</li></ul>"
+  }
+]
