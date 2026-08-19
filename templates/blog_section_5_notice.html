@@ -1,71 +1,147 @@
-{% extends "base.html" %}
-
-{% block schema %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "@id": "https://consentlayers.in/blog/dpdp-section-5-notice-pathology#article",
-  "headline": "DPDP Section 5 Notice Requirements for Indian Pathology Labs",
-  "image": "https://consentlayers.in/static/logo.png",
-  "datePublished": "2026-08-19T00:00:00+05:30",
-  "dateModified": "2026-08-19T00:00:00+05:30",
-  "mainEntityOfPage": "https://consentlayers.in/blog/dpdp-section-5-notice-pathology",
-  "author": {
-    "@type": "Organization",
-    "name": "ConsentLayer Compliance Research Group",
-    "url": "https://consentlayers.in"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "ConsentLayer",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://consentlayers.in/static/logo.png"
-    }
-  }
-}
-</script>
-{% endblock %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>DPDP Section 5 Notice Requirements for Indian Pathology Labs</title>
-    <meta name="description" content="Learn how Indian pathology labs must structure multilingual DPDP Section 5 privacy notices to collect patient consent legally in 2026.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DPDP Section 5 Notice Compliance for Pathology Labs & Clinics | ConsentLayer</title>
+    <meta name="description" content="Step-by-step implementation guide for DPDP Act 2023 Section 5 consent notices in Indian pathology labs, diagnostic centers, and clinics.">
     <link rel="canonical" href="https://consentlayers.in/blog/dpdp-section-5-notice-pathology">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/styles.css">
     
-    <!-- OpenGraph & Twitter Cards -->
-    <meta property="og:title" content="DPDP Section 5 Notice Requirements for Pathology Labs">
-    <meta property="og:description" content="Ensure your patient registration forms meet DPDP Section 5 language and itemization standards.">
-    <meta property="og:url" content="https://consentlayers.in/blog/dpdp-section-5-notice-pathology">
-    <meta property="og:image" content="https://consentlayers.in/static/logo.png">
-    <meta name="twitter:card" content="summary_large_image">
+    <!-- JSON-LD Structured Data Graph -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://consentlayers.in/blog/dpdp-section-5-notice-pathology#article",
+          "isPartOf": {
+            "@type": "WebPage",
+            "@id": "https://consentlayers.in/blog/dpdp-section-5-notice-pathology"
+          },
+          "headline": "DPDP Section 5 Notice Compliance for Pathology Labs & Clinics",
+          "description": "Step-by-step implementation guide for DPDP Act 2023 Section 5 consent notices in Indian pathology labs, diagnostic centers, and clinics.",
+          "mainEntityOfPage": "https://consentlayers.in/blog/dpdp-section-5-notice-pathology",
+          "datePublished": "2026-08-19T10:00:00+05:30",
+          "dateModified": "2026-08-19T12:00:00+05:30",
+          "publisher": {
+            "@type": "Organization",
+            "name": "ConsentLayer",
+            "url": "https://consentlayers.in"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://consentlayers.in/blog/dpdp-section-5-notice-pathology#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What must be included in a Section 5 Notice for a pathology lab?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A Section 5 Notice must clearly specify the exact personal data collected, the purpose of processing, how data principals can exercise their rights, and details for lodging complaints with the Data Protection Board of India."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can consent be bundled into a generic test requisition form?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. Under the DPDP Act 2023, consent must be unbundled, granular, free, specific, informed, and an unambiguous indication of the individual's wishes."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
 </head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-blue-500 selection:text-white">
 
-<div class="max-w-4xl mx-auto py-12">
-    <nav class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-6"><a href="/blog" class="hover:text-primary">Blog</a> / Section 5 Notices</nav>
-    <h1 class="text-4xl font-black text-slate-900 mb-6">DPDP Section 5 Notice Requirements for Indian Pathology Labs</h1>
-    
-    <div class="prose prose-slate max-w-none text-lg text-slate-700 space-y-6">
-        <p>When a patient walks into a diagnostic center, handing over an Aadhaar card and a phone number is standard practice. Under the DPDP Act, collecting this data without a <strong>Section 5 Compliant Notice</strong> is a direct regulatory violation.</p>
-        
-        <h2 class="text-2xl font-bold text-slate-900 mt-8">The Multilingual Mandate</h2>
-        <p>Section 5 of the DPDP Act states that the Data Principal (the patient) must have the option to view the privacy notice in English or any of the 22 languages specified in the Eighth Schedule of the Constitution. A Hindi-speaking patient in Madhya Pradesh cannot be legally bound by an English-only consent form.</p>
-        
-        <h2 class="text-2xl font-bold text-slate-900 mt-8">Itemization of Purpose</h2>
-        <p>Your notice must explicitly state:</p>
-        <ul class="list-disc pl-6 space-y-2">
-            <li>What personal data is being collected (e.g., blood group, phone number).</li>
-            <li>The exact purpose of processing (e.g., generating diagnostic reports vs. marketing).</li>
-            <li>The contact details of your clinic's Data Protection Officer or grievance redressal mechanism.</li>
-        </ul>
-
-        <div class="p-6 bg-indigo-50 border-l-4 border-indigo-600 rounded-r-xl my-8">
-            <h4 class="font-bold text-indigo-900">Link to the Master Framework</h4>
-            <p class="text-sm text-indigo-800 mt-2">Drafting these notices manually is error-prone. To see how Section 5 ties into Section 33 financial penalties and overall clinic operations, read our <a href="/blog/dpdp-act-healthcare-compliance-guide" class="underline font-bold">Complete 2026 DPDP Healthcare Master Guide</a>.</p>
+    <!-- Header Navigation -->
+    <header class="border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2 font-bold text-xl text-slate-900 tracking-tight">
+                <span class="text-blue-600">🛡️</span> Consent<span class="text-blue-600">Layer</span>
+            </a>
+            <div class="flex items-center gap-4 text-sm font-medium">
+                <a href="/blog" class="text-slate-600 hover:text-slate-900 transition-colors">Compliance Library</a>
+                <a href="/login" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors">Clinic Login</a>
+            </div>
         </div>
-        
-        <p>By automating this workflow with <a href="/" class="text-indigo-600 font-bold">ConsentLayer</a>, your reception desk can present perfectly compliant, multilingual digital consent forms on a tablet or via SMS link in seconds.</p>
-    </div>
-</div>
-{% endblock %}
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Breadcrumb Navigation -->
+        <nav class="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-6">
+            <a href="/" class="hover:text-blue-600 transition-colors">Home</a>
+            <span>/</span>
+            <a href="/blog" class="hover:text-blue-600 transition-colors">Blog</a>
+            <span>/</span>
+            <span class="text-slate-600">Section 5 Notice</span>
+        </nav>
+
+        <article class="bg-white border border-slate-200 rounded-2xl p-8 sm:p-12 shadow-sm space-y-8">
+            <!-- Article Header -->
+            <header class="space-y-4 border-b border-slate-100 pb-8">
+                <span class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold rounded-full uppercase tracking-wider">Statutory Mandate</span>
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight">
+                    DPDP Section 5 Notice Requirements for Pathology Labs & Diagnostic Centers
+                </h1>
+                <div class="flex items-center gap-4 text-xs text-slate-500 font-medium">
+                    <span>Published: August 19, 2026</span>
+                    <span>•</span>
+                    <span>5 Min Read</span>
+                    <span>•</span>
+                    <span>Legal & Technical Review</span>
+                </div>
+            </header>
+
+            <!-- Content Body -->
+            <div class="prose max-w-none text-slate-700 space-y-6 leading-relaxed">
+                <p class="text-lg text-slate-600 font-medium leading-relaxed">
+                    Under Section 5 of the Digital Personal Data Protection (DPDP) Act 2023, every healthcare entity collecting patient data must provide an itemized, clear notice prior to or at the time of seeking consent.
+                </p>
+
+                <h2 class="text-2xl font-bold text-slate-900 pt-4">Mandatory Elements of a Compliant Section 5 Notice</h2>
+                <ul class="list-disc pl-6 space-y-2 text-slate-700">
+                    <li><strong>Specific Data Categories:</strong> Detailed enumeration of biometric, demographic, and medical test parameters being processed.</li>
+                    <li><strong>Specified Purpose:</strong> Clear purpose limitation solely for diagnostic testing, billing, and report dispatch.</li>
+                    <li><strong>Exercise of Rights:</strong> Direct pathways for the patient to access, correct, or withdraw consent at any time.</li>
+                    <li><strong>Grievance Redressal:</strong> Name and direct contact credentials of your clinic's designated Data Protection Officer (DPO).</li>
+                    <li><strong>Board Complaints:</strong> Instructions on how the patient can file complaints with the Data Protection Board of India.</li>
+                </ul>
+
+                <div class="my-6 p-6 bg-slate-50 border-l-4 border-blue-600 rounded-r-xl">
+                    <h3 class="font-bold text-slate-900 text-lg mb-2">Multilingual Notice Provision</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        Section 5(3) mandates that the notice must be available in English as well as any of the 22 languages specified in the Eighth Schedule to the Indian Constitution. ConsentLayer handles real-time multilingual notice rendering dynamically.
+                    </p>
+                </div>
+            </div>
+
+            <!-- CTA Card -->
+            <div class="mt-12 p-8 bg-gradient-to-br from-blue-600 to-indigo-700 text-white rounded-2xl shadow-md space-y-4">
+                <h3 class="text-2xl font-bold">Automate Section 5 Notices at Your Front Desk</h3>
+                <p class="text-blue-100 text-sm leading-relaxed max-w-xl">
+                    Deploy ConsentLayer's digital notice workflow on your clinic tablet or reception counter in under 5 minutes.
+                </p>
+                <div class="pt-2">
+                    <a href="/login" class="inline-block px-6 py-3 bg-white text-blue-700 hover:bg-blue-50 font-bold text-sm rounded-xl transition-colors shadow-sm">
+                        Start Free Healthcare Pilot
+                    </a>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 bg-white py-8 mt-12 text-center text-xs text-slate-500">
+        <p>© 2026 ConsentLayer Platform. Built for Indian Healthcare DPDP Compliance.</p>
+    </footer>
+
+</body>
+</html>

@@ -28,7 +28,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 # ==========================================
-# SEO: SITEMAP, ROBOTS.TXT & LLMS.TXT
+# SEO & AI CRAWLER ROUTES
 # ==========================================
 @app.get("/sitemap.xml", include_in_schema=False)
 def get_sitemap():
@@ -38,6 +38,11 @@ def get_sitemap():
           <loc>https://consentlayers.in/</loc>
           <changefreq>daily</changefreq>
           <priority>1.0</priority>
+       </url>
+       <url>
+          <loc>https://consentlayers.in/blog</loc>
+          <changefreq>weekly</changefreq>
+          <priority>0.9</priority>
        </url>
        <url>
           <loc>https://consentlayers.in/blog/dpdp-act-healthcare-compliance-guide</loc>
@@ -51,11 +56,6 @@ def get_sitemap():
        </url>
        <url>
           <loc>https://consentlayers.in/blog/whatsapp-medical-reports-dpdp-compliance</loc>
-          <changefreq>weekly</changefreq>
-          <priority>0.8</priority>
-       </url>
-       <url>
-          <loc>https://consentlayers.in/blog</loc>
           <changefreq>weekly</changefreq>
           <priority>0.8</priority>
        </url>
@@ -80,9 +80,11 @@ Allow: /
 Allow: /blog
 Allow: /blog/*
 Allow: /llms.txt
+Allow: /support
 Disallow: /api/
 Disallow: /settings
 Disallow: /reports
+Disallow: /blog/new
 
 Sitemap: https://consentlayers.in/sitemap.xml
 """
@@ -90,12 +92,21 @@ Sitemap: https://consentlayers.in/sitemap.xml
 
 @app.get("/llms.txt", include_in_schema=False)
 def get_llms_txt():
-    """Serves the Generative Engine Optimization file for AI Crawlers."""
     return FileResponse("llms.txt", media_type="text/plain")
 
 # ==========================================
-# PUBLIC BLOG ROUTES (No Authentication Required)
+# PUBLIC ROUTES (Zero Login Required)
 # ==========================================
+@app.get("/support", response_class=HTMLResponse)
+def public_support_page(request: Request, db: Session = Depends(get_db)):
+    user = get_current_user_from_cookie(request, db)
+    user_email = user.email if user else ""
+    return templates.TemplateResponse(
+        request=request, 
+        name="support.html", 
+        context={"request": request, "user_email": user_email}
+    )
+
 @app.get("/blog/dpdp-act-healthcare-compliance-guide", response_class=HTMLResponse)
 def read_dpdp_master_guide(request: Request):
     return templates.TemplateResponse(
@@ -161,7 +172,7 @@ def get_current_user_from_cookie(request: Request, db: Session = Depends(get_db)
         return None
 
 # ==========================================
-# AUTHENTICATED / MAIN ROUTES
+# AUTHENTICATED ROUTES
 # ==========================================
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request, db: Session = Depends(get_db)):
@@ -226,13 +237,13 @@ def reports_page(request: Request, db: Session = Depends(get_db)):
         context={"request": request, "user_email": user.email}
     )
 
-@app.get("/support", response_class=HTMLResponse)
-def support_page(request: Request, db: Session = Depends(get_db)):
+@app.get("/blog/new", response_class=HTMLResponse)
+def blog_editor_page(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_from_cookie(request, db)
-    if not user: 
+    if not user:
         return RedirectResponse(url="/login", status_code=302)
     return templates.TemplateResponse(
-        request=request, 
-        name="support.html", 
+        request=request,
+        name="blog_editor.html",
         context={"request": request, "user_email": user.email}
     )
