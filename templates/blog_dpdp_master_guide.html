@@ -27,7 +27,7 @@
     <meta name="twitter:title" content="DPDP Act Healthcare Compliance Master Guide (2026)">
     <meta name="twitter:description" content="Prevent Section 33 penalties up to Rs 250 Crores. Step-by-step DPDP compliance manual for Indian clinics and pathology labs.">
 
-    <!-- JSON-LD Structured Data: Complete Article & FAQ Schema -->
+    <!-- JSON-LD Structured Data: Complete Article & FAQ Schema Graph -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -36,14 +36,11 @@
           "@type": "Article",
           "@id": "https://consentlayers.in/blog/dpdp-act-healthcare-compliance-guide#article",
           "isPartOf": {
-            "@type": "WebSite",
-            "@id": "https://consentlayers.in/#website",
-            "name": "ConsentLayer",
-            "url": "https://consentlayers.in"
+            "@type": "WebPage",
+            "@id": "https://consentlayers.in/blog/dpdp-act-healthcare-compliance-guide"
           },
           "headline": "DPDP Act Compliance Guide for Indian Healthcare (2026): Clinics, Diagnostic Labs & Hospitals",
           "description": "Complete operational and legal compliance breakdown for healthcare providers handling digital patient health records under the DPDP Act.",
-          "image": "https://consentlayers.in/static/logo.png",
           "inLanguage": "en-IN",
           "mainEntityOfPage": "https://consentlayers.in/blog/dpdp-act-healthcare-compliance-guide",
           "author": {
@@ -54,13 +51,10 @@
           "publisher": {
             "@type": "Organization",
             "name": "ConsentLayer",
-            "logo": {
-              "@type": "ImageObject",
-              "url": "https://consentlayers.in/static/logo.png"
-            }
+            "url": "https://consentlayers.in"
           },
           "datePublished": "2026-08-19T00:00:00+05:30",
-          "dateModified": "2026-08-19T00:00:00+05:30"
+          "dateModified": "2026-08-19T12:00:00+05:30"
         },
         {
           "@type": "FAQPage",
@@ -71,7 +65,7 @@
               "name": "Does the DPDP Act apply to small single-doctor clinics and local pathology labs?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. Unlike the EU GDPR, the Indian DPDP Act does not provide general exemptions based on turnover or employee count. Any entity processing digital personal health data is classified as a Data Fiduciary and must comply."
+                "text": "Yes. The DPDP Act does not provide exemptions based on turnover or employee count. Any entity processing digital personal health data is classified as a Data Fiduciary and must comply."
               }
             },
             {
@@ -98,6 +92,7 @@
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body class="bg-[#fcfdfd] text-slate-800 antialiased font-sans">
 
@@ -105,6 +100,19 @@
     <div class="h-1.5 w-full bg-slate-200 fixed top-0 left-0 z-50">
         <div id="readProgress" class="h-1.5 bg-indigo-600 w-0 transition-all duration-75"></div>
     </div>
+
+    <!-- Header Navigation -->
+    <header class="border-b border-slate-200 bg-white/90 backdrop-blur-md sticky top-0 z-40">
+        <div class="max-w-4xl mx-auto px-5 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2 font-bold text-xl text-slate-900 tracking-tight">
+                <span class="text-indigo-600">🛡️</span> Consent<span class="text-indigo-600">Layer</span>
+            </a>
+            <div class="flex items-center gap-4 text-sm font-medium">
+                <a href="/blog" class="text-slate-600 hover:text-indigo-600 font-semibold transition-colors">Compliance Library</a>
+                <a href="/login" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition-colors shadow-sm">Clinic Login</a>
+            </div>
+        </div>
+    </header>
 
     <!-- Main Container -->
     <main class="max-w-4xl mx-auto px-5 py-12 lg:py-16">
@@ -115,7 +123,7 @@
             <span>/</span>
             <a href="/blog" class="hover:text-indigo-600 transition-colors">Compliance Library</a>
             <span>/</span>
-            <span class="text-indigo-600">DPDP Healthcare Guide</span>
+            <span class="text-indigo-600">Master Guide</span>
         </nav>
 
         <!-- Article Header -->
@@ -179,7 +187,7 @@
             <p>
                 To understand your clinic's legal exposure, you must master the statutory definitions defined by the Act:
             </p>
-            <ul>
+            <ul class="list-disc pl-6 space-y-2">
                 <li><strong>Data Fiduciary (Your Clinic / Lab):</strong> Any person or legal entity that determines the purpose and means of processing personal data. If your clinic registers patients or your lab processes blood samples, <em>you</em> are the Data Fiduciary.</li>
                 <li><strong>Data Principal (The Patient):</strong> The individual to whom the personal health data relates.</li>
                 <li><strong>Data Processor (Your EMR / Software Vendor):</strong> Third-party software providers (such as cloud EHR software, SMS gateways, or accounting tools) who process data on your behalf. <em>Crucial Note:</em> You remain legally liable if your vendor experiences a data breach due to your lack of contractual oversight.</li>
@@ -254,7 +262,7 @@
 
             <h3 class="text-xl font-bold text-slate-900">A. The "WhatsApp Lab Report" Vulnerability</h3>
             <p>
-                Sending diagnostic PDF files directly to patient WhatsApp numbers from unmanaged personal devices violates DPDP security mandates. WhatsApp backups stored on personal cloud storage accounts constitute an unauthorized data transfer outside controlled enterprise access controls.
+                Sending diagnostic PDF files directly to patient WhatsApp numbers from unmanaged personal devices violates DPDP security mandates. Review our dedicated security teardown on <a href="/blog/whatsapp-medical-reports-dpdp-compliance" class="text-indigo-600 font-semibold underline hover:text-indigo-800">WhatsApp Medical Report Risks & Compliance Solutions</a> to see how to prevent unlogged data leakage.
             </p>
 
             <h3 class="text-xl font-bold text-slate-900">B. Bundled & Pre-Ticked Consent</h3>
@@ -264,7 +272,7 @@
 
             <h3 class="text-xl font-bold text-slate-900">C. Lack of Multilingual Privacy Notices</h3>
             <p>
-                Notice must be accessible in English and all <strong>22 scheduled languages</strong> recognized under the 8th Schedule of the Indian Constitution. If a clinic in Madhya Pradesh or Maharashtra presents an English-only notice to a Hindi or Marathi speaker, that consent is legally void.
+                Notice must be accessible in English and all <strong>22 scheduled languages</strong> recognized under the 8th Schedule of the Indian Constitution. Clinics must implement the exact itemized mandates explained in our step-by-step manual on <a href="/blog/dpdp-section-5-notice-pathology" class="text-indigo-600 font-semibold underline hover:text-indigo-800">DPDP Section 5 Notice Compliance for Pathology Labs & Diagnostic Centers</a>.
             </p>
 
             <h3 class="text-xl font-bold text-slate-900">D. Lack of Role-Based Staff Access (RBAC)</h3>
@@ -278,53 +286,12 @@
             </p>
 
             <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                5. The Operational DPDP Checklist for Healthcare Practitioners
-            </h2>
-
-            <div class="space-y-4 my-6">
-                <div class="p-5 rounded-xl border border-slate-200 bg-white flex items-start gap-4">
-                    <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs mt-0.5">✓</div>
-                    <div>
-                        <h4 class="font-bold text-slate-900 text-base">Separate Clinical Consent from Marketing Consent</h4>
-                        <p class="text-sm text-slate-600 mt-1">Implement digital consent collection at OPD registration that isolates medical treatment from promotional communications.</p>
-                    </div>
-                </div>
-
-                <div class="p-5 rounded-xl border border-slate-200 bg-white flex items-start gap-4">
-                    <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs mt-0.5">✓</div>
-                    <div>
-                        <h4 class="font-bold text-slate-900 text-base">Deploy Immutable Data Access Logging</h4>
-                        <p class="text-sm text-slate-600 mt-1">Ensure every instance of viewing, exporting, or printing patient medical history records is timestamped with user ID authentication.</p>
-                    </div>
-                </div>
-
-                <div class="p-5 rounded-xl border border-slate-200 bg-white flex items-start gap-4">
-                    <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs mt-0.5">✓</div>
-                    <div>
-                        <h4 class="font-bold text-slate-900 text-base">Establish Patient Grievance Channels</h4>
-                        <p class="text-sm text-slate-600 mt-1">Publish an operational Data Protection Officer (DPO) or Grievance Redressal contact point on your website and clinic counters.</p>
-                    </div>
-                </div>
-
-                <div class="p-5 rounded-xl border border-slate-200 bg-white flex items-start gap-4">
-                    <div class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs mt-0.5">✓</div>
-                    <div>
-                        <h4 class="font-bold text-slate-900 text-base">Execute Data Processing Agreements (DPAs) with Vendors</h4>
-                        <p class="text-sm text-slate-600 mt-1">Audit your EHR providers, lab software platforms, and hosting servers to ensure contractual alignment with DPDP standards.</p>
-                    </div>
-                </div>
-            </div>
-
-            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                6. How ConsentLayer Automates Your Clinic's Compliance
+                5. How ConsentLayer Automates Your Clinic's Compliance
             </h2>
             <p>
                 Manual audits conducted by enterprise legal firms cost several lakhs of rupees and quickly become outdated as your clinic's software stack evolves. <strong><a href="/" class="text-indigo-600 font-semibold underline hover:text-indigo-800 transition">ConsentLayer</a></strong> was engineered specifically to solve this problem for Indian healthcare providers.
             </p>
-            <p>
-                By connecting to your existing patient management workflows, ConsentLayer provides:
-            </p>
-            <ul>
+            <ul class="list-disc pl-6 space-y-2">
                 <li><strong>Automated Privacy Audits:</strong> Continuous scanning of patient record repositories for exposed endpoints, missing consent records, and access anomalies.</li>
                 <li><strong>Section 33 Liability Modeling:</strong> Real-time calculations of your clinic's financial penalty exposure across every operational department.</li>
                 <li><strong>Compliant Multilingual Consent Engine:</strong> Ready-to-deploy digital consent forms aligned with the Constitution's 8th Schedule languages.</li>
@@ -333,8 +300,25 @@
 
         </article>
 
+        <!-- Interconnected Compliance Topic Mesh -->
+        <div id="library" class="mt-14 pt-10 border-t border-slate-200">
+            <h3 class="text-2xl font-extrabold text-slate-900 mb-6">Explore the Complete DPDP Compliance Library</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <a href="/blog/dpdp-section-5-notice-pathology" class="p-6 border border-slate-200 rounded-2xl hover:border-indigo-500 hover:bg-indigo-50/40 transition-all group bg-white shadow-sm">
+                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Statutory Notice</span>
+                    <h4 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 mt-2">Section 5 Notice Guide for Labs →</h4>
+                    <p class="text-sm text-slate-600 mt-1">Itemized notice rules, 8th schedule languages, and audit proofs.</p>
+                </a>
+                <a href="/blog/whatsapp-medical-reports-dpdp-compliance" class="p-6 border border-slate-200 rounded-2xl hover:border-indigo-500 hover:bg-indigo-50/40 transition-all group bg-white shadow-sm">
+                    <span class="text-xs font-bold text-amber-600 uppercase tracking-wider">Security & Safeguards</span>
+                    <h4 class="text-lg font-bold text-slate-900 group-hover:text-indigo-600 mt-2">WhatsApp Report Compliance →</h4>
+                    <p class="text-sm text-slate-600 mt-1">Preventing data leakage and securing PDF dispatch channels.</p>
+                </a>
+            </div>
+        </div>
+
         <!-- Structured FAQ Section for Search Engine Snippets -->
-        <section class="mt-16 pt-10 border-t border-slate-200">
+        <section class="mt-14 pt-10 border-t border-slate-200">
             <h3 class="text-2xl font-extrabold text-slate-900 mb-6">Frequently Asked Questions (FAQs)</h3>
 
             <div class="space-y-4">
@@ -384,6 +368,10 @@
         </div>
 
     </main>
+
+    <footer class="border-t border-slate-200 bg-white py-8 mt-12 text-center text-xs text-slate-500">
+        <p>© 2026 ConsentLayer Platform. Built for Indian Healthcare DPDP Compliance.</p>
+    </footer>
 
     <!-- Reading Progress Bar Script -->
     <script>
