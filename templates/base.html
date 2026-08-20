@@ -1,15 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth bg-[#fcfdfd]">
 <head>
-    <!-- Google Tag Manager (Optimized Async) -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-MRDDXT7S');</script>
-
-    {% include "components/meta.html" ignore missing %}
-    {% include "partials/meta.html" ignore missing %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>{% block title %}ConsentLayer | DPDP Compliance{% endblock %}</title>
 
@@ -23,48 +16,30 @@
     <link rel="canonical" href="https://consentlayers.in{{ request.url.path if request else '/' }}">
     {% endblock %}
 
+    <!-- ⚡ THE ONLY CSS FILE YOU NEED ⚡ -->
+    <link rel="stylesheet" href="/static/styles.css">
+
+    <!-- Deferred Google Tag Manager -->
+    <script defer>
+      window.addEventListener('load', function() {
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-MRDDXT7S');
+      });
+    </script>
+
     <style>
-      .cl-banner-bg {
-        position: fixed;
-        inset: 0;
-        background: rgba(15, 23, 42, 0.75);
-        backdrop-filter: blur(6px);
-        z-index: 999999;
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        padding: 16px;
-      }
-      .cl-modal-card {
-        background: #ffffff;
-        width: 100%;
-        max-width: 680px;
-        border-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        border: 1px solid #e2e8f0;
-        font-family: system-ui, -apple-system, sans-serif;
-      }
-      .cl-badge {
-        font-size: 11px;
-        font-weight: 700;
-        color: #3730a3;
-        background: #eef2ff;
-        padding: 2px 8px;
-        border-radius: 9999px;
-        text-transform: uppercase;
-        border: 1px solid #c7d2fe;
-      }
-      @media (min-width: 640px) {
-          .cl-banner-bg { padding: 24px; }
-          .cl-modal-card { padding: 24px; }
-      }
+      .cl-banner-bg { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(6px); z-index: 999999; display: flex; align-items: flex-end; justify-content: center; padding: 16px; }
+      .cl-modal-card { background: #ffffff; width: 100%; max-width: 680px; border-radius: 16px; padding: 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border: 1px solid #e2e8f0; font-family: system-ui, -apple-system, sans-serif; }
+      .cl-badge { font-size: 11px; font-weight: 700; color: #3730a3; background: #eef2ff; padding: 2px 8px; border-radius: 9999px; text-transform: uppercase; border: 1px solid #c7d2fe; }
+      @media (min-width: 640px) { .cl-banner-bg { padding: 24px; } .cl-modal-card { padding: 24px; } }
     </style>
     {% block extra_head %}{% endblock %}
 </head>
 <body class="bg-[#fcfdfd] text-slate-900 antialiased font-sans h-screen flex overflow-hidden">
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MRDDXT7S"
-    height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+    <!-- Rest of your body content remains exactly the same as your current base_2.html -->
     
     <!-- Mobile Sidebar Backdrop Overlay -->
     <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden md:hidden transition-opacity opacity-0" onclick="toggleSidebar()"></div>
@@ -76,14 +51,10 @@
                 <span class="text-indigo-600 text-xl" aria-hidden="true">🛡️</span>
                 <span class="text-xl font-black text-slate-900 tracking-tight">Consent<span class="text-indigo-600">Layer</span></span>
             </a>
-            <!-- Mobile Close Button -->
             <button onclick="toggleSidebar()" aria-label="Close sidebar navigation" class="md:hidden p-2 text-slate-600 hover:text-slate-900 transition-colors">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
         </div>
-        
         <nav class="p-4 space-y-1.5 flex-1 overflow-y-auto" aria-label="Sidebar Links">
             <a href="/" class="block px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-indigo-50 hover:text-indigo-700 rounded-xl transition-colors">Dashboard</a>
             <a href="/reports" class="block px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-indigo-50 hover:text-indigo-700 rounded-xl transition-colors">Compliance Reports</a>
@@ -95,16 +66,11 @@
         </nav>
     </aside>
 
-    <!-- Main Content Area -->
     <div class="flex-1 flex flex-col h-full relative overflow-hidden bg-[#fcfdfd] w-full">
-        <!-- Header -->
         <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 md:px-8 flex-shrink-0">
             <div class="flex items-center gap-3">
-                <!-- Hamburger Menu Button -->
                 <button onclick="toggleSidebar()" aria-label="Open sidebar navigation" class="md:hidden p-2 -ml-2 text-slate-700 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
                 <span class="hidden sm:inline-block px-2.5 py-1 bg-indigo-50 text-indigo-800 border border-indigo-200 rounded-full text-[11px] md:text-xs font-bold uppercase tracking-wider">DPDP SEC 33 ENGINE</span>
             </div>
@@ -114,13 +80,12 @@
             </div>
         </header>
 
-        <!-- Dynamic Page Content -->
         <main class="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8">
             {% block content %}{% endblock %}
         </main>
     </div>
 
-    <!-- DPDP Modal -->
+    <!-- DPDP Modal Code Remains the Same -->
     <div id="cl-consent-wrapper" class="cl-banner-bg" role="dialog" aria-modal="true" aria-labelledby="cl-title" style="display:none;">
       <div class="cl-modal-card">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
@@ -149,7 +114,6 @@
               <p id="cl-d-essential" class="text-slate-600 text-[11px] mt-0.5 leading-relaxed">Authentication tokens, session security, and Section 33 audit log generation.</p>
             </div>
           </label>
-
           <label class="flex gap-3 items-start cursor-pointer">
             <input type="checkbox" id="cl-consent-ga" class="mt-0.5" aria-label="Google Analytics 4 Telemetry Consent" />
             <div>
@@ -157,7 +121,6 @@
               <p id="cl-d-analytics" class="text-slate-600 text-[11px] mt-0.5 leading-relaxed">Aggregated analytics to improve audit processing performance.</p>
             </div>
           </label>
-
           <label class="flex gap-3 items-start cursor-pointer">
             <input type="checkbox" id="cl-consent-meta" class="mt-0.5" aria-label="Meta Pixel Marketing Consent" />
             <div>
@@ -174,7 +137,6 @@
       </div>
     </div>
 
-    <!-- Mobile Sidebar Toggle Script -->
     <script>
       function toggleSidebar() {
           const sidebar = document.getElementById('cl-sidebar');
@@ -194,62 +156,23 @@
       }
 
       const i18nConsent = {
-        en: {
-          title: "Data Processing Notice & Consent",
-          desc: "Under Section 5(1) of the DPDP Act 2023, ConsentLayer requires your explicit consent before loading analytics and marketing pixels.",
-          essentialTitle: "Core Infrastructure (Mandatory)",
-          essentialDesc: "Authentication tokens, session security, and Section 33 audit log generation.",
-          gaTitle: "Telemetry & Usage (Google Analytics 4)",
-          gaDesc: "Aggregated analytics to improve audit processing performance.",
-          metaTitle: "Conversion Attribution (Meta Pixel)",
-          metaDesc: "Attribution for diagnostic lab compliance outreach campaigns.",
-          reject: "Decline Optional",
-          save: "Confirm Choices"
-        },
-        hi: {
-          title: "डेटा प्रोसेसिंग सूचना एवं सहमति (DPDP Act)",
-          desc: "DPDP अधिनियम 2023 की धारा 5(1) के तहत, एनालिटिक्स एवं मार्केटिंग ट्रैकर चलाने से पूर्व आपकी स्पष्ट सहमति आवश्यक है।",
-          essentialTitle: "मुख्य अवसंरचना (अनिवार्य)",
-          essentialDesc: "लॉगिन टोकन, सुरक्षा एवं धारा 33 ऑडिट लॉग निर्माण।",
-          gaTitle: "उपयोग एनालिटिक्स (Google Analytics 4)",
-          gaDesc: "ऑडिट गति और प्लेटफ़ॉर्म प्रदर्शन में सुधार के लिए।",
-          metaTitle: "मार्केटिंग एवं कन्वर्जन (Meta Pixel)",
-          metaDesc: "डायग्नोस्टिक लैब अनुपालन अभियानों के कन्वर्जन मापन हेतु।",
-          reject: "अस्वीकार करें",
-          save: "पसंद सहेजें"
-        }
+        en: { title: "Data Processing Notice & Consent", desc: "Under Section 5(1) of the DPDP Act 2023, ConsentLayer requires your explicit consent before loading analytics and marketing pixels.", essentialTitle: "Core Infrastructure (Mandatory)", essentialDesc: "Authentication tokens, session security, and Section 33 audit log generation.", gaTitle: "Telemetry & Usage (Google Analytics 4)", gaDesc: "Aggregated analytics to improve audit processing performance.", metaTitle: "Conversion Attribution (Meta Pixel)", metaDesc: "Attribution for diagnostic lab compliance outreach campaigns.", reject: "Decline Optional", save: "Confirm Choices" },
+        hi: { title: "डेटा प्रोसेसिंग सूचना एवं सहमति (DPDP Act)", desc: "DPDP अधिनियम 2023 की धारा 5(1) के तहत, एनालिटिक्स एवं मार्केटिंग ट्रैकर चलाने से पूर्व आपकी स्पष्ट सहमति आवश्यक है।", essentialTitle: "मुख्य अवसंरचना (अनिवार्य)", essentialDesc: "लॉगिन टोकन, सुरक्षा एवं धारा 33 ऑडिट लॉग निर्माण।", gaTitle: "उपयोग एनालिटिक्स (Google Analytics 4)", gaDesc: "ऑडिट गति और प्लेटफ़ॉर्म प्रदर्शन में सुधार के लिए।", metaTitle: "मार्केटिंग एवं कन्वर्जन (Meta Pixel)", metaDesc: "डायग्नोस्टिक लैब अनुपालन अभियानों के कन्वर्जन मापन हेतु।", reject: "अस्वीकार करें", save: "पसंद सहेजें" }
       };
 
       function toggleConsentLanguage(lang) {
         const data = i18nConsent[lang];
-        document.getElementById("cl-title").innerText = data.title;
-        document.getElementById("cl-desc").innerText = data.desc;
-        document.getElementById("cl-l-essential").innerText = data.essentialTitle;
-        document.getElementById("cl-d-essential").innerText = data.essentialDesc;
-        document.getElementById("cl-l-analytics").innerText = data.gaTitle;
-        document.getElementById("cl-d-analytics").innerText = data.gaDesc;
-        document.getElementById("cl-l-marketing").innerText = data.metaTitle;
-        document.getElementById("cl-d-marketing").innerText = data.metaDesc;
-        document.getElementById("cl-btn-reject").innerText = data.reject;
-        document.getElementById("cl-btn-save").innerText = data.save;
+        document.getElementById("cl-title").innerText = data.title; document.getElementById("cl-desc").innerText = data.desc; document.getElementById("cl-l-essential").innerText = data.essentialTitle; document.getElementById("cl-d-essential").innerText = data.essentialDesc; document.getElementById("cl-l-analytics").innerText = data.gaTitle; document.getElementById("cl-d-analytics").innerText = data.gaDesc; document.getElementById("cl-l-marketing").innerText = data.metaTitle; document.getElementById("cl-d-marketing").innerText = data.metaDesc; document.getElementById("cl-btn-reject").innerText = data.reject; document.getElementById("cl-btn-save").innerText = data.save;
       }
 
       function handleConsentDecision(isCustom) {
         const gaState = isCustom ? document.getElementById("cl-consent-ga").checked : false;
         const metaState = isCustom ? document.getElementById("cl-consent-meta").checked : false;
-        const consentPayload = {
-          analytics: gaState,
-          marketing: metaState,
-          timestamp: new Date().toISOString()
-        };
+        const consentPayload = { analytics: gaState, marketing: metaState, timestamp: new Date().toISOString() };
         localStorage.setItem("consentlayer_dpdp_v1", JSON.stringify(consentPayload));
         document.getElementById("cl-consent-wrapper").style.display = "none";
         window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          event: "dpdp_consent_update",
-          analytics_storage: gaState ? "granted" : "denied",
-          ad_storage: metaState ? "granted" : "denied"
-        });
+        window.dataLayer.push({ event: "dpdp_consent_update", analytics_storage: gaState ? "granted" : "denied", ad_storage: metaState ? "granted" : "denied" });
       }
 
       document.addEventListener("DOMContentLoaded", function() {
