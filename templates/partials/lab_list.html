@@ -1,43 +1,43 @@
-<div class="overflow-hidden bg-white border border-slate-200 rounded-3xl shadow-sm">
+<div class="overflow-hidden bg-white border border-slate-200 rounded-2xl sm:rounded-3xl shadow-sm">
     <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
+        <table class="w-full text-left border-collapse whitespace-nowrap">
             <thead>
                 <tr class="bg-slate-50 border-b border-slate-200">
-                    <th class="py-3.5 px-5 text-xs font-bold uppercase tracking-wider text-slate-600">ID</th>
-                    <th class="py-3.5 px-5 text-xs font-bold uppercase tracking-wider text-slate-600">Audit Filename</th>
-                    <th class="py-3.5 px-5 text-xs font-bold uppercase tracking-wider text-slate-600">Records Scanned</th>
-                    <th class="py-3.5 px-5 text-xs font-bold uppercase tracking-wider text-slate-600">Violations Summary</th>
-                    <th class="py-3.5 px-5 text-xs font-bold uppercase tracking-wider text-slate-600">Timestamp</th>
+                    <th class="py-3 px-4 sm:px-5 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-600">ID</th>
+                    <th class="py-3 px-4 sm:px-5 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-600">Audit Filename</th>
+                    <th class="py-3 px-4 sm:px-5 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-600">Records Scanned</th>
+                    <th class="py-3 px-4 sm:px-5 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-600">Violations Summary</th>
+                    <th class="py-3 px-4 sm:px-5 text-[10px] sm:text-xs font-bold uppercase tracking-wider text-slate-600">Timestamp</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-100">
                 {% for audit in labs %}
                 <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="py-3.5 px-5 text-xs font-bold text-slate-400">#{{ audit.id }}</td>
-                    <td class="py-3.5 px-5 text-sm font-bold text-slate-900">{{ audit.filename }}</td>
-                    <td class="py-3.5 px-5 text-sm font-semibold text-indigo-600">{{ audit.total_records }}</td>
-                    <td class="py-3.5 px-5 text-xs">
+                    <td class="py-3 px-4 sm:px-5 text-[11px] sm:text-xs font-bold text-slate-400">#{{ audit.id }}</td>
+                    <td class="py-3 px-4 sm:px-5 text-xs sm:text-sm font-bold text-slate-900">{{ audit.filename }}</td>
+                    <td class="py-3 px-4 sm:px-5 text-xs sm:text-sm font-semibold text-indigo-600">{{ audit.total_records }}</td>
+                    <td class="py-3 px-4 sm:px-5 text-[11px] sm:text-xs">
                         {% if audit.violations_summary %}
-                            <span class="px-2.5 py-0.5 rounded-full font-bold bg-rose-50 text-rose-600 border border-rose-200">
+                            <span class="px-2 py-0.5 rounded-full font-bold bg-rose-50 text-rose-600 border border-rose-200">
                                 {{ audit.violations_summary }}
                             </span>
                         {% else %}
-                            <span class="px-2.5 py-0.5 rounded-full font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span class="px-2 py-0.5 rounded-full font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                                 Clean Pass
                             </span>
                         {% endif %}
                     </td>
-                    <td class="py-3.5 px-5 text-xs text-slate-400">{{ audit.created_at.strftime('%Y-%m-%d %H:%M') if audit.created_at else 'N/A' }}</td>
+                    <td class="py-3 px-4 sm:px-5 text-[10px] sm:text-xs text-slate-400">{{ audit.created_at.strftime('%Y-%m-%d %H:%M') if audit.created_at else 'N/A' }}</td>
                 </tr>
                 {% else %}
                 <tr>
-                    <td colspan="5" class="py-12 px-4 text-center">
+                    <td colspan="5" class="py-10 sm:py-12 px-4 text-center">
                         <div class="flex flex-col items-center justify-center space-y-2">
-                            <div class="w-10 h-10 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400">
+                            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-400 text-lg">
                                 📄
                             </div>
-                            <p class="text-sm font-bold text-slate-700">No Audit Records Found</p>
-                            <p class="text-xs text-slate-400">Upload an employee access log CSV on the dashboard to generate your first audit log.</p>
+                            <p class="text-xs sm:text-sm font-bold text-slate-700">No Audit Records Found</p>
+                            <p class="text-[10px] sm:text-xs text-slate-400 max-w-xs mx-auto whitespace-normal">Upload an employee access log CSV on the dashboard to generate your first audit log.</p>
                         </div>
                     </td>
                 </tr>

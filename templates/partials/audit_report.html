@@ -1,18 +1,18 @@
-<div class="bg-white border border-slate-200 rounded-3xl shadow-sm p-6 sm:p-8 space-y-6 mt-6">
+<div class="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl shadow-sm p-5 sm:p-8 space-y-5 sm:space-y-6 mt-6">
     
     <!-- Summary Meta -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-100 gap-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 sm:pb-5 border-b border-slate-100 gap-3 sm:gap-4">
         <div>
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase tracking-wider mb-2">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-2">
                 <span>🛡️</span> Sec 33 Audit Report
             </div>
-            <h3 class="text-xl font-bold text-slate-900 tracking-tight">Compliance Scan Summary</h3>
+            <h3 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">Compliance Scan Summary</h3>
         </div>
         <div class="flex flex-wrap items-center gap-2">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600">
-                File: <strong class="text-slate-900 font-semibold truncate max-w-[150px]">{{ filename }}</strong>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg sm:rounded-xl bg-slate-50 border border-slate-200 text-[10px] sm:text-xs text-slate-600">
+                File: <strong class="text-slate-900 font-semibold truncate max-w-[120px] sm:max-w-[150px]">{{ filename }}</strong>
             </span>
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 border border-indigo-200 text-xs text-indigo-700">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg sm:rounded-xl bg-indigo-50 border border-indigo-200 text-[10px] sm:text-xs text-indigo-700">
                 Records: <strong class="font-bold">{{ total_records }}</strong>
             </span>
         </div>
@@ -22,29 +22,29 @@
     {% if violations %}
     <div class="space-y-3">
         <div class="flex items-center justify-between">
-            <h4 class="text-xs font-bold text-rose-600 uppercase tracking-wider flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-rose-600 animate-pulse"></span>
-                Critical Violations (₹250 Cr Risk)
+            <h4 class="text-[10px] sm:text-xs font-bold text-rose-600 uppercase tracking-wider flex items-center gap-1.5 sm:gap-2">
+                <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-rose-600 animate-pulse"></span>
+                Critical Violations <span class="hidden sm:inline">(₹250 Cr Risk)</span>
             </h4>
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-50 text-rose-600 border border-rose-200">
+            <span class="px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold bg-rose-50 text-rose-600 border border-rose-200">
                 {{ violations|length }} Flags
             </span>
         </div>
 
         <div class="space-y-2">
             {% for v in violations %}
-            <div class="bg-rose-50/50 border border-rose-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm">
-                <div class="flex items-center gap-2 flex-wrap">
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-bold bg-white border border-rose-200 text-slate-700">
+            <div class="bg-rose-50/50 border border-rose-200 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 text-xs sm:text-sm">
+                <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                    <span class="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold bg-white border border-rose-200 text-slate-700">
                         Staff: {{ v.Staff_ID }}
                     </span>
-                    <span class="text-xs text-slate-500">accessed</span>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-bold bg-white border border-rose-200 text-slate-900">
+                    <span class="text-[10px] sm:text-xs text-slate-500">accessed</span>
+                    <span class="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold bg-white border border-rose-200 text-slate-900 break-all">
                         {{ v.Patient_File_Accessed }}
                     </span>
-                    <span class="text-xs font-bold text-rose-600 bg-rose-100 px-2 py-0.5 rounded-md">No Consent Match</span>
+                    <span class="text-[10px] sm:text-xs font-bold text-rose-600 bg-rose-100 px-1.5 sm:px-2 py-0.5 rounded-md whitespace-nowrap">No Consent Match</span>
                 </div>
-                <div class="text-xs text-slate-400 shrink-0">
+                <div class="text-[10px] sm:text-xs text-slate-400 shrink-0">
                     {{ v.Date }} • {{ v.Time }}
                 </div>
             </div>
@@ -52,11 +52,11 @@
         </div>
     </div>
     {% else %}
-    <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-4 flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm shrink-0">✓</div>
+    <div class="bg-emerald-50/60 border border-emerald-200 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex items-center gap-3">
+        <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs sm:text-sm shrink-0">✓</div>
         <div>
-            <p class="text-sm font-bold text-slate-900">No Consent Violations Detected</p>
-            <p class="text-xs text-slate-500 mt-0.5">100% record match with active patient consent logs.</p>
+            <p class="text-xs sm:text-sm font-bold text-slate-900">No Consent Violations Detected</p>
+            <p class="text-[10px] sm:text-xs text-slate-500 mt-0.5">100% record match with active patient consent logs.</p>
         </div>
     </div>
     {% endif %}
@@ -65,28 +65,28 @@
     {% if risk_flags %}
     <div class="space-y-3 pt-2">
         <div class="flex items-center justify-between">
-            <h4 class="text-xs font-bold text-amber-700 uppercase tracking-wider flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            <h4 class="text-[10px] sm:text-xs font-bold text-amber-700 uppercase tracking-wider flex items-center gap-1.5 sm:gap-2">
+                <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-amber-500"></span>
                 Perimeter Risk Flags
             </h4>
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
+            <span class="px-2 sm:px-2.5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200">
                 {{ risk_flags|length }} Warns
             </span>
         </div>
 
         <div class="space-y-2">
             {% for r in risk_flags %}
-            <div class="bg-amber-50/50 border border-amber-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-sm">
-                <div class="flex items-center gap-2 flex-wrap">
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-xs font-bold bg-white border border-amber-200 text-slate-700">
+            <div class="bg-amber-50/50 border border-amber-200 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-3 text-xs sm:text-sm">
+                <div class="flex items-center gap-1.5 sm:gap-2 flex-wrap">
+                    <span class="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-md sm:rounded-lg text-[10px] sm:text-xs font-bold bg-white border border-amber-200 text-slate-700">
                         Staff: {{ r.Staff_ID }}
                     </span>
-                    <span class="text-xs text-slate-500">unverified node:</span>
-                    <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold bg-amber-100 text-amber-800">
+                    <span class="text-[10px] sm:text-xs text-slate-500">unverified node:</span>
+                    <span class="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-md text-[10px] sm:text-xs font-bold bg-amber-100 text-amber-800 whitespace-nowrap">
                         Outside Network
                     </span>
                 </div>
-                <div class="text-xs text-slate-400 shrink-0">
+                <div class="text-[10px] sm:text-xs text-slate-400 shrink-0">
                     {{ r.Date }} • {{ r.Time }}
                 </div>
             </div>
@@ -94,11 +94,11 @@
         </div>
     </div>
     {% else %}
-    <div class="bg-emerald-50/60 border border-emerald-200 rounded-2xl p-4 flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm shrink-0">✓</div>
+    <div class="bg-emerald-50/60 border border-emerald-200 rounded-xl sm:rounded-2xl p-3 sm:p-4 flex items-center gap-3">
+        <div class="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs sm:text-sm shrink-0">✓</div>
         <div>
-            <p class="text-sm font-bold text-slate-900">Zero Perimeter Anomalies</p>
-            <p class="text-xs text-slate-500 mt-0.5">All log connections originated from verified clinic static IPs.</p>
+            <p class="text-xs sm:text-sm font-bold text-slate-900">Zero Perimeter Anomalies</p>
+            <p class="text-[10px] sm:text-xs text-slate-500 mt-0.5">All log connections originated from verified clinic static IPs.</p>
         </div>
     </div>
     {% endif %}

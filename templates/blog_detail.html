@@ -37,47 +37,47 @@
 {% endblock %}
 
 {% block content %}
-<div class="max-w-5xl mx-auto py-8 px-4 sm:px-6">
+<div class="max-w-5xl mx-auto py-4 sm:py-6 md:py-8 px-4 sm:px-6">
     <!-- Breadcrumb Navigation -->
-    <nav class="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-6">
+    <nav class="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs font-semibold text-slate-500 mb-5 sm:mb-6">
         <a href="/blog" class="hover:text-indigo-600 transition-colors">Compliance Library</a>
         <span>›</span>
         <span class="text-indigo-600">{{ article.category | default('Master Guide') }}</span>
     </nav>
 
     <!-- Article Header -->
-    <header class="mb-10">
-        <div class="flex items-center gap-3 mb-4">
-            <span class="px-3 py-1 bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold uppercase rounded-full">
+    <header class="mb-8 sm:mb-10">
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-4">
+            <span class="px-2.5 sm:px-3 py-1 bg-indigo-50 border border-indigo-200 text-indigo-700 text-[10px] sm:text-xs font-bold uppercase rounded-full">
                 {{ article.category | default('Master Guide') }}
             </span>
+            <span class="text-xs text-slate-400 hidden sm:inline-block">•</span>
+            <span class="text-[11px] sm:text-xs text-slate-500 font-medium">{{ article.read_time | default('5 min read') }}</span>
             <span class="text-xs text-slate-400">•</span>
-            <span class="text-xs text-slate-500 font-medium">{{ article.read_time | default('5 min read') }}</span>
-            <span class="text-xs text-slate-400">•</span>
-            <span class="text-xs text-slate-500 font-medium">Published {{ article.published_date | default('August 2026') }}</span>
+            <span class="text-[11px] sm:text-xs text-slate-500 font-medium">Published {{ article.published_date | default('August 2026') }}</span>
         </div>
-        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-4">
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-3 sm:mb-4">
             {{ article.title | default('ConsentLayer DPDP Guide') }}
         </h1>
-        <p class="text-base text-slate-600 leading-relaxed max-w-3xl">
+        <p class="text-sm sm:text-base text-slate-600 leading-relaxed max-w-3xl">
             {{ article.summary | default('') }}
         </p>
     </header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
         <!-- Main Editorial Body -->
-        <article class="lg:col-span-8 prose prose-slate max-w-none text-slate-800 leading-relaxed space-y-6">
+        <article class="lg:col-span-8 prose prose-sm sm:prose-base prose-slate max-w-none text-slate-800 leading-relaxed space-y-5 sm:space-y-6">
             {{ article.content | safe | default('<p>Content currently being updated for latest 2026 DPDP regulations.</p>') }}
 
             <!-- In-Article Lead Magnet Capture Box -->
-            <div id="lead-capture-container" class="my-10 p-6 sm:p-8 bg-indigo-50/70 border border-indigo-100 rounded-3xl shadow-sm">
-                <div class="flex items-center gap-2 text-indigo-700 text-xs font-bold uppercase tracking-wider mb-2">
+            <div id="lead-capture-container" class="my-8 sm:my-10 p-5 sm:p-6 md:p-8 bg-indigo-50/70 border border-indigo-100 rounded-2xl sm:rounded-3xl shadow-sm">
+                <div class="flex items-center gap-2 text-indigo-700 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-2">
                     <span>⚡</span> Instant Statutory Download
                 </div>
-                <h3 class="text-lg font-bold text-slate-900 mb-2">
+                <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-2">
                     Get the Complete DPDP Clinic Compliance Checklist (2026 Edition)
                 </h3>
-                <p class="text-xs text-slate-600 mb-5 leading-relaxed">
+                <p class="text-[11px] sm:text-xs text-slate-600 mb-4 sm:mb-5 leading-relaxed">
                     Download ready-to-use bilingual Section 5 notice templates and Section 33 audit log checklists for your clinic and lab software.
                 </p>
 
@@ -85,11 +85,11 @@
                     <input type="hidden" name="source_url" value="/blog/{{ article.slug | default('unknown') }}">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <input type="email" name="email" required placeholder="lab-admin@diagnostic.in" 
-                               class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-indigo-600 transition-colors">
+                               class="w-full px-4 py-2.5 sm:py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-indigo-600 transition-colors">
                         <input type="text" name="org_name" placeholder="Clinic / Lab Name (Optional)" 
-                               class="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-indigo-600 transition-colors">
+                               class="w-full px-4 py-2.5 sm:py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-indigo-600 transition-colors">
                     </div>
-                    <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all">
+                    <button type="submit" class="w-full py-3.5 sm:py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all">
                         Download Statutory Package →
                     </button>
                 </form>
@@ -97,13 +97,13 @@
 
             <!-- Programmatic FAQ Section -->
             {% if article and article.faqs %}
-            <section class="mt-12 pt-8 border-t border-slate-200">
-                <h2 class="text-xl font-bold text-slate-900 mb-6">Frequently Asked Questions</h2>
-                <div class="space-y-4">
+            <section class="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-slate-200">
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-4 sm:mb-6">Frequently Asked Questions</h2>
+                <div class="space-y-3 sm:space-y-4">
                     {% for faq in article.faqs %}
-                    <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-sm">
-                        <h4 class="text-sm font-bold text-slate-900 mb-2">{{ faq.question }}</h4>
-                        <p class="text-xs text-slate-600 leading-relaxed">{{ faq.answer }}</p>
+                    <div class="p-4 sm:p-5 bg-white border border-slate-200 rounded-xl sm:rounded-2xl shadow-sm">
+                        <h4 class="text-xs sm:text-sm font-bold text-slate-900 mb-1.5 sm:mb-2">{{ faq.question }}</h4>
+                        <p class="text-[11px] sm:text-xs text-slate-600 leading-relaxed">{{ faq.answer }}</p>
                     </div>
                     {% endfor %}
                 </div>
@@ -112,25 +112,25 @@
         </article>
 
         <!-- Right Sticky Sidebar CTA -->
-        <aside class="lg:col-span-4 space-y-6">
-            <div class="sticky top-24 space-y-6">
-                <div class="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm text-center">
-                    <div class="w-12 h-12 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center justify-center mx-auto mb-4 text-xl">
+        <aside class="lg:col-span-4 space-y-5 sm:space-y-6">
+            <div class="lg:sticky lg:top-24 space-y-5 sm:space-y-6">
+                <div class="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-sm text-center">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-indigo-50 border border-indigo-100 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 text-lg sm:text-xl">
                         🛡️
                     </div>
-                    <h3 class="text-base font-bold text-slate-900 mb-1">ConsentLayer Engine</h3>
-                    <p class="text-xs text-slate-500 mb-5 leading-relaxed">
+                    <h3 class="text-sm sm:text-base font-bold text-slate-900 mb-1">ConsentLayer Engine</h3>
+                    <p class="text-[11px] sm:text-xs text-slate-500 mb-4 sm:mb-5 leading-relaxed">
                         Automate Section 5 consent notices & Section 33 audit logs in 5 minutes.
                     </p>
-                    <a href="/login" class="block w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm transition-all">
+                    <a href="/login" class="block w-full py-2.5 sm:py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider rounded-lg sm:rounded-xl shadow-sm transition-all">
                         Launch Clinic Portal →
                     </a>
                 </div>
 
-                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 text-center">
-                    <h4 class="text-xs font-bold text-slate-800 mb-1">Need a Custom LIMS Audit?</h4>
-                    <p class="text-[11px] text-slate-500 mb-3">Speak directly with our DPDP implementation team.</p>
-                    <a href="/support" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-colors">
+                <div class="bg-slate-50 border border-slate-200 rounded-xl sm:rounded-2xl p-4 sm:p-5 text-center">
+                    <h4 class="text-[11px] sm:text-xs font-bold text-slate-800 mb-1">Need a Custom LIMS Audit?</h4>
+                    <p class="text-[10px] sm:text-[11px] text-slate-500 mb-2 sm:mb-3">Speak directly with our DPDP implementation team.</p>
+                    <a href="/support" class="text-[11px] sm:text-xs font-bold text-indigo-600 hover:text-indigo-800 transition-colors">
                         Contact Compliance Desk →
                     </a>
                 </div>
