@@ -1,18 +1,20 @@
 {% extends "base.html" %}
-{% block content %}
-<div class="max-w-5xl mx-auto space-y-4 sm:space-y-6">
-    <div>
-        <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Compliance Reports</h1>
-        <p class="text-slate-500 text-[11px] sm:text-sm mt-1">History of your generated DPDP Section 33 certificates.</p>
-    </div>
 
-    <div class="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-5 sm:p-8 shadow-sm">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 sm:p-5 bg-slate-50 border border-slate-200 rounded-xl gap-3">
-            <div>
-                <h4 class="text-slate-900 font-bold text-sm sm:text-base">August 2026 Audit</h4>
-                <p class="text-[11px] sm:text-xs text-slate-500 font-mono mt-0.5">Scanned 14,029 logs</p>
-            </div>
-            <span class="px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] sm:text-xs font-bold rounded-lg uppercase tracking-wider">PASSED</span>
+{% block title %}Compliance Reports | ConsentLayer{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+    <div class="border-b border-slate-200 pb-4">
+        <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Compliance Reports</h1>
+        <p class="text-sm text-slate-500 mt-2">History of your generated DPDP Section 33 certificates.</p>
+    </div>
+    
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+        <h2 class="text-lg font-bold text-slate-900">August 2026 Audit</h2>
+        <p class="text-sm text-slate-600 mt-1">Scanned 14,029 logs</p>
+        
+        <div class="mt-4 inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold uppercase rounded-full">
+            ✓ Passed
         </div>
     </div>
 </div>
