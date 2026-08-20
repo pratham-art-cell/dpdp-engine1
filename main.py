@@ -77,6 +77,15 @@ async def home_page(request: Request, db: Session = Depends(get_db)):
         }
     )
 
+@app.get("/about", response_class=HTMLResponse)
+async def about_page(request: Request, db: Session = Depends(get_db)):
+    user = get_current_user_safe(request, db)
+    return templates.TemplateResponse(
+        request=request,
+        name="about.html",
+        context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
+    )
+
 @app.get("/support", response_class=HTMLResponse)
 async def support_page(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_safe(request, db)
@@ -180,6 +189,7 @@ async def sitemap_xml():
     # Core public pages
     urls = [
         "https://consentlayers.in/",
+        "https://consentlayers.in/about",
         "https://consentlayers.in/blog",
         "https://consentlayers.in/support",
         "https://consentlayers.in/login"

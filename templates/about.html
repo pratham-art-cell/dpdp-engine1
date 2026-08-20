@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<meta name="description" content="Learn about ConsentLayer's mission to automate DPDP Act compliance for pathology labs and diagnostic clinics across India.">
+<meta property="og:title" content="About Us | ConsentLayer">
+<meta property="og:description" content="Building secure, automated DPDP Section 33 audit and consent engines for Indian healthcare providers.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://consentlayers.in/about">
+<link rel="canonical" href="https://consentlayers.in/about">
+
+<!-- E-E-A-T Local Business Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "ConsentLayer Compliance Research Group",
+  "url": "https://consentlayers.in",
+  "logo": "https://consentlayers.in/static/logo.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "email": "prathamjainyt127@gmail.com",
+    "contactType": "Technical Support"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Ratlam",
+    "addressRegion": "Madhya Pradesh",
+    "addressCountry": "IN"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6 sm:space-y-8 py-4 sm:py-8">
+    <div class="text-center sm:text-left">
+        <span class="inline-block px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-3">
+            Company Overview
+        </span>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+            Securing India's Digital Health Infrastructure
+        </h1>
+        <p class="text-sm sm:text-base text-slate-600 mt-3 sm:mt-4 leading-relaxed max-w-2xl">
+            ConsentLayer is a dedicated regulatory technology platform built exclusively to help Indian clinics and pathology labs navigate the complexities of the DPDP Act 2023.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 mt-8 sm:mt-10">
+        <div class="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-sm">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-indigo-50 border border-indigo-100 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 text-xl sm:text-2xl">
+                ⚖️
+            </div>
+            <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-2">Our Mission</h3>
+            <p class="text-[13px] sm:text-sm text-slate-600 leading-relaxed">
+                Enterprise hospitals have armies of lawyers. Standalone clinics and diagnostic centers do not. We level the playing field by providing automated, enterprise-grade Section 33 audit logging and Section 5 consent generation to SME healthcare providers at a fraction of the cost.
+            </p>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-sm">
+            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-emerald-50 border border-emerald-100 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-5 text-xl sm:text-2xl">
+                🛡️
+            </div>
+            <h3 class="text-lg sm:text-xl font-bold text-slate-900 mb-2">Technical Integrity</h3>
+            <p class="text-[13px] sm:text-sm text-slate-600 leading-relaxed">
+                We believe patient data privacy is a fundamental right. Our platform utilizes strict access-control algorithms, immutable cryptographic logging, and zero-knowledge architectures to ensure that sensitive diagnostic files are never exposed to unauthorized endpoints.
+            </p>
+        </div>
+    </div>
+
+    <div class="bg-slate-900 rounded-2xl sm:rounded-3xl p-6 sm:p-10 text-white mt-8 sm:mt-12 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl border border-slate-800">
+        <div>
+            <h3 class="text-lg sm:text-xl lg:text-2xl font-bold">Regulatory Affairs & Support</h3>
+            <p class="text-slate-400 text-[13px] sm:text-sm mt-2 leading-relaxed">
+                Operating out of Ratlam, Madhya Pradesh, our technical implementation team is ready to assist your clinic with custom LIMS integrations.
+            </p>
+        </div>
+        <a href="/support" class="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition-all text-xs sm:text-sm uppercase tracking-wider whitespace-nowrap shadow-md text-center">
+            Contact Support Desk
+        </a>
+    </div>
+</div>
+{% endblock %}

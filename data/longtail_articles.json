@@ -13,7 +13,8 @@
         "question": "What languages must the notice be available in?",
         "answer": "English and any constitutional Eighth Schedule language relevant to the patient intake region."
       }
-    ]
+    ],
+    "related_slugs": ["dpdp-compliance-diagnostic-centres-maharashtra", "whatsapp-medical-reports-dpdp-compliance"]
   },
   {
     "slug": "whatsapp-medical-reports-dpdp-compliance",
@@ -29,7 +30,8 @@
         "question": "Can clinics send reports on WhatsApp automatically?",
         "answer": "Only if the patient explicitly checked the communication consent box during registration."
       }
-    ]
+    ],
+    "related_slugs": ["dpdp-section-5-notice-pathology", "dpdp-act-healthcare-compliance-guide"]
   },
   {
     "slug": "dpdp-compliance-diagnostic-centres-maharashtra",
@@ -45,6 +47,7 @@
         "question": "Is Marathi consent notice mandatory for pathology labs in Mumbai?",
         "answer": "Yes. The DPDP Act requires notices to be available in English and 8th Schedule languages."
       }
-    ]
+    ],
+    "related_slugs": ["dpdp-section-5-notice-pathology", "whatsapp-medical-reports-dpdp-compliance"]
   }
 ]

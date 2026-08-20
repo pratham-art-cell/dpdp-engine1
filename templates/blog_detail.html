@@ -70,7 +70,7 @@
             {{ article.content | safe | default('<p>Content currently being updated for latest 2026 DPDP regulations.</p>') }}
 
             <!-- In-Article Lead Magnet Capture Box -->
-            <div id="lead-capture-container" class="my-8 sm:my-10 p-5 sm:p-6 md:p-8 bg-indigo-50/70 border border-indigo-100 rounded-2xl sm:rounded-3xl shadow-sm">
+            <div id="lead-capture-container" class="my-8 sm:my-10 p-5 sm:p-6 md:p-8 bg-indigo-50/70 border border-indigo-100 rounded-2xl sm:rounded-3xl shadow-sm not-prose">
                 <div class="flex items-center gap-2 text-indigo-700 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-2">
                     <span>⚡</span> Instant Statutory Download
                 </div>
@@ -95,9 +95,37 @@
                 </form>
             </div>
 
+            <!-- E-E-A-T Author Bio -->
+            <div class="my-10 p-6 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-5 not-prose">
+                <div class="w-16 h-16 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center font-black text-xl shrink-0">
+                    CL
+                </div>
+                <div class="text-center sm:text-left">
+                    <h4 class="text-lg font-bold text-slate-900">ConsentLayer Regulatory Team</h4>
+                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">
+                        Operating from Ratlam, Madhya Pradesh, the ConsentLayer team specializes in translating the DPDP Act 2023 into technical, automated compliance safeguards for Indian pathology labs and diagnostic centers.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Internal Linking / Read Next -->
+            <div class="mt-10 border-t border-slate-200 pt-8 not-prose">
+                <h3 class="text-xl font-bold text-slate-900 mb-6">Continue Reading</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <a href="/blog/dpdp-act-healthcare-compliance-guide" class="block p-5 border border-slate-200 rounded-xl hover:border-indigo-500 hover:shadow-sm transition-all group">
+                        <span class="text-[10px] font-bold text-indigo-600 uppercase tracking-wider">Master Blueprint</span>
+                        <h4 class="text-sm font-bold text-slate-900 mt-1 group-hover:text-indigo-600 transition-colors">Healthcare DPDP Compliance Guide →</h4>
+                    </a>
+                    <a href="/blog/whatsapp-medical-reports-dpdp-compliance" class="block p-5 border border-slate-200 rounded-xl hover:border-indigo-500 hover:shadow-sm transition-all group">
+                        <span class="text-[10px] font-bold text-amber-600 uppercase tracking-wider">Security Risk</span>
+                        <h4 class="text-sm font-bold text-slate-900 mt-1 group-hover:text-indigo-600 transition-colors">WhatsApp Medical Report Safeguards →</h4>
+                    </a>
+                </div>
+            </div>
+
             <!-- Programmatic FAQ Section -->
             {% if article and article.faqs %}
-            <section class="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-slate-200">
+            <section class="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-slate-200 not-prose">
                 <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-4 sm:mb-6">Frequently Asked Questions</h2>
                 <div class="space-y-3 sm:space-y-4">
                     {% for faq in article.faqs %}
