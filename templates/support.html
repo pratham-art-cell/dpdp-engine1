@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Support | ConsentLayer{% endblock %}
+{% block title %}Support & DPDP Grievance Desk | ConsentLayer{% endblock %}
 
 {% block content %}
 <div class="max-w-3xl mx-auto space-y-6">
@@ -9,21 +9,44 @@
         <p class="text-sm text-slate-500 mt-2">Assistance for DPDP Section 33 audits, API keys, and enterprise lab onboarding.</p>
     </div>
     
-    <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm">
-        <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 bg-indigo-50 border border-indigo-100 rounded-xl flex items-center justify-center text-xl">📞</div>
-            <h2 class="text-xl font-bold text-slate-900">Direct Compliance Desk</h2>
+    <div class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-indigo-50 border border-indigo-100 rounded-xl flex items-center justify-center text-xl">🛡️</div>
+            <div>
+                <h2 class="text-xl font-bold text-slate-900">Direct Compliance Desk</h2>
+                <p class="text-xs text-slate-500">Fast-response channels for diagnostic labs and clinics</p>
+            </div>
         </div>
-        <p class="text-sm text-slate-600 mb-6 leading-relaxed">
-            For urgent security reviews or account inquiries, reach our regulatory affairs team directly:
-        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- General Support & Grievances -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Helpdesk & DPDP Grievances</span>
+                <a href="mailto:support@consentlayer.co" class="text-indigo-600 font-bold hover:underline text-sm break-all">support@consentlayer.co</a>
+                <p class="text-xs text-slate-500 mt-1">Section 13 Grievance Redressal & Account Support</p>
+            </div>
+
+            <!-- Business & Lab Partnerships -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Enterprise Sales & Pilots</span>
+                <a href="mailto:pratham@consentlayer.co" class="text-indigo-600 font-bold hover:underline text-sm break-all">pratham@consentlayer.co</a>
+                <p class="text-xs text-slate-500 mt-1">Custom LIMS integration & multi-branch licensing</p>
+            </div>
+        </div>
+
+        <!-- Billing Support -->
         <div class="bg-slate-50 border border-slate-200 rounded-xl p-4">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Technical Desk Email</h3>
-            <a href="mailto:prathamjainyt127@gmail.com" class="text-indigo-600 font-bold hover:underline text-sm sm:text-base">prathamjainyt127@gmail.com</a>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Billing & Invoicing</span>
+            <a href="mailto:billing@consentlayer.co" class="text-indigo-600 font-bold hover:underline text-sm break-all">billing@consentlayer.co</a>
+            <p class="text-xs text-slate-500 mt-1">GST invoices, custom enterprise billing, or bank transfers</p>
         </div>
-        <div class="mt-6 pt-6 border-t border-slate-100">
-            <a href="mailto:prathamjainyt127@gmail.com" class="inline-flex px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md">
-                Send Direct Message →
+
+        <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
+            <a href="mailto:support@consentlayer.co" class="inline-flex justify-center items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md">
+                Open Support Ticket →
+            </a>
+            <a href="mailto:pratham@consentlayer.co" class="inline-flex justify-center items-center px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-slate-200">
+                Contact Founder Directly
             </a>
         </div>
     </div>

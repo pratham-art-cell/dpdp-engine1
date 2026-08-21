@@ -1,7 +1,7 @@
 import hmac
 import hashlib
 import json
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from fastapi import APIRouter, Request, HTTPException, Depends
 from sqlalchemy.orm import Session
 
@@ -21,7 +21,6 @@ TIER_DAYS_MAP = {
 
 @router.post("/dodo")
 async def dodo_payment_handler(request: Request, db: Session = Depends(get_db)):
-    # Fallback to check both common signature header variants
     signature = request.headers.get("webhook-signature") or request.headers.get("x-signature")
     
     if not signature:
@@ -53,17 +52,12 @@ async def dodo_payment_handler(request: Request, db: Session = Depends(get_db)):
             user = db.query(models.User).filter(models.User.email == normalized_email).first()
             
             if user:
-                # Determine subscription validity based on product ID
-                duration_days = TIER_DAYS_MAP.get(product_id, 30)  # Defaults to 30 days if unknown
-                
-                # Stack days if user currently has an active subscription
-                now = datetime.now(timezone.utc)
+                duration_days = TIER_DAYS_MAP.get(product_id, 30)
+                now = datetime.utcnow()
                 base_time = user.access_valid_until if (user.access_valid_until and user.access_valid_until > now) else now
                 
                 user.has_paid = True
                 user.access_valid_until = base_time + timedelta(days=duration_days)
                 db.commit()
-            else:
-                pass  # Payment logged, user record pending
                 
     return {"status": "success"}

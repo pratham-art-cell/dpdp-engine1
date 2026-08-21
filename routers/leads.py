@@ -1,3 +1,5 @@
+from typing import Optional
+from pydantic import BaseModel, EmailStr
 from fastapi import APIRouter, Depends, Form, Request, status
 from fastapi.responses import HTMLResponse, PlainTextResponse
 from sqlalchemy.orm import Session
@@ -7,7 +9,30 @@ import models
 
 router = APIRouter(prefix="/api/leads", tags=["Lead Generation"])
 
-# 1. Lead Capture Endpoint (Processes HTMX Form Submission)
+class ColdEmailWebhookPayload(BaseModel):
+    email: EmailStr
+    first_name: Optional[str] = None
+    company_name: Optional[str] = None
+    lead_status: Optional[str] = "interested"
+
+# Outbound Cold Email Webhook Listener (Instantly / Smartlead)
+@router.post("/webhook", status_code=status.HTTP_200_OK)
+async def cold_email_lead_webhook(
+    payload: ColdEmailWebhookPayload,
+    db: Session = Depends(get_db)
+):
+    normalized_email = payload.email.strip().lower()
+    lead = models.LeadCapture(
+        email=normalized_email,
+        organization_name=payload.company_name or "Outbound Prospect",
+        source_url="cold_email_campaign",
+        lead_magnet_type="outbound_positive_reply"
+    )
+    db.add(lead)
+    db.commit()
+    return {"status": "lead_captured", "email": normalized_email}
+
+# HTMX Lead Magnet Form Submission
 @router.post("/capture", response_class=HTMLResponse)
 async def capture_lead(
     request: Request,
@@ -17,8 +42,6 @@ async def capture_lead(
     db: Session = Depends(get_db)
 ):
     normalized_email = email.strip().lower()
-    
-    # Save lead to database
     lead = models.LeadCapture(
         email=normalized_email,
         organization_name=org_name.strip() if org_name else None,
@@ -28,7 +51,6 @@ async def capture_lead(
     db.add(lead)
     db.commit()
 
-    # In-place HTMX swap response
     return HTMLResponse(
         content="""
         <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-center">
@@ -42,7 +64,6 @@ async def capture_lead(
         status_code=status.HTTP_200_OK
     )
 
-# 2. Checklist Download Endpoint (Serves the File)
 @router.get("/download-checklist")
 async def download_statutory_checklist():
     content = """================================================================================
@@ -50,7 +71,7 @@ CONSENTLAYER | DPDP ACT 2023 STATUTORY COMPLIANCE CHECKLIST FOR CLINICS & LABS
 ================================================================================
 
 1. SECTION 5(1) STATUTORY NOTICE REQUIREMENTS
-   [ ] Multilingual Notice presented before collecting Aadhaar / Phone number.
+   [ ] Multilingual Notice presented before collecting patient identification / phone numbers.
    [ ] Exact purpose specified: "Diagnostic testing and report delivery only".
    [ ] Name and contact email of Data Protection Officer (DPO) listed.
    [ ] Clear procedure on how patient can withdraw consent at any time.

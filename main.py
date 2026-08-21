@@ -5,16 +5,28 @@ from fastapi import FastAPI, Request, Depends, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from database import engine, Base, get_db
+from config import settings
 import models
 from routers import auth, leads, labs
+import webhooks
 
 # Create database tables automatically
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="ConsentLayer DPDP Engine", version="1.0.0")
+
+# Enable CORS for cross-origin lead webhooks and frontend integrations
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Mount Static Directory
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -26,6 +38,7 @@ templates = Jinja2Templates(directory="templates")
 app.include_router(auth.router)
 app.include_router(leads.router)
 app.include_router(labs.router)
+app.include_router(webhooks.router)
 
 # Load Programmatic SEO Dataset
 def get_articles():
@@ -41,23 +54,16 @@ def get_current_user_safe(request: Request, db: Session):
         if not token:
             return None
         
-        # Strip Bearer prefix if present
         clean_token = token.replace("Bearer ", "").strip()
-        
-        # Decode the JWT to reveal the actual email
-        SECRET_KEY = "your-super-secret-development-key"
-        ALGORITHM = "HS256"
-        payload = jwt.decode(clean_token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(clean_token, settings.secret_key, algorithms=[settings.algorithm])
         user_email = payload.get("sub")
         
         if not user_email:
             return None
             
-        # Strictly search using the decoded email
         user = db.query(models.User).filter(models.User.email == user_email).first()
         return user
     except Exception:
-        # If the token is expired or tampered with, force logout
         return None
 
 # --- PUBLIC & DASHBOARD ROUTES ---
@@ -186,7 +192,6 @@ Sitemap: https://consentlayers.in/sitemap.xml
 async def sitemap_xml():
     articles = get_articles()
     
-    # Core public pages
     urls = [
         "https://consentlayers.in/",
         "https://consentlayers.in/about",
@@ -195,12 +200,10 @@ async def sitemap_xml():
         "https://consentlayers.in/login"
     ]
     
-    # Dynamic SEO pages
     for article in articles:
         if "slug" in article:
             urls.append(f"https://consentlayers.in/blog/{article['slug']}")
             
-    # Generate XML
     xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
     xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     

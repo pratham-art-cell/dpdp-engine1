@@ -7,32 +7,27 @@ from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 from database import get_db
+from config import settings
 import models
 
 router = APIRouter(tags=["Authentication"])
 templates = Jinja2Templates(directory="templates")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-SECRET_KEY = "your-super-secret-development-key"
-ALGORITHM = "HS256"
-
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    # Truncate strictly to 72 bytes to avoid bcrypt limit exceptions
     truncated_password = plain_password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
     return pwd_context.verify(truncated_password, hashed_password)
 
 def get_password_hash(password: str) -> str:
-    # Truncate strictly to 72 bytes to avoid bcrypt limit exceptions
     truncated_password = password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
     return pwd_context.hash(truncated_password)
 
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
-    expire = datetime.datetime.utcnow() + datetime.timedelta(days=7)
+    expire = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=7)
     to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
-
+    return jwt.encode(to_encode, settings.secret_key, algorithm=settings.algorithm)
 
 # --- AUTH GET ROUTES ---
 
@@ -46,7 +41,6 @@ async def login_page(request: Request):
         name="login.html", 
         context={"request": request}
     )
-
 
 # --- AUTH POST ROUTES ---
 
@@ -67,7 +61,6 @@ async def login(
     response = RedirectResponse(url="/", status_code=302)
     response.set_cookie(key="access_token", value=token, httponly=True, max_age=604800)
     return response
-
 
 @router.post("/signup")
 @router.post("/auth/signup")
@@ -93,7 +86,6 @@ async def signup(
     response = RedirectResponse(url="/", status_code=302)
     response.set_cookie(key="access_token", value=token, httponly=True, max_age=604800)
     return response
-
 
 @router.get("/logout")
 @router.get("/auth/logout")
