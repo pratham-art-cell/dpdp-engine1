@@ -11,8 +11,7 @@ from sqlalchemy.orm import Session
 from database import engine, Base, get_db
 from config import settings
 import models
-from routers import auth, leads, labs
-import webhooks
+from routers import auth, leads, labs, webhooks
 
 # Create database tables automatically
 Base.metadata.create_all(bind=engine)
