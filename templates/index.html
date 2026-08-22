@@ -13,13 +13,13 @@
 <div class="max-w-5xl mx-auto space-y-6 md:space-y-8">
     
     {% if has_paid %}
+    <!-- ACTIVE USER DASHBOARD -->
     <div class="bg-white border border-slate-200 rounded-3xl p-5 sm:p-6 md:p-8 shadow-sm">
         <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-6 pb-6 border-b border-slate-100">
             <div class="w-10 h-10 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center font-black shrink-0" aria-hidden="true">
                 ✓
             </div>
             <div class="min-w-0">
-                <!-- ⚡ FIXED: Promoted to H1 for Agentic Browsing ⚡ -->
                 <h1 class="text-lg sm:text-xl font-bold text-slate-900 tracking-tight">DPDP Compliance Pass Active</h1>
                 <p class="text-xs text-slate-600 mt-1">Authenticated Node: <span class="text-indigo-700 font-semibold break-all">{{ user_email }}</span></p>
             </div>
@@ -53,14 +53,45 @@
     </div>
 
     {% else %}
-    <div class="text-center max-w-2xl mx-auto mb-8 md:mb-10 pt-2 sm:pt-4">
-        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-800 text-xs font-bold uppercase tracking-wider mb-4">
-            DPDP Section 33 Audit Engine
+    <!-- GUEST FRONTEND: HIGH-CONVERSION FUNNEL -->
+    <div class="text-center max-w-4xl mx-auto mb-10 pt-4 sm:pt-8">
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-50 border border-red-200 text-red-800 text-xs font-bold uppercase tracking-wider mb-6 shadow-sm">
+            🚨 Urgent: DPDP Act 2023 Enforcement is Active
         </div>
-        <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-3">Unlock Automated Audit Logs</h1>
-        <p class="text-sm sm:text-base text-slate-700 leading-relaxed px-4 sm:px-0">
-            Scan access logs, flag unauthorized data exposure, and produce instant statutory compliance certificates.
+        
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-5 leading-tight">
+            Stop Dispatching Patient Reports Over Unsecured WhatsApp.
+        </h1>
+        
+        <p class="text-base sm:text-lg text-slate-700 leading-relaxed px-4 sm:px-0 mb-8 font-medium max-w-2xl mx-auto">
+            Automate your diagnostic lab's Section 33 compliance logs in 5 minutes—without replacing your existing LIMS. Protect your clinic from ₹250 Crore statutory penalties today.
         </p>
+
+        <!-- Product Demo Placeholder (The "Aha!" Moment) -->
+        <div class="mb-12 rounded-2xl overflow-hidden border border-slate-200 shadow-xl bg-slate-50 max-w-3xl mx-auto relative aspect-video flex flex-col items-center justify-center text-slate-400">
+            <!-- TODO: Replace this div with a <video autoplay loop muted playsinline src="/static/demo.mp4"> tag -->
+            <svg class="w-12 h-12 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span class="text-sm font-semibold uppercase tracking-wider text-slate-500">Insert 10-Second Demo Video Here</span>
+        </div>
+
+        <!-- Zero-Cost Lead Capture -->
+        <div class="bg-indigo-50 border border-indigo-100 rounded-3xl p-6 sm:p-8 max-w-2xl mx-auto mb-16 shadow-sm text-left">
+            <h3 class="text-xl font-bold text-slate-900 mb-2 text-center sm:text-left">Not ready to buy? Check your vulnerability score.</h3>
+            <p class="text-sm text-slate-600 mb-6 text-center sm:text-left">Download our free <strong>2026 DPDP Readiness Checklist for Diagnostic Centers</strong> to see where your front desk is leaking data.</p>
+            
+            <form action="/api/leads/webhook" method="POST" class="flex flex-col sm:flex-row gap-3">
+                <input type="email" name="email" placeholder="founder@yourlab.in" required class="flex-1 rounded-xl border-slate-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm py-3.5 px-4 outline-none">
+                <button type="submit" class="bg-slate-900 hover:bg-black text-white font-bold py-3.5 px-6 rounded-xl transition-all shadow-md text-sm whitespace-nowrap">
+                    Get Free Checklist →
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pricing Section -->
+    <div class="text-center mb-8">
+        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Ready to Automate Your Compliance?</h2>
+        <p class="text-sm text-slate-600 mt-2 mb-8">Select a plan below to instantly activate your Audit Engine.</p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 items-stretch">
