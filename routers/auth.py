@@ -29,28 +29,16 @@ def create_access_token(data: dict) -> str:
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, settings.secret_key, algorithm=settings.algorithm)
 
-# --- AUTH GET ROUTES ---
-
 @router.get("/login", response_class=HTMLResponse)
 @router.get("/auth/login", response_class=HTMLResponse)
 @router.get("/signup", response_class=HTMLResponse)
 @router.get("/auth/signup", response_class=HTMLResponse)
 async def login_page(request: Request):
-    return templates.TemplateResponse(
-        request=request,
-        name="login.html", 
-        context={"request": request}
-    )
-
-# --- AUTH POST ROUTES ---
+    return templates.TemplateResponse(request=request, name="login.html", context={"request": request})
 
 @router.post("/login")
 @router.post("/auth/login")
-async def login(
-    email: str = Form(...), 
-    password: str = Form(...), 
-    db: Session = Depends(get_db)
-):
+async def login(email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
     normalized_email = email.strip().lower()
     user = db.query(models.User).filter(models.User.email == normalized_email).first()
     
@@ -59,16 +47,19 @@ async def login(
     
     token = create_access_token(data={"sub": user.email})
     response = RedirectResponse(url="/", status_code=302)
-    response.set_cookie(key="access_token", value=token, httponly=True, max_age=604800)
+    response.set_cookie(
+        key="access_token", 
+        value=token, 
+        httponly=True, 
+        secure=not settings.debug, 
+        samesite="lax", 
+        max_age=604800
+    )
     return response
 
 @router.post("/signup")
 @router.post("/auth/signup")
-async def signup(
-    email: str = Form(...), 
-    password: str = Form(...), 
-    db: Session = Depends(get_db)
-):
+async def signup(email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
     if len(password) < 6:
         return RedirectResponse(url="/login?error=weak_password", status_code=302)
 
@@ -84,7 +75,14 @@ async def signup(
     
     token = create_access_token(data={"sub": new_user.email})
     response = RedirectResponse(url="/", status_code=302)
-    response.set_cookie(key="access_token", value=token, httponly=True, max_age=604800)
+    response.set_cookie(
+        key="access_token", 
+        value=token, 
+        httponly=True, 
+        secure=not settings.debug, 
+        samesite="lax", 
+        max_age=604800
+    )
     return response
 
 @router.get("/logout")

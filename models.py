@@ -4,7 +4,6 @@ from database import Base
 
 class User(Base):
     __tablename__ = "users"
-
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
@@ -18,10 +17,18 @@ class User(Base):
 
 class LeadCapture(Base):
     __tablename__ = "lead_captures"
-
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, index=True, nullable=False)
     organization_name = Column(String, nullable=True)
     source_url = Column(String, nullable=True)
     lead_magnet_type = Column(String, default="statutory_dpdp_checklist_2026")
     captured_at = Column(DateTime, default=datetime.utcnow)
+
+class LabAuditRecord(Base):
+    __tablename__ = "lab_audits"
+    id = Column(Integer, primary_key=True, index=True)
+    client_id = Column(String, index=True, nullable=False)
+    filename = Column(String, nullable=False)
+    total_records = Column(Integer, default=0)
+    violations_summary = Column(String, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)

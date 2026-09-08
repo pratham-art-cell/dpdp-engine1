@@ -6,19 +6,19 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from sqlalchemy.orm import Session
 
-from database import engine, Base, get_db
+from database import engine, Base, get_db, init_db
 from config import settings
 import models
 from routers import auth, leads, labs, webhooks
 
-# Create database tables automatically
-Base.metadata.create_all(bind=engine)
+# Fix: Initialize Database correctly without race conditions
+init_db()
 
 app = FastAPI(title="ConsentLayer DPDP Engine", version="1.0.0")
 
-# Enable CORS for cross-origin lead webhooks and frontend integrations
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -26,46 +26,46 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# Fix: Gzip compression for frontend assets
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
-# Mount Static Directory
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Fix: Cache static files for 7 days
+class CachedStaticFiles(StaticFiles):
+    def is_not_modified(self, response_headers, request_headers):
+        response_headers["Cache-Control"] = "public, max-age=604800"
+        return super().is_not_modified(response_headers, request_headers)
 
-# Templates Configuration
+app.mount("/static", CachedStaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
-# Register API Routers
 app.include_router(auth.router)
 app.include_router(leads.router)
 app.include_router(labs.router)
 app.include_router(webhooks.router)
 
-# Load Programmatic SEO Dataset
+# Fix: Pre-load JSON into memory to prevent synchronous disk I/O bottlenecks
+ARTICLES_FILE = os.path.join(os.path.dirname(__file__), "data", "longtail_articles.json")
+CACHED_ARTICLES = []
+if os.path.exists(ARTICLES_FILE):
+    with open(ARTICLES_FILE, "r", encoding="utf-8") as f:
+        CACHED_ARTICLES = json.load(f)
+
 def get_articles():
-    file_path = os.path.join(os.path.dirname(__file__), "data", "longtail_articles.json")
-    if os.path.exists(file_path):
-        with open(file_path, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return []
+    return CACHED_ARTICLES
 
 def get_current_user_safe(request: Request, db: Session):
     try:
         token = request.cookies.get("access_token")
         if not token:
             return None
-        
         clean_token = token.replace("Bearer ", "").strip()
         payload = jwt.decode(clean_token, settings.secret_key, algorithms=[settings.algorithm])
         user_email = payload.get("sub")
-        
         if not user_email:
             return None
-            
-        user = db.query(models.User).filter(models.User.email == user_email).first()
-        return user
-    except Exception:
+        return db.query(models.User).filter(models.User.email == user_email).first()
+    except jwt.PyJWTError:
         return None
-
-# --- PUBLIC & DASHBOARD ROUTES ---
 
 @app.get("/", response_class=HTMLResponse)
 async def home_page(request: Request, db: Session = Depends(get_db)):
@@ -86,111 +86,76 @@ async def home_page(request: Request, db: Session = Depends(get_db)):
 async def about_page(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_safe(request, db)
     return templates.TemplateResponse(
-        request=request,
-        name="about.html",
-        context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
+        request=request, name="about.html", context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
     )
 
 @app.get("/support", response_class=HTMLResponse)
 async def support_page(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_safe(request, db)
     return templates.TemplateResponse(
-        request=request,
-        name="support.html",
-        context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
+        request=request, name="support.html", context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
     )
 
 @app.get("/reports", response_class=HTMLResponse)
 async def reports_page(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_safe(request, db)
     return templates.TemplateResponse(
-        request=request,
-        name="reports.html",
-        context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
+        request=request, name="reports.html", context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
     )
 
 @app.get("/settings", response_class=HTMLResponse)
 async def settings_page(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_safe(request, db)
     return templates.TemplateResponse(
-        request=request,
-        name="settings.html",
-        context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
+        request=request, name="settings.html", context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
     )
 
 @app.get("/blog", response_class=HTMLResponse)
 async def blog_index(request: Request):
     articles = get_articles()
     return templates.TemplateResponse(
-        request=request,
-        name="blog_index.html",
-        context={"request": request, "articles": articles}
+        request=request, name="blog_index.html", context={"request": request, "articles": articles}
     )
 
 @app.get("/blog/new", response_class=HTMLResponse)
 async def blog_studio(request: Request):
     return templates.TemplateResponse(
-        request=request,
-        name="blog_editor.html",
-        context={"request": request}
+        request=request, name="blog_editor.html", context={"request": request}
     )
 
 @app.get("/blog/{slug}", response_class=HTMLResponse)
 async def blog_detail(request: Request, slug: str):
     static_templates = {
         "dpdp-section-5-notice-pathology": "blog_section_5_notice.html",
-        "section-5-notice-template": "blog_section_5_notice.html",
         "whatsapp-medical-reports-dpdp-compliance": "blog_whatsapp_compliance.html",
-        "whatsapp-compliance-clinics": "blog_whatsapp_compliance.html",
-        "dpdp-act-healthcare-compliance-guide": "blog_dpdp_master_guide.html",
-        "dpdp-act-healthcare-master-guide": "blog_dpdp_master_guide.html"
+        "dpdp-act-healthcare-compliance-guide": "blog_dpdp_master_guide.html"
     }
     
     if slug in static_templates and os.path.exists(os.path.join("templates", static_templates[slug])):
         return templates.TemplateResponse(
-            request=request,
-            name=static_templates[slug],
-            context={"request": request}
+            request=request, name=static_templates[slug], context={"request": request}
         )
 
     articles = get_articles()
     article = next((a for a in articles if a.get("slug") == slug), None)
     if article:
         return templates.TemplateResponse(
-            request=request,
-            name="blog_detail.html",
-            context={"request": request, "article": article}
+            request=request, name="blog_detail.html", context={"request": request, "article": article}
         )
 
     return HTMLResponse(
-        content="""
-        <div style="text-align:center; padding:80px 20px; font-family:sans-serif; background:#fcfdfd; min-height:100vh;">
-            <h1 style="font-size:2rem; font-weight:800; color:#0f172a; margin-bottom:12px;">Article Not Found</h1>
-            <p style="color:#64748b; margin-bottom:24px;">The compliance guide you requested could not be located.</p>
-            <a href="/blog" style="display:inline-block; padding:10px 20px; background:#4f46e5; color:#ffffff; font-weight:700; text-decoration:none; border-radius:12px;">Return to Compliance Library</a>
-        </div>
-        """, 
+        content="<div style='text-align:center; padding:80px;'><h1>404 Article Not Found</h1></div>", 
         status_code=404
     )
 
-# --- SEO INFRASTRUCTURE ---
-
 @app.get("/robots.txt", response_class=Response)
 async def robots_txt():
-    content = """User-agent: *
-Allow: /
-Disallow: /settings
-Disallow: /reports
-Disallow: /blog/new
-
-Sitemap: https://consentlayers.in/sitemap.xml
-"""
+    content = "User-agent: *\nAllow: /\nDisallow: /settings\nDisallow: /reports\nDisallow: /blog/new\n\nSitemap: https://consentlayers.in/sitemap.xml\n"
     return Response(content=content, media_type="text/plain")
 
 @app.get("/sitemap.xml", response_class=Response)
 async def sitemap_xml():
     articles = get_articles()
-    
     urls = [
         "https://consentlayers.in/",
         "https://consentlayers.in/about",
@@ -198,17 +163,12 @@ async def sitemap_xml():
         "https://consentlayers.in/support",
         "https://consentlayers.in/login"
     ]
-    
     for article in articles:
         if "slug" in article:
             urls.append(f"https://consentlayers.in/blog/{article['slug']}")
             
-    xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    
+    xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     for url in urls:
         xml_content += f"  <url>\n    <loc>{url}</loc>\n    <changefreq>weekly</changefreq>\n  </url>\n"
-        
     xml_content += '</urlset>'
-    
     return Response(content=xml_content, media_type="application/xml")

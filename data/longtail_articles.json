@@ -49,5 +49,26 @@
       }
     ],
     "related_slugs": ["dpdp-section-5-notice-pathology", "whatsapp-medical-reports-dpdp-compliance"]
+  },
+  {
+    "slug": "dpdp-section-33-penalties-small-clinics",
+    "title": "Do Small Clinics Face Section 33 DPDP Penalties? (2026 Legal Precedents)",
+    "meta_description": "Analysis of DPDP Act Section 33 penalty structures for SME clinics. Why low patient volume does not exempt pathology labs from Rs 50 Crore fines.",
+    "category": "Statutory Enforcement",
+    "read_time": "7 min read",
+    "published_date": "September 2026",
+    "summary": "Many SME clinic owners believe their size exempts them from DPDP enforcement. The Data Protection Board evaluates security safeguards, not revenue.",
+    "content": "<h2>The Myth of the SME Exemption</h2><p>Under the DPDP Act 2023, the definition of a Data Fiduciary does not include a minimum revenue threshold. If a standalone polyclinic processes digital health records, they carry the exact same statutory liability as a corporate hospital network. Penalties range from 50 crore rupees for general defaults to 250 crore rupees for the most serious violations.</p><h2>Section 33 Calculation</h2><p>Penalties are assessed based on the severity of the data breach and failure to implement <strong>reasonable security safeguards</strong>. Storing unencrypted patient PDFs on a local front-desk computer constitutes a direct violation of Section 8. Furthermore, the 2026 DPDP framework makes it explicitly clear that consent must be an affirmative action—pre-ticked boxes do not constitute valid consent.</p>",
+    "faqs": [
+      {
+        "question": "Are single-doctor clinics considered Data Fiduciaries?",
+        "answer": "Yes. Any entity determining the purpose of processing personal health data is a Data Fiduciary under the Act."
+      },
+      {
+        "question": "Can I use pre-ticked boxes for WhatsApp consent?",
+        "answer": "No. The DPDP rules state that consent must be a clear, affirmative action. Pre-ticked checkboxes are legally invalid."
+      }
+    ],
+    "related_slugs": ["dpdp-act-healthcare-compliance-guide"]
   }
 ]
