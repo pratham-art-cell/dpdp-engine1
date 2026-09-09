@@ -2,11 +2,9 @@
 <html lang="en" class="scroll-smooth bg-[#fcfdfd]">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>{% block title %}ConsentLayer | DPDP Compliance{% endblock %}</title>
 
-    <!-- Default SEO & OG Metadata -->
     {% block meta %}
     <meta name="description" content="DPDP Act 2023 Compliance Software for Indian Pathology Labs and Diagnostic Centers.">
     <meta property="og:title" content="ConsentLayer | DPDP Compliance Engine">
@@ -16,9 +14,10 @@
     <link rel="canonical" href="https://consentlayers.in{{ request.url.path if request else '/' }}">
     {% endblock %}
 
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preload" href="/static/styles.css" as="style" fetchpriority="high">
     <link rel="stylesheet" href="/static/styles.css">
 
-    <!-- Deferred Google Tag Manager -->
     <script defer>
       window.addEventListener('load', function() {
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -29,6 +28,7 @@
         })(window,document,'script','dataLayer','GTM-MRDDXT7S');
       });
     </script>
+    <script src="/static/js/htmx.min.js" defer></script>
 
     <style>
       .cl-banner-bg { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(6px); z-index: 999999; display: flex; align-items: flex-end; justify-content: center; padding: 16px; }
@@ -40,10 +40,8 @@
 </head>
 <body class="bg-[#fcfdfd] text-slate-900 antialiased font-sans min-h-screen flex flex-col md:flex-row">
     
-    <!-- Mobile Sidebar Backdrop Overlay -->
     <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden md:hidden transition-opacity opacity-0" onclick="toggleSidebar()"></div>
 
-    <!-- Sidebar -->
     <aside id="cl-sidebar" aria-label="Main Navigation" class="w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col h-full z-50 shadow-2xl md:shadow-sm fixed md:relative transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out left-0 top-0 bottom-0">
         <div class="p-5 md:p-6 border-b border-slate-100 flex justify-between items-center">
             <a href="/" class="flex items-center gap-2" aria-label="ConsentLayer Home">
@@ -58,15 +56,10 @@
             <a href="/" class="block px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-indigo-50 hover:text-indigo-700 rounded-xl transition-colors">Dashboard</a>
             <a href="/reports" class="block px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-indigo-50 hover:text-indigo-700 rounded-xl transition-colors">Compliance Reports</a>
             <a href="/settings" class="block px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-indigo-50 hover:text-indigo-700 rounded-xl transition-colors">Settings</a>
-            <a href="/blog/new" class="block px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-indigo-50 hover:text-indigo-700 rounded-xl transition-colors">Blog Studio</a>
             <a href="/blog" target="_blank" rel="noopener" class="block px-4 py-2.5 text-sm font-semibold text-indigo-700 hover:bg-indigo-50 rounded-xl transition-colors">Public Library ↗</a>
             <a href="/about" class="block px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-indigo-50 hover:text-indigo-700 rounded-xl transition-colors">About ConsentLayer</a>
             <a href="/support" class="block px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-indigo-50 hover:text-indigo-700 rounded-xl transition-colors">Support Desk</a>
         </nav>
-        <div class="p-4 border-t border-slate-100 text-[11px] text-slate-500 space-y-1">
-            <p><strong>Helpdesk:</strong> <a href="mailto:support@consentlayer.co" class="text-indigo-600 hover:underline">support@consentlayer.co</a></p>
-            <p><strong>Billing:</strong> <a href="mailto:billing@consentlayer.co" class="text-indigo-600 hover:underline">billing@consentlayer.co</a></p>
-        </div>
     </aside>
 
     <div class="flex-1 flex flex-col min-h-screen relative overflow-y-auto bg-[#fcfdfd] w-full">
@@ -79,7 +72,7 @@
             </div>
             <div class="flex items-center gap-3 md:gap-4">
                 <span class="text-xs text-slate-600 font-medium truncate max-w-[120px] sm:max-w-[180px] md:max-w-none">{{ user_email | default('Guest') }}</span>
-                <a href="/login" class="px-3 md:px-4 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg transition-colors border border-slate-300 whitespace-nowrap">Sign Out</a>
+                <a href="/login" class="px-3 md:px-4 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg transition-colors border border-slate-300 whitespace-nowrap">Sign In</a>
             </div>
         </header>
 
@@ -87,63 +80,11 @@
             <div>
                 {% block content %}{% endblock %}
             </div>
-            <footer class="mt-12 pt-6 border-t border-slate-200 text-center text-xs text-slate-500 space-y-1">
+            <footer class="mt-12 pt-6 border-t border-slate-200 text-center text-xs text-slate-600 space-y-1">
                 <p>© 2026 ConsentLayer Platform. Built for Indian Healthcare DPDP Compliance.</p>
-                <p>Support: <a href="mailto:support@consentlayer.co" class="text-indigo-600 hover:underline">support@consentlayer.co</a> • Inquiries: <a href="mailto:pratham@consentlayer.co" class="text-indigo-600 hover:underline">pratham@consentlayer.co</a></p>
+                <p>Support: <a href="mailto:support@consentlayer.co" class="text-indigo-700 hover:underline">support@consentlayer.co</a></p>
             </footer>
         </main>
-    </div>
-
-    <!-- DPDP Modal -->
-    <div id="cl-consent-wrapper" class="cl-banner-bg" role="dialog" aria-modal="true" aria-labelledby="cl-title" style="display:none;">
-      <div class="cl-modal-card">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
-          <div>
-            <span class="cl-badge">DPDP Act Compliant</span>
-            <h2 id="cl-title" class="text-base sm:text-lg font-bold text-slate-900 mt-1">Data Processing Notice & Consent</h2>
-          </div>
-          <div>
-            <label for="cl-lang-select" class="sr-only">Select Consent Language</label>
-            <select id="cl-lang-select" aria-label="Select Consent Language" onchange="toggleConsentLanguage(this.value)" class="text-xs px-2.5 py-1.5 border border-slate-400 rounded-lg bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-600 w-full sm:w-auto">
-              <option value="en">English</option>
-              <option value="hi">हिन्दी (Hindi)</option>
-            </select>
-          </div>
-        </div>
-
-        <p id="cl-desc" class="text-xs text-slate-700 mb-4 leading-relaxed">
-          Under Section 5(1) of the DPDP Act 2023, ConsentLayer requires your explicit consent before loading analytics and marketing telemetry.
-        </p>
-
-        <div class="space-y-3 border-y border-slate-200 py-4 mb-4 text-xs">
-          <label class="flex gap-3 items-start cursor-pointer">
-            <input type="checkbox" checked disabled class="mt-0.5" aria-label="Core Infrastructure Mandatory Consent" />
-            <div>
-              <strong id="cl-l-essential" class="text-slate-900 block font-bold">Core Infrastructure (Mandatory)</strong>
-              <p id="cl-d-essential" class="text-slate-600 text-[11px] mt-0.5 leading-relaxed">Authentication tokens, session security, and Section 33 audit log generation.</p>
-            </div>
-          </label>
-          <label class="flex gap-3 items-start cursor-pointer">
-            <input type="checkbox" id="cl-consent-ga" class="mt-0.5" aria-label="Google Analytics 4 Telemetry Consent" />
-            <div>
-              <strong id="cl-l-analytics" class="text-slate-900 block font-bold">Telemetry & Usage (Google Analytics 4)</strong>
-              <p id="cl-d-analytics" class="text-slate-600 text-[11px] mt-0.5 leading-relaxed">Aggregated analytics to improve audit processing performance.</p>
-            </div>
-          </label>
-          <label class="flex gap-3 items-start cursor-pointer">
-            <input type="checkbox" id="cl-consent-meta" class="mt-0.5" aria-label="Meta Pixel Marketing Consent" />
-            <div>
-              <strong id="cl-l-marketing" class="text-slate-900 block font-bold">Conversion Attribution (Meta Pixel)</strong>
-              <p id="cl-d-marketing" class="text-slate-600 text-[11px] mt-0.5 leading-relaxed">Conversion tracking for DPDP diagnostic lab audit outreach campaigns.</p>
-            </div>
-          </label>
-        </div>
-
-        <div class="flex flex-col-reverse sm:flex-row justify-end gap-2.5">
-          <button type="button" onclick="handleConsentDecision(false)" class="w-full sm:w-auto px-4 py-2.5 sm:py-2 bg-slate-200 hover:bg-slate-300 text-slate-900 rounded-xl text-xs font-bold transition-colors text-center" id="cl-btn-reject">Decline Optional</button>
-          <button type="button" onclick="handleConsentDecision(true)" class="w-full sm:w-auto px-5 py-2.5 sm:py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-md transition-colors text-center" id="cl-btn-save">Confirm Choices</button>
-        </div>
-      </div>
     </div>
 
     <script>
@@ -163,41 +104,6 @@
               }, 10);
           }
       }
-
-      const i18nConsent = {
-        en: { title: "Data Processing Notice & Consent", desc: "Under Section 5(1) of the DPDP Act 2023, ConsentLayer requires your explicit consent before loading analytics and marketing pixels.", essentialTitle: "Core Infrastructure (Mandatory)", essentialDesc: "Authentication tokens, session security, and Section 33 audit log generation.", gaTitle: "Telemetry & Usage (Google Analytics 4)", gaDesc: "Aggregated analytics to improve audit processing performance.", metaTitle: "Conversion Attribution (Meta Pixel)", metaDesc: "Attribution for diagnostic lab compliance outreach campaigns.", reject: "Decline Optional", save: "Confirm Choices" },
-        hi: { title: "डेटा प्रोसेसिंग सूचना एवं सहमति (DPDP Act)", desc: "DPDP अधिनियम 2023 की धारा 5(1) के तहत, एनालिटिक्स एवं मार्केटिंग ट्रैकर चलाने से पूर्व आपकी स्पष्ट सहमति आवश्यक है।", essentialTitle: "मुख्य अवसंरचना (अनिवार्य)", essentialDesc: "लॉगिन टोकन, सुरक्षा एवं धारा 33 ऑडिट लॉग निर्माण।", gaTitle: "उपयोग एनालिटिक्स (Google Analytics 4)", gaDesc: "ऑडिट गति और प्लेटफ़ॉर्म प्रदर्शन में सुधार के लिए।", metaTitle: "मार्केटिंग एवं कन्वर्जन (Meta Pixel)", metaDesc: "डायग्नोस्टिक लैब अनुपालन अभियानों के कन्वर्जन मापन हेतु।", reject: "अस्वीकार करें", save: "पसंद सहेजें" }
-      };
-
-      function toggleConsentLanguage(lang) {
-        const data = i18nConsent[lang];
-        document.getElementById("cl-title").innerText = data.title;
-        document.getElementById("cl-desc").innerText = data.desc;
-        document.getElementById("cl-l-essential").innerText = data.essentialTitle;
-        document.getElementById("cl-d-essential").innerText = data.essentialDesc;
-        document.getElementById("cl-l-analytics").innerText = data.gaTitle;
-        document.getElementById("cl-d-analytics").innerText = data.gaDesc;
-        document.getElementById("cl-l-marketing").innerText = data.metaTitle;
-        document.getElementById("cl-d-marketing").innerText = data.metaDesc;
-        document.getElementById("cl-btn-reject").innerText = data.reject;
-        document.getElementById("cl-btn-save").innerText = data.save;
-      }
-
-      function handleConsentDecision(isCustom) {
-        const gaState = isCustom ? document.getElementById("cl-consent-ga").checked : false;
-        const metaState = isCustom ? document.getElementById("cl-consent-meta").checked : false;
-        const consentPayload = { analytics: gaState, marketing: metaState, timestamp: new Date().toISOString() };
-        localStorage.setItem("consentlayer_dpdp_v1", JSON.stringify(consentPayload));
-        document.getElementById("cl-consent-wrapper").style.display = "none";
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: "dpdp_consent_update", analytics_storage: gaState ? "granted" : "denied", ad_storage: metaState ? "granted" : "denied" });
-      }
-
-      document.addEventListener("DOMContentLoaded", function() {
-        if (!localStorage.getItem("consentlayer_dpdp_v1")) {
-          document.getElementById("cl-consent-wrapper").style.display = "flex";
-        }
-      });
     </script>
 </body>
 </html>

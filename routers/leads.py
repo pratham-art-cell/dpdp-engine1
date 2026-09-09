@@ -21,10 +21,16 @@ async def cold_email_lead_webhook(
     db: Session = Depends(get_db)
 ):
     normalized_email = payload.email.strip().lower()
+    
+    # Prevent duplicate entries from multiple webhook firings
+    existing_lead = db.query(models.LeadCapture).filter(models.LeadCapture.email == normalized_email).first()
+    if existing_lead:
+        return {"status": "lead_already_exists", "email": normalized_email}
+
     lead = models.LeadCapture(
         email=normalized_email,
         organization_name=payload.company_name or "Outbound Prospect",
-        source_url="cold_email_campaign",
+        source_url="phase3_cold_email_campaign",
         lead_magnet_type="outbound_positive_reply"
     )
     db.add(lead)
@@ -51,10 +57,10 @@ async def capture_lead(
 
     return HTMLResponse(
         content="""
-        <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-center">
-            <div class="text-emerald-700 font-bold text-sm mb-1">✓ Checklist Ready!</div>
-            <p class="text-xs text-emerald-600 mb-3">Your clinic compliance package is generated.</p>
-            <a href="/api/leads/download-checklist" target="_blank" class="inline-block px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition-all shadow-sm">
+        <div class="p-4 bg-emerald-50 border border-emerald-300 rounded-2xl text-center">
+            <div class="text-emerald-800 font-bold text-sm mb-1">✓ Checklist Ready!</div>
+            <p class="text-xs text-emerald-700 mb-3">Your clinic compliance package is generated.</p>
+            <a href="/api/leads/download-checklist" target="_blank" class="inline-block px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold rounded-xl transition-all shadow-sm">
                 ⬇ View & Print PDF Checklist
             </a>
         </div>
@@ -79,7 +85,6 @@ async def download_statutory_checklist():
             <p>[ &nbsp; ] Immutable time-stamped log of staff access to records.</p>
             <p>[ &nbsp; ] WhatsApp dispatch logs retained for audit verification.</p>
             <p>[ &nbsp; ] Session timeout enforced after 15 minutes of LIMS inactivity.</p>
-            <button onclick="window.print()" style="margin-top:30px; padding:12px 24px; background:#4f46e5; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:bold;">Save to PDF</button>
         </body>
     </html>
     """
