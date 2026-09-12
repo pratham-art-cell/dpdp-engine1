@@ -60,7 +60,7 @@ def login(email: str = Form(...), password: str = Form(...), db: Session = Depen
 @router.post("/signup")
 @router.post("/auth/signup")
 def signup(email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
-    if len(password) < 6:
+    if len(password) < 8:
         return RedirectResponse(url="/login?error=weak_password", status_code=302)
 
     normalized_email = email.strip().lower()

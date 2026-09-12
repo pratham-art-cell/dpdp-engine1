@@ -32,7 +32,7 @@ def upload_audit_log(request: Request, audit_file: UploadFile = File(...), db: S
         size = audit_file.file.tell()
         audit_file.file.seek(0)
         if size > 5 * 1024 * 1024:
-            return HTMLResponse(content="<div class='p-4 bg-rose-100 text-rose-800 rounded-lg mt-4 font-bold text-xs'>Payload exceeds 5MB limit.</div>")
+            return HTMLResponse(content="<div class='p-4 bg-rose-100 text-rose-800 rounded-xl font-bold text-xs'>Payload exceeds 5MB size limit.</div>")
 
         violations = 0
         total_rows = 0
@@ -56,18 +56,18 @@ def upload_audit_log(request: Request, audit_file: UploadFile = File(...), db: S
 
         if violations > 0:
             return HTMLResponse(content=f"""
-            <div class="p-6 bg-rose-100 border border-rose-300 rounded-xl mt-4 shadow-sm animate-pulse">
-                <h4 class="text-rose-700 font-bold text-lg">🚨 Section 8 Breach Trigger Detected</h4>
-                <p class="text-slate-800 text-sm">Found {violations} unauthorized access events across {total_rows} entries.</p>
+            <div class="p-5 bg-rose-50 border border-rose-300 rounded-xl mt-4 shadow-sm">
+                <h4 class="text-rose-800 font-bold text-sm">🚨 Section 8 Safeguard Breach Detected</h4>
+                <p class="text-slate-700 text-xs mt-1">Found {violations} unauthorized access events across {total_rows} entries.</p>
             </div>
             """)
         else:
             return HTMLResponse(content=f"""
-            <div class="p-6 bg-emerald-100 border border-emerald-300 rounded-xl mt-4 shadow-sm">
-                <h4 class="text-emerald-700 font-bold text-lg">✅ Section 8 Verification Passed</h4>
-                <p class="text-slate-800 text-sm">Verified {total_rows} access logs. All entries satisfy statutory technical safeguard requirements.</p>
+            <div class="p-5 bg-emerald-50 border border-emerald-300 rounded-xl mt-4 shadow-sm">
+                <h4 class="text-emerald-800 font-bold text-sm">✅ Section 8 Verification Passed</h4>
+                <p class="text-slate-700 text-xs mt-1">Verified {total_rows} logs. All records comply with statutory safeguard standards.</p>
             </div>
             """)
             
     except Exception:
-        return HTMLResponse(content="<div class='p-4 bg-amber-100 text-amber-800 rounded-lg mt-4 font-bold text-xs'>CSV error. Confirm headers: Consent_Status, Location.</div>")
+        return HTMLResponse(content="<div class='p-4 bg-amber-50 border border-amber-300 text-amber-800 rounded-xl font-bold text-xs'>CSV error. Confirm headers: Consent_Status, Location.</div>")

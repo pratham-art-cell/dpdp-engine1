@@ -30,7 +30,7 @@ app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 class CachedStaticFiles(StaticFiles):
     def is_not_modified(self, response_headers, request_headers):
-        response_headers["Cache-Control"] = "public, max-age=604800"
+        response_headers["Cache-Control"] = "public, max-age=31536000, immutable"
         return super().is_not_modified(response_headers, request_headers)
 
 app.mount("/static", CachedStaticFiles(directory="static"), name="static")
