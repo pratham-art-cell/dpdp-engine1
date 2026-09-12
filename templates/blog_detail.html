@@ -1,126 +1,60 @@
 {% extends "base.html" %}
 
-{% block title %}{{ article.title | default('DPDP Compliance Engine') }} | ConsentLayer Compliance{% endblock %}
+{% block title %}DPDP Act Compliance Guide for Indian Healthcare (2026) | ConsentLayer{% endblock %}
 
 {% block meta %}
-<meta name="description" content="{{ article.meta_description | default('Comprehensive DPDP statutory compliance guide for pathology laboratories and diagnostic clinics.') }}">
-<meta property="og:title" content="{{ article.title | default('ConsentLayer DPDP Guide') }}">
-<meta property="og:description" content="{{ article.summary | default(article.meta_description) | default('Complete statutory compliance guide.') }}">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://consentlayers.in/blog/{{ article.slug | default('') }}">
-<link rel="canonical" href="https://consentlayers.in/blog/{{ article.slug | default('') }}">
-{% endblock %}
-
-{% block extra_head %}
-{% if article and article.faqs %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {% for faq in article.faqs %}
-    {
-      "@type": "Question",
-      "name": "{{ faq.question }}",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "{{ faq.answer }}"
-      }
-    }{% if not loop.last %},{% endif %}
-    {% endfor %}
-  ]
-}
-</script>
-{% endif %}
+<meta name="description" content="The operational roadmap for DPDP Act compliance in Indian healthcare. How SME clinics and diagnostic labs prevent Section 33 penalties with Section 8 technical safeguards.">
+<meta name="keywords" content="DPDP Act healthcare compliance, Section 8 technical safeguards, Section 33 penalties">
+<link rel="canonical" href="https://consentlayers.in/blog/dpdp-act-healthcare-compliance-guide">
 {% endblock %}
 
 {% block content %}
-<div class="max-w-5xl mx-auto py-4 sm:py-6 md:py-8 px-4 sm:px-6">
-    <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs font-semibold text-slate-600 mb-5 sm:mb-6">
-        <a href="/blog" class="hover:text-indigo-700 transition-colors">Compliance Library</a>
-        <span>›</span>
-        <span class="text-indigo-700">{{ article.category | default('Master Guide') }}</span>
+<div class="max-w-4xl mx-auto space-y-8">
+    <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-xs font-semibold text-slate-600 uppercase tracking-widest">
+        <a href="/" class="hover:text-indigo-600">Home</a>
+        <span>/</span>
+        <a href="/blog" class="hover:text-indigo-600">Compliance Library</a>
+        <span>/</span>
+        <span class="text-indigo-600">Master Guide</span>
     </nav>
 
-    <header class="mb-8 sm:mb-10">
-        <div class="flex flex-wrap items-center gap-2 sm:gap-3 mb-4">
-            <span class="px-2.5 sm:px-3 py-1 bg-indigo-50 border border-indigo-200 text-indigo-800 text-[10px] sm:text-xs font-bold uppercase rounded-full">
-                {{ article.category | default('Master Guide') }}
-            </span>
-            <span class="text-[11px] sm:text-xs text-slate-600 font-medium">{{ article.read_time | default('5 min read') }}</span>
-            <span class="text-xs text-slate-600">•</span>
-            <span class="text-[11px] sm:text-xs text-slate-600 font-medium">Published {{ article.published_date | default('August 2026') }}</span>
+    <header class="border-b border-slate-200 pb-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-semibold uppercase tracking-wider mb-4">
+            Regulatory Enforcement Manual • DPDP Act 2023
         </div>
-        <h1 class="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight mb-3 sm:mb-4">
-            {{ article.title | default('ConsentLayer DPDP Guide') }}
+        <h1 class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+            DPDP Act Compliance for Indian Healthcare: The Complete 2026 Operational Guide for SME Clinics & Diagnostic Labs
         </h1>
-        <p class="text-sm sm:text-base text-slate-700 leading-relaxed max-w-3xl">
-            {{ article.summary | default('') }}
+        <p class="text-sm sm:text-base text-slate-600 mt-4 leading-relaxed">
+            A step-by-step breakdown of Data Fiduciary liabilities, patient consent architectures under Section 5, Section 8 security safeguards, and statutory financial penalty modeling under Section 33.
         </p>
     </header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
-        <article class="lg:col-span-8 prose prose-sm sm:prose-base prose-slate max-w-none text-slate-800 leading-relaxed space-y-5 sm:space-y-6">
-            {{ article.content | safe | default('<p>Content currently being updated.</p>') }}
+    <aside class="p-5 bg-slate-50 rounded-2xl border-l-4 border-indigo-600">
+        <h2 class="text-xs font-bold uppercase tracking-wider text-indigo-900 mb-2">Executive Summary</h2>
+        <ul class="text-xs sm:text-sm text-slate-700 space-y-2 list-disc pl-5">
+            <li>Every Indian clinic, pathology lab, and hospital processing digital records is classified as a <strong>Data Fiduciary</strong>.</li>
+            <li>Under <strong>Section 8(5)</strong>, clinics must deploy reasonable security safeguards to prevent personal data breaches.</li>
+            <li>Under <strong>Section 33</strong>, financial penalties for security failures can reach up to <strong>₹250 Crores</strong>.</li>
+        </ul>
+    </aside>
 
-            <div id="lead-capture-container" class="my-8 sm:my-10 p-5 sm:p-6 md:p-8 bg-indigo-50/70 border border-indigo-200 rounded-2xl sm:rounded-3xl shadow-sm not-prose">
-                <div class="flex items-center gap-2 text-indigo-800 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-2">
-                    <span>⚡</span> Instant Statutory Download
-                </div>
-                <!-- FIXED ACCESSIBILITY: Changed from h3 to h2 -->
-                <h2 class="text-base sm:text-lg font-bold text-slate-900 mb-2">
-                    Get the Complete DPDP Clinic Compliance Checklist
-                </h2>
-                <p class="text-[11px] sm:text-xs text-slate-700 mb-4 sm:mb-5 leading-relaxed">
-                    Download ready-to-use bilingual Section 5 notice templates and Section 33 audit log checklists for your clinic and lab software.
-                </p>
+    <article class="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-6">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">1. Data Fiduciaries vs. Data Principals in Clinical Practice</h2>
+        <p>Under the DPDP Act, your diagnostic facility determines the means and purpose of data processing, legally classifying it as a Data Fiduciary. Patients are Data Principals who retain statutory rights over their medical data.</p>
+        
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">2. Section 8 Technical Safeguards</h2>
+        <p>Transmitting unencrypted patient records over personal staff phones or storing unsecured PDFs on clinic reception desktops violates Section 8 obligations. Fiduciaries must implement access logging and encrypted storage tokens.</p>
+    </article>
 
-                <form hx-post="/api/leads/capture" hx-target="#lead-capture-container" hx-swap="innerHTML" class="space-y-3">
-                    <input type="hidden" name="source_url" value="/blog/{{ article.slug | default('unknown') }}">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <input type="email" name="email" required placeholder="lab-admin@diagnostic.in" 
-                               class="w-full px-4 py-2.5 sm:py-2.5 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-indigo-600 transition-colors">
-                        <input type="text" name="org_name" placeholder="Clinic / Lab Name (Optional)" 
-                               class="w-full px-4 py-2.5 sm:py-2.5 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:border-indigo-600 transition-colors">
-                    </div>
-                    <button type="submit" class="w-full py-3.5 sm:py-3 bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all">
-                        Download Statutory Package →
-                    </button>
-                    <p class="text-center text-[11px] text-slate-600 font-medium mt-2">
-                        🔒 100% Free • No credit card required.
-                    </p>
-                </form>
-            </div>
-
-            <!-- E-E-A-T Author Bio -->
-            <div class="my-10 p-6 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-5 not-prose">
-                <img src="https://ui-avatars.com/api/?name=Pratham&background=e0e7ff&color=4f46e5&bold=true" alt="Pratham - Founder of ConsentLayer" class="w-16 h-16 rounded-full shadow-sm shrink-0">
-                <div class="text-center sm:text-left">
-                    <h2 class="text-lg font-bold text-slate-900">Pratham</h2>
-                    <p class="text-xs font-bold text-indigo-700 uppercase tracking-wider mt-0.5">Founder & Security Architect</p>
-                    <p class="text-sm text-slate-700 mt-2 leading-relaxed">
-                        Operating from Ratlam, Madhya Pradesh, Pratham translates the DPDP Act 2023 into technical, automated compliance safeguards for Indian pathology labs and diagnostic centers.
-                    </p>
-                </div>
-            </div>
-        </article>
-
-        <aside class="lg:col-span-4 space-y-5 sm:space-y-6">
-            <div class="lg:sticky lg:top-24 space-y-5 sm:space-y-6">
-                <div class="bg-white border border-slate-200 rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-sm text-center">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 bg-indigo-50 border border-indigo-200 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4 text-lg sm:text-xl">
-                        🛡️
-                    </div>
-                    <h3 class="text-sm sm:text-base font-bold text-slate-900 mb-1">ConsentLayer Engine</h3>
-                    <p class="text-[11px] sm:text-xs text-slate-600 mb-4 sm:mb-5 leading-relaxed">
-                        Automate Section 5 consent notices & Section 33 audit logs in 5 minutes.
-                    </p>
-                    <a href="/login" class="block w-full py-2.5 sm:py-2.5 bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-[10px] sm:text-xs uppercase tracking-wider rounded-lg sm:rounded-xl shadow-sm transition-all">
-                        Launch Clinic Portal →
-                    </a>
-                </div>
-            </div>
-        </aside>
+    <div class="p-6 sm:p-8 bg-slate-900 rounded-2xl text-white text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div>
+            <h2 class="text-lg sm:text-xl font-bold">Automate Your Clinical Safeguards</h2>
+            <p class="text-slate-400 text-xs sm:text-sm mt-1">Deploy automated consent logs and Section 8 technical audits.</p>
+        </div>
+        <a href="/login" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl text-xs uppercase tracking-wider">
+            Launch Clinic Console
+        </a>
     </div>
 </div>
 {% endblock %}

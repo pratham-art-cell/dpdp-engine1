@@ -8,7 +8,7 @@
     {% block meta %}
     <meta name="description" content="DPDP Act 2023 Compliance Software for Indian Pathology Labs and Diagnostic Centers.">
     <meta property="og:title" content="ConsentLayer | DPDP Compliance Engine">
-    <meta property="og:description" content="Automate Section 33 Audit Logs and Section 5 Consent notices in minutes.">
+    <meta property="og:description" content="Automate Section 8 Technical Safeguards and Section 5 Consent notices in minutes.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://consentlayers.in{{ request.url.path if request else '/' }}">
     <link rel="canonical" href="https://consentlayers.in{{ request.url.path if request else '/' }}">
@@ -29,13 +29,6 @@
       });
     </script>
     <script src="/static/js/htmx.min.js" defer></script>
-
-    <style>
-      .cl-banner-bg { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(6px); z-index: 999999; display: flex; align-items: flex-end; justify-content: center; padding: 16px; }
-      .cl-modal-card { background: #ffffff; width: 100%; max-width: 680px; border-radius: 16px; padding: 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border: 1px solid #e2e8f0; font-family: system-ui, -apple-system, sans-serif; }
-      .cl-badge { font-size: 11px; font-weight: 700; color: #3730a3; background: #eef2ff; padding: 2px 8px; border-radius: 9999px; text-transform: uppercase; border: 1px solid #c7d2fe; }
-      @media (min-width: 640px) { .cl-banner-bg { padding: 24px; } .cl-modal-card { padding: 24px; } }
-    </style>
     {% block extra_head %}{% endblock %}
 </head>
 <body class="bg-[#fcfdfd] text-slate-900 antialiased font-sans min-h-screen flex flex-col md:flex-row">
@@ -68,11 +61,15 @@
                 <button onclick="toggleSidebar()" aria-label="Open sidebar navigation" class="md:hidden p-2 -ml-2 text-slate-700 hover:bg-slate-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-600">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                 </button>
-                <span class="hidden sm:inline-block px-2.5 py-1 bg-indigo-50 text-indigo-800 border border-indigo-200 rounded-full text-[11px] md:text-xs font-bold uppercase tracking-wider">DPDP SEC 33 ENGINE</span>
+                <span class="hidden sm:inline-block px-2.5 py-1 bg-indigo-50 text-indigo-800 border border-indigo-200 rounded-full text-[11px] md:text-xs font-bold uppercase tracking-wider">DPDP SEC 8 SAFEGUARDS</span>
             </div>
             <div class="flex items-center gap-3 md:gap-4">
                 <span class="text-xs text-slate-600 font-medium truncate max-w-[120px] sm:max-w-[180px] md:max-w-none">{{ user_email | default('Guest') }}</span>
-                <a href="/login" class="px-3 md:px-4 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg transition-colors border border-slate-300 whitespace-nowrap">Sign In</a>
+                {% if user_email %}
+                <a href="/logout" class="px-3 md:px-4 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg transition-colors border border-slate-300 whitespace-nowrap">Sign Out</a>
+                {% else %}
+                <a href="/login" class="px-3 md:px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-lg transition-colors shadow-sm whitespace-nowrap">Sign In</a>
+                {% endif %}
             </div>
         </header>
 
@@ -82,7 +79,7 @@
             </div>
             <footer class="mt-12 pt-6 border-t border-slate-200 text-center text-xs text-slate-600 space-y-1">
                 <p>© 2026 ConsentLayer Platform. Built for Indian Healthcare DPDP Compliance.</p>
-                <p>Support: <a href="mailto:support@consentlayer.co" class="text-indigo-700 hover:underline">support@consentlayer.co</a></p>
+                <p>Support: <a href="mailto:support@consentlayers.in" class="text-indigo-700 hover:underline">support@consentlayers.in</a></p>
             </footer>
         </main>
     </div>

@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict
 
 from database import get_db
 from models import LabAuditRecord
-from routers.labs import get_current_client_id
+from routers.labs import get_current_tenant_email
 
 router = APIRouter(prefix="/api/v1/labs", tags=["JSON API"])
 
@@ -24,13 +24,9 @@ class AuditResponse(BaseModel):
 def get_client_audits_api(
     limit: int = Query(default=50, ge=1, le=100),
     offset: int = Query(default=0, ge=0),
-    client_id: str = Depends(get_current_client_id), 
+    client_id: str = Depends(get_current_tenant_email), 
     db: Session = Depends(get_db)
 ):
-    """
-    Returns a paginated JSON list of audit records ordered newest-first 
-    for the authenticated tenant.
-    """
     audits = (
         db.query(LabAuditRecord)
         .filter(LabAuditRecord.client_id == client_id)

@@ -16,13 +16,8 @@ class ColdEmailWebhookPayload(BaseModel):
     lead_status: Optional[str] = "interested"
 
 @router.post("/webhook", status_code=status.HTTP_200_OK)
-async def cold_email_lead_webhook(
-    payload: ColdEmailWebhookPayload,
-    db: Session = Depends(get_db)
-):
+def cold_email_lead_webhook(payload: ColdEmailWebhookPayload, db: Session = Depends(get_db)):
     normalized_email = payload.email.strip().lower()
-    
-    # Prevent duplicate entries from multiple webhook firings
     existing_lead = db.query(models.LeadCapture).filter(models.LeadCapture.email == normalized_email).first()
     if existing_lead:
         return {"status": "lead_already_exists", "email": normalized_email}
@@ -30,7 +25,7 @@ async def cold_email_lead_webhook(
     lead = models.LeadCapture(
         email=normalized_email,
         organization_name=payload.company_name or "Outbound Prospect",
-        source_url="phase3_cold_email_campaign",
+        source_url="cold_email_campaign",
         lead_magnet_type="outbound_positive_reply"
     )
     db.add(lead)
@@ -38,7 +33,7 @@ async def cold_email_lead_webhook(
     return {"status": "lead_captured", "email": normalized_email}
 
 @router.post("/capture", response_class=HTMLResponse)
-async def capture_lead(
+def capture_lead(
     request: Request,
     email: str = Form(...),
     org_name: str = Form(None),
@@ -69,7 +64,7 @@ async def capture_lead(
     )
 
 @router.get("/download-checklist", response_class=HTMLResponse)
-async def download_statutory_checklist():
+def download_statutory_checklist():
     return """
     <html>
         <head><title>DPDP Compliance Checklist 2026 | ConsentLayer</title></head>
@@ -81,9 +76,9 @@ async def download_statutory_checklist():
             <p>[ &nbsp; ] Multilingual Notice presented before collecting patient phone numbers.</p>
             <p>[ &nbsp; ] Exact purpose specified: "Diagnostic testing only".</p>
             <p>[ &nbsp; ] Clear procedure on how patient can withdraw consent.</p>
-            <h3 style="color: #0f172a; margin-top: 30px;">2. Section 33 Audit Trails & Penalty Risks</h3>
+            <h3 style="color: #0f172a; margin-top: 30px;">2. Section 8 Safeguards & Audit Trails</h3>
             <p>[ &nbsp; ] Immutable time-stamped log of staff access to records.</p>
-            <p>[ &nbsp; ] WhatsApp dispatch logs retained for audit verification.</p>
+            <p>[ &nbsp; ] WhatsApp dispatch links tokenized for security verification.</p>
             <p>[ &nbsp; ] Session timeout enforced after 15 minutes of LIMS inactivity.</p>
         </body>
     </html>

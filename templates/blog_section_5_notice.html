@@ -1,134 +1,40 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DPDP Section 5 Notice Compliance for Pathology Labs & Clinics (2026) | ConsentLayer</title>
-    <meta name="description" content="Step-by-step implementation guide for DPDP Act 2023 Section 5 consent notices in Indian pathology labs, diagnostic centers, and clinics. Multilingual rules and unbundled consent workflows.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://consentlayers.in/blog/dpdp-section-5-notice-pathology">
-    <link rel="stylesheet" href="/static/styles.css">
-</head>
-<body class="bg-[#fcfdfd] text-slate-800 antialiased font-sans flex flex-col min-h-screen">
+{% extends "base.html" %}
 
-    <div class="h-1.5 w-full bg-slate-200 fixed top-0 left-0 z-50">
-        <div id="readProgress" class="h-1.5 bg-indigo-600 w-0 transition-all duration-75"></div>
-    </div>
+{% block title %}DPDP Section 5 Notice Compliance for Pathology Labs (2026) | ConsentLayer{% endblock %}
 
-    <header class="border-b border-slate-200 bg-white/90 backdrop-blur-md sticky top-0 z-40 mt-1.5">
-        <div class="max-w-4xl mx-auto px-4 sm:px-5 h-16 flex items-center justify-between">
-            <a href="/" class="flex items-center gap-2 font-bold text-lg sm:text-xl text-slate-900 tracking-tight">
-                <span class="text-indigo-600">🛡️</span> Consent<span class="text-indigo-600">Layer</span>
-            </a>
-            <div class="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm font-medium">
-                <a href="/blog" class="text-slate-600 hover:text-indigo-600 font-semibold transition-colors hidden sm:inline-block">Compliance Library</a>
-                <a href="/signup" class="px-3 sm:px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition-colors shadow-sm uppercase tracking-wider text-[10px] sm:text-xs">Start Free Pilot</a>
-            </div>
+{% block meta %}
+<meta name="description" content="Step-by-step implementation guide for DPDP Act 2023 Section 5 consent notices in Indian diagnostic centers.">
+<link rel="canonical" href="https://consentlayers.in/blog/dpdp-section-5-notice-pathology">
+{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-xs font-semibold text-slate-600 uppercase tracking-widest">
+        <a href="/" class="hover:text-indigo-600">Home</a>
+        <span>/</span>
+        <a href="/blog" class="hover:text-indigo-600">Compliance Library</a>
+        <span>/</span>
+        <span class="text-indigo-600">Section 5 Notice</span>
+    </nav>
+
+    <header class="border-b border-slate-200 pb-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-semibold uppercase tracking-wider mb-4">
+            Statutory Notice Mandate • DPDP Act Section 5
         </div>
+        <h1 class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+            DPDP Section 5 Notice Requirements for Pathology Labs & Diagnostic Centers
+        </h1>
+        <p class="text-sm sm:text-base text-slate-600 mt-4 leading-relaxed">
+            A practical guide to drafting itemized data processing notices, implementing 8th Schedule multilingual workflows, and eliminating bundled consent liabilities.
+        </p>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 sm:px-5 py-8 sm:py-12 lg:py-16 flex-1 w-full">
-        <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs font-semibold text-slate-600 uppercase tracking-widest mb-5 sm:mb-6">
-            <a href="/" class="hover:text-indigo-600 transition-colors">Home</a>
-            <span>/</span>
-            <a href="/blog" class="hover:text-indigo-600 transition-colors">Compliance Library</a>
-            <span>/</span>
-            <span class="text-indigo-600">Section 5 Notice</span>
-        </nav>
-
-        <header class="mb-8 sm:mb-12 border-b border-slate-200 pb-6 sm:pb-10">
-            <div class="inline-flex flex-wrap items-center gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-3 sm:mb-4">
-                <span>Statutory Notice Mandate</span>
-                <span class="hidden sm:inline-block">•</span>
-                <span>DPDP Act Section 5</span>
-            </div>
-
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight leading-tight sm:leading-[1.15] mb-4 sm:mb-6">
-                DPDP Section 5 Notice Requirements for Pathology Labs & Diagnostic Centers
-            </h1>
-
-            <p class="text-sm sm:text-base lg:text-lg text-slate-600 font-normal leading-relaxed mb-6">
-                A practical guide to drafting itemized data processing notices, implementing 8th Schedule multilingual workflows, and eliminating bundled consent liabilities.
-            </p>
-        </header>
-
-        <aside class="my-6 sm:my-8 p-5 sm:p-6 bg-slate-50 rounded-2xl border-l-4 border-indigo-600 shadow-sm">
-            <h2 class="text-[11px] sm:text-sm font-bold uppercase tracking-wider text-indigo-900 mb-2">Notice Requirements Summary</h2>
-            <ul class="text-[13px] sm:text-sm text-slate-700 space-y-1.5 list-disc pl-4 sm:pl-5">
-                <li>Under <strong>Section 5(1)</strong>, every healthcare provider must serve an explicit, itemized notice before or at the time of collecting patient data.</li>
-                <li>Notices must be presented in English or any of the <strong>22 scheduled languages</strong> under the 8th Schedule of the Indian Constitution.</li>
-                <li>Serving invalid notices exposes clinics to penalties of up to <strong>₹50 Crores</strong> under Section 33.</li>
-            </ul>
-        </aside>
-
-        <article class="prose prose-sm sm:prose-base lg:prose-lg prose-slate max-w-none text-slate-700 leading-relaxed space-y-6 sm:space-y-8">
-            <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight mt-8">1. The Legal Mandate of Section 5 in Clinical Settings</h2>
-            <p>In standard clinical practice, patient data intake is rapid. Reception desks collect contact details, government identification, and sample identifiers without informing patients of data flows. Under Section 5, this practice is non-compliant.</p>
-
-            <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight mt-8">2. Mandatory Components of a Valid Section 5 Notice</h2>
-            <p>To satisfy DPBI regulatory standards, every notice served at OPD registration counters or diagnostic lab portals must contain five itemized elements:</p>
-            <ul class="list-disc pl-4 sm:pl-6 space-y-2">
-                <li><strong>Specific Data Categories:</strong> Complete disclosure of demographic details and biometric markers.</li>
-                <li><strong>Specified Purpose:</strong> Clear limitation stating the data is processed solely for conducting tests.</li>
-                <li><strong>Manner of Exercising Rights:</strong> Instructions explaining how the patient can access their records or withdraw consent.</li>
-            </ul>
-
-            <div class="my-8 sm:my-10 bg-gradient-to-br from-indigo-900 via-slate-900 to-slate-950 text-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl border border-indigo-700/40 relative overflow-hidden not-prose text-center sm:text-left">
-                <div class="relative z-10 max-w-2xl">
-                    <span class="inline-block px-2.5 sm:px-3 py-1 rounded-full bg-indigo-500/30 text-indigo-300 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-3">
-                        Automated Front-Desk Solution
-                    </span>
-                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-black mb-3 text-white leading-tight">
-                        Deploy Digital Multilingual Section 5 Notices in Under 5 Minutes
-                    </h2>
-                    <p class="text-slate-300 text-[13px] sm:text-base leading-relaxed mb-5 sm:mb-6">
-                        Eliminate paper consent liability. Use ConsentLayer's tablet and web interface to capture timestamped, multilingual patient consent notices at your reception desk.
-                    </p>
-                    <a href="/signup" class="inline-flex items-center justify-center sm:justify-start gap-2 bg-indigo-500 hover:bg-indigo-400 text-white font-bold w-full sm:w-auto px-6 sm:px-7 py-3.5 sm:py-3.5 rounded-xl shadow-lg hover:shadow-indigo-500/25 transition-all text-xs sm:text-sm uppercase tracking-wider">
-                        <span>Deploy Free Consent Engine</span>
-                    </a>
-                </div>
-            </div>
-        </article>
-
-        <div class="my-10 p-6 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-5 not-prose">
-            <img src="https://ui-avatars.com/api/?name=Pratham&background=e0e7ff&color=4f46e5&bold=true" width="64" height="64" loading="lazy" alt="Pratham" class="w-16 h-16 rounded-full shadow-sm shrink-0">
-            <div class="text-center sm:text-left">
-                <h3 class="text-lg font-bold text-slate-900">
-                    Pratham 
-                    <a href="https://linkedin.com/in/YOUR-LINKEDIN-URL" target="_blank" rel="noopener" class="inline-block ml-1 text-indigo-600 hover:text-indigo-800" title="Connect on LinkedIn">
-                        <svg class="w-4 h-4 inline" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zM7.119 20.452H3.554V9h3.565v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                    </a>
-                </h3>
-                <p class="text-xs font-bold text-indigo-600 uppercase tracking-wider mt-0.5">Founder & Security Architect</p>
-                <p class="text-sm text-slate-600 mt-2 leading-relaxed">
-                    Operating from Ratlam, Madhya Pradesh, Pratham translates the DPDP Act 2023 into technical, automated compliance safeguards for Indian pathology labs and diagnostic centers.
-                </p>
-            </div>
-        </div>
-
-        <div class="mt-12 sm:mt-16 p-6 sm:p-8 bg-slate-900 rounded-2xl sm:rounded-3xl text-center text-white">
-            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black mb-2 sm:mb-3">Deploy Compliant Notice Workflows Today</h2>
-            <p class="text-slate-300 text-[13px] sm:text-sm max-w-xl mx-auto mb-5 sm:mb-6 leading-relaxed">
-                Protect your diagnostic center from Section 33 notice penalties. Partner with ConsentLayer to deploy automated consent tracking at zero cost during our pilot phase.
-            </p>
-            <a href="/signup" class="inline-block w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 sm:px-8 py-3.5 rounded-xl shadow-lg transition-all text-xs sm:text-sm uppercase tracking-wider">
-                Claim Free Pilot Access
-            </a>
-        </div>
-    </main>
-
-    <footer class="border-t border-slate-200 bg-white py-6 sm:py-8 mt-8 sm:mt-12 text-center text-[10px] sm:text-xs text-slate-500 px-4">
-        <p>© 2026 ConsentLayer Platform. Built for Indian Healthcare DPDP Compliance.</p>
-    </footer>
-
-    <script>
-        window.addEventListener('scroll', () => {
-            const winScroll = document.documentElement.scrollTop || document.body.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById('readProgress').style.width = scrolled + '%';
-        });
-    </script>
-</body>
-</html>
+    <article class="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-6">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">1. The Mandate for Multilingual Clear Notices</h2>
+        <p>Section 5(1) mandates that every healthcare facility must provide an explicit notice before or at the time of collecting patient information. The notice must specify the categories of data collected and provide a direct method for consent withdrawal.</p>
+        
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">2. Prohibiting Bundled Consent</h2>
+        <p>Consent cannot be coerced as a condition for receiving standard medical care. Pre-ticked checkboxes and opaque blanket privacy policies are explicitly non-compliant under DPDP rules.</p>
+    </article>
+</div>
+{% endblock %}

@@ -1,9 +1,9 @@
 import datetime
 import jwt
+import bcrypt
 from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
-from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 from database import get_db
@@ -13,15 +13,15 @@ import models
 router = APIRouter(tags=["Authentication"])
 templates = Jinja2Templates(directory="templates")
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    truncated_password = plain_password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
-    return pwd_context.verify(truncated_password, hashed_password)
+    try:
+        return bcrypt.checkpw(plain_password.encode('utf-8')[:72], hashed_password.encode('utf-8'))
+    except Exception:
+        return False
 
 def get_password_hash(password: str) -> str:
-    truncated_password = password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
-    return pwd_context.hash(truncated_password)
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(password.encode('utf-8')[:72], salt).decode('utf-8')
 
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()
@@ -33,12 +33,12 @@ def create_access_token(data: dict) -> str:
 @router.get("/auth/login", response_class=HTMLResponse)
 @router.get("/signup", response_class=HTMLResponse)
 @router.get("/auth/signup", response_class=HTMLResponse)
-async def login_page(request: Request):
+def login_page(request: Request):
     return templates.TemplateResponse(request=request, name="login.html", context={"request": request})
 
 @router.post("/login")
 @router.post("/auth/login")
-async def login(email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
+def login(email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
     normalized_email = email.strip().lower()
     user = db.query(models.User).filter(models.User.email == normalized_email).first()
     
@@ -59,7 +59,7 @@ async def login(email: str = Form(...), password: str = Form(...), db: Session =
 
 @router.post("/signup")
 @router.post("/auth/signup")
-async def signup(email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
+def signup(email: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):
     if len(password) < 6:
         return RedirectResponse(url="/login?error=weak_password", status_code=302)
 
@@ -87,7 +87,7 @@ async def signup(email: str = Form(...), password: str = Form(...), db: Session 
 
 @router.get("/logout")
 @router.get("/auth/logout")
-async def logout():
+def logout():
     response = RedirectResponse(url="/login", status_code=302)
     response.delete_cookie("access_token")
     return response

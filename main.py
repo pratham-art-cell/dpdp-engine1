@@ -12,24 +12,22 @@ from sqlalchemy.orm import Session
 from database import engine, Base, get_db, init_db
 from config import settings
 import models
-from routers import auth, leads, labs, webhooks
+from routers import auth, leads, labs, webhooks, api
 
-# Fix: Initialize Database correctly without race conditions
 init_db()
 
 app = FastAPI(title="ConsentLayer DPDP Engine", version="1.0.0")
 
+origins = [origin.strip() for origin in settings.allowed_origins.split(",") if origin.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"],
     allow_headers=["*"],
 )
-# Fix: Gzip compression for frontend assets
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
-# Fix: Cache static files for 7 days
 class CachedStaticFiles(StaticFiles):
     def is_not_modified(self, response_headers, request_headers):
         response_headers["Cache-Control"] = "public, max-age=604800"
@@ -42,8 +40,8 @@ app.include_router(auth.router)
 app.include_router(leads.router)
 app.include_router(labs.router)
 app.include_router(webhooks.router)
+app.include_router(api.router)
 
-# Fix: Pre-load JSON into memory to prevent synchronous disk I/O bottlenecks
 ARTICLES_FILE = os.path.join(os.path.dirname(__file__), "data", "longtail_articles.json")
 CACHED_ARTICLES = []
 if os.path.exists(ARTICLES_FILE):
@@ -67,8 +65,8 @@ def get_current_user_safe(request: Request, db: Session):
     except jwt.PyJWTError:
         return None
 
-@app.get("/", response_class=HTMLResponse)
-async def home_page(request: Request, db: Session = Depends(get_db)):
+@app.api_route("/", methods=["GET", "HEAD"], response_class=HTMLResponse)
+def home_page(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_safe(request, db)
     return templates.TemplateResponse(
         request=request,
@@ -83,48 +81,42 @@ async def home_page(request: Request, db: Session = Depends(get_db)):
     )
 
 @app.get("/about", response_class=HTMLResponse)
-async def about_page(request: Request, db: Session = Depends(get_db)):
+def about_page(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_safe(request, db)
     return templates.TemplateResponse(
         request=request, name="about.html", context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
     )
 
 @app.get("/support", response_class=HTMLResponse)
-async def support_page(request: Request, db: Session = Depends(get_db)):
+def support_page(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_safe(request, db)
     return templates.TemplateResponse(
         request=request, name="support.html", context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
     )
 
 @app.get("/reports", response_class=HTMLResponse)
-async def reports_page(request: Request, db: Session = Depends(get_db)):
+def reports_page(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_safe(request, db)
     return templates.TemplateResponse(
         request=request, name="reports.html", context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
     )
 
 @app.get("/settings", response_class=HTMLResponse)
-async def settings_page(request: Request, db: Session = Depends(get_db)):
+def settings_page(request: Request, db: Session = Depends(get_db)):
     user = get_current_user_safe(request, db)
     return templates.TemplateResponse(
         request=request, name="settings.html", context={"request": request, "user": user, "has_paid": user.has_paid if user else False}
     )
 
 @app.get("/blog", response_class=HTMLResponse)
-async def blog_index(request: Request):
+def blog_index(request: Request):
     articles = get_articles()
     return templates.TemplateResponse(
         request=request, name="blog_index.html", context={"request": request, "articles": articles}
     )
 
-@app.get("/blog/new", response_class=HTMLResponse)
-async def blog_studio(request: Request):
-    return templates.TemplateResponse(
-        request=request, name="blog_editor.html", context={"request": request}
-    )
-
 @app.get("/blog/{slug}", response_class=HTMLResponse)
-async def blog_detail(request: Request, slug: str):
+def blog_detail(request: Request, slug: str):
     static_templates = {
         "dpdp-section-5-notice-pathology": "blog_section_5_notice.html",
         "whatsapp-medical-reports-dpdp-compliance": "blog_whatsapp_compliance.html",
@@ -149,12 +141,12 @@ async def blog_detail(request: Request, slug: str):
     )
 
 @app.get("/robots.txt", response_class=Response)
-async def robots_txt():
-    content = "User-agent: *\nAllow: /\nDisallow: /settings\nDisallow: /reports\nDisallow: /blog/new\n\nSitemap: https://consentlayers.in/sitemap.xml\n"
+def robots_txt():
+    content = "User-agent: *\nAllow: /\nDisallow: /settings\nDisallow: /reports\n\nSitemap: https://consentlayers.in/sitemap.xml\n"
     return Response(content=content, media_type="text/plain")
 
 @app.get("/sitemap.xml", response_class=Response)
-async def sitemap_xml():
+def sitemap_xml():
     articles = get_articles()
     urls = [
         "https://consentlayers.in/",

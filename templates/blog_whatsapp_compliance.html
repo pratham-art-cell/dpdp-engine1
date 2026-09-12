@@ -1,178 +1,40 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Medical Report Dispatch: DPDP Act Compliance Risks (2026) | ConsentLayer</title>
-    <meta name="description" content="Why sharing diagnostic lab reports over standard WhatsApp violates DPDP Act Section 8 and triggers Section 33 penalties, and how to deploy compliant authenticated download tokens.">
-    <meta name="keywords" content="WhatsApp lab report DPDP fine, medical report privacy WhatsApp India, Section 8 security safeguards healthcare, pathology WhatsApp compliance, diagnostic data breach India">
-    <meta name="author" content="ConsentLayer Research & Compliance Team">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <link rel="canonical" href="https://consentlayers.in/blog/whatsapp-medical-reports-dpdp-compliance">
+{% extends "base.html" %}
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "Article",
-          "@id": "https://consentlayers.in/blog/whatsapp-medical-reports-dpdp-compliance#article",
-          "isPartOf": {
-            "@type": "WebPage",
-            "@id": "https://consentlayers.in/blog/whatsapp-medical-reports-dpdp-compliance"
-          },
-          "headline": "WhatsApp Medical Report Dispatch: DPDP Act Compliance Risks (2026)",
-          "description": "Why sharing diagnostic lab reports over standard WhatsApp violates DPDP Act Section 8 and triggers Section 33 penalties, and how to fix it.",
-          "inLanguage": "en-IN",
-          "mainEntityOfPage": "https://consentlayers.in/blog/whatsapp-medical-reports-dpdp-compliance",
-          "author": {
-            "@type": "Organization",
-            "name": "ConsentLayer Legal & Security Engineering Group",
-            "url": "https://consentlayers.in"
-          }
-        }
-      ]
-    }
-    </script>
-    <link rel="stylesheet" href="/static/styles.css">
-</head>
-<body class="bg-[#fcfdfd] text-slate-800 antialiased font-sans flex flex-col min-h-screen">
+{% block title %}WhatsApp Medical Report Dispatch: DPDP Compliance Risks | ConsentLayer{% endblock %}
 
-    <div class="h-1.5 w-full bg-slate-200 fixed top-0 left-0 z-50">
-        <div id="readProgress" class="h-1.5 bg-indigo-600 w-0 transition-all duration-75"></div>
-    </div>
+{% block meta %}
+<meta name="description" content="Why sharing diagnostic reports over personal WhatsApp accounts violates Section 8 safeguards and triggers statutory penalties.">
+<link rel="canonical" href="https://consentlayers.in/blog/whatsapp-medical-reports-dpdp-compliance">
+{% endblock %}
 
-    <header class="border-b border-slate-200 bg-white/90 backdrop-blur-md sticky top-0 z-40 mt-1.5">
-        <div class="max-w-4xl mx-auto px-4 sm:px-5 h-16 flex items-center justify-between">
-            <a href="/" class="flex items-center gap-2 font-bold text-lg sm:text-xl text-slate-900 tracking-tight">
-                <span class="text-indigo-600">🛡️</span> Consent<span class="text-indigo-600">Layer</span>
-            </a>
-            <div class="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm font-medium">
-                <a href="/blog" class="text-slate-600 hover:text-indigo-600 font-semibold transition-colors hidden sm:inline-block">Compliance Library</a>
-                <a href="/signup" class="px-3 sm:px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition-colors shadow-sm uppercase tracking-wider text-[10px] sm:text-xs">Start Free Pilot</a>
-            </div>
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-8">
+    <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-xs font-semibold text-slate-600 uppercase tracking-widest">
+        <a href="/" class="hover:text-indigo-600">Home</a>
+        <span>/</span>
+        <a href="/blog" class="hover:text-indigo-600">Compliance Library</a>
+        <span>/</span>
+        <span class="text-indigo-600">WhatsApp Compliance</span>
+    </nav>
+
+    <header class="border-b border-slate-200 pb-6">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold uppercase tracking-wider mb-4">
+            Security Safeguards • DPDP Section 8
         </div>
+        <h1 class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+            WhatsApp Medical Reports: Data Leakage Vulnerabilities Under the DPDP Act
+        </h1>
+        <p class="text-sm sm:text-base text-slate-600 mt-4 leading-relaxed">
+            Why transmitting unencrypted diagnostic PDFs across personal staff devices violates Section 8 reasonable safeguards and triggers multi-crore liability exposure under Section 33.
+        </p>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 sm:px-5 py-8 sm:py-12 lg:py-16 flex-1 w-full">
-        <nav aria-label="Breadcrumb" class="flex flex-wrap items-center gap-2 text-[11px] sm:text-xs font-semibold text-slate-600 uppercase tracking-widest mb-5 sm:mb-6">
-            <a href="/" class="hover:text-indigo-600 transition-colors">Home</a>
-            <span>/</span>
-            <a href="/blog" class="hover:text-indigo-600 transition-colors">Compliance Library</a>
-            <span>/</span>
-            <span class="text-indigo-600">WhatsApp Compliance</span>
-        </nav>
-
-        <header class="mb-8 sm:mb-12 border-b border-slate-200 pb-6 sm:pb-10">
-            <div class="inline-flex flex-wrap items-center gap-2 px-2.5 sm:px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-3 sm:mb-4">
-                <span>Security Safeguards & Risk Analysis</span>
-                <span class="hidden sm:inline-block">•</span>
-                <span>DPDP Act Section 8 & 33</span>
-            </div>
-
-            <h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-slate-900 tracking-tight leading-tight sm:leading-[1.15] mb-4 sm:mb-6">
-                WhatsApp Medical Reports: Data Leakage Vulnerabilities Under the DPDP Act
-            </h1>
-
-            <p class="text-sm sm:text-base lg:text-lg text-slate-600 font-normal leading-relaxed mb-6">
-                Why transmitting unencrypted diagnostic PDFs across personal staff devices violates Section 8 safeguards, triggers multi-crore liability, and how to implement zero-exposure delivery.
-            </p>
-        </header>
-
-        <aside class="my-6 sm:my-8 p-5 sm:p-6 bg-slate-50 rounded-2xl border-l-4 border-amber-500 shadow-sm">
-            <h2 class="text-[11px] sm:text-sm font-bold uppercase tracking-wider text-amber-900 mb-2">Key Risk Summary</h2>
-            <ul class="text-[13px] sm:text-sm text-slate-700 space-y-1.5 list-disc pl-4 sm:pl-5">
-                <li>Over 80% of standalone Indian pathology labs dispatch diagnostic PDFs directly over personal staff WhatsApp accounts.</li>
-                <li>Unencrypted PDFs stored on personal device storage or personal cloud backups violate Section 8 data security safeguards.</li>
-                <li>Failure to implement reasonable safeguards to prevent breaches triggers Section 33 penalties of up to <strong>₹250 Crores</strong>.</li>
-            </ul>
-        </aside>
-
-        <article class="prose prose-sm sm:prose-base lg:prose-lg prose-slate max-w-none text-slate-700 leading-relaxed space-y-6 sm:space-y-8">
-            <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight mt-8">1. The Unmonitored Attack Vector: Personal Messaging at the Lab Desk</h2>
-            <p>Sending pathology reports and imaging scans via WhatsApp has become the default convenience for Indian diagnostic centers...</p>
-
-            <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight mt-8">2. The 3 Critical Statutory Violations</h2>
-            <div class="space-y-4 my-5 sm:my-6 not-prose">
-                <div class="p-5 sm:p-6 border border-slate-200 rounded-2xl bg-white shadow-sm">
-                    <h3 class="text-base sm:text-lg font-bold text-slate-900 mb-2">1. Endpoint Security Failures (Section 8.5)</h3>
-                    <p class="text-[13px] sm:text-base text-slate-600 leading-relaxed">Diagnostic reports containing sensitive patient markers are downloaded to staff mobile storage.</p>
-                </div>
-            </div>
-
-            <div class="my-8 sm:my-10 bg-gradient-to-br from-indigo-900 via-slate-900 to-slate-950 text-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl border border-indigo-700/40 relative overflow-hidden not-prose text-center sm:text-left">
-                <div class="relative z-10 max-w-2xl">
-                    <span class="inline-block px-2.5 sm:px-3 py-1 rounded-full bg-amber-500/30 text-amber-300 text-[10px] sm:text-xs font-semibold uppercase tracking-wider mb-3">
-                        Secure Report Dispatch Engine
-                    </span>
-                    <h2 class="text-xl sm:text-2xl lg:text-3xl font-black mb-3 text-white leading-tight">
-                        Secure Your Clinic's WhatsApp Dispatch Workflow Today
-                    </h2>
-                    <p class="text-slate-300 text-[13px] sm:text-base leading-relaxed mb-5 sm:mb-6">
-                        Eliminate personal staff phone risks. Send verified WhatsApp messages with time-limited authenticated access tokens and full audit logs.
-                    </p>
-                    <a href="/signup" class="inline-flex items-center justify-center sm:justify-start gap-2 bg-indigo-500 hover:bg-indigo-400 text-white font-bold w-full sm:w-auto px-6 sm:px-7 py-3.5 sm:py-3.5 rounded-xl shadow-lg hover:shadow-indigo-500/25 transition-all text-xs sm:text-sm uppercase tracking-wider">
-                        <span>Deploy Secure Gateway</span>
-                    </a>
-                </div>
-            </div>
-
-            <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight mt-8">3. The Architecture of Compliant Report Distribution</h2>
-            <ul class="list-disc pl-4 sm:pl-6 space-y-2">
-                <li><strong>Official Enterprise APIs:</strong> Messages are dispatched strictly through verified WhatsApp Business API channels rather than staff phone numbers.</li>
-            </ul>
-        </article>
-
-        <div class="my-10 p-6 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-5 not-prose">
-            <img src="https://ui-avatars.com/api/?name=Pratham&background=e0e7ff&color=4f46e5&bold=true" width="64" height="64" loading="lazy" alt="Pratham" class="w-16 h-16 rounded-full shadow-sm shrink-0">
-            <div class="text-center sm:text-left">
-                <h3 class="text-lg font-bold text-slate-900">
-                    Pratham 
-                    <a href="https://linkedin.com/in/YOUR-LINKEDIN-URL" target="_blank" rel="noopener" class="inline-block ml-1 text-indigo-600 hover:text-indigo-800" title="Connect on LinkedIn">
-                        <svg class="w-4 h-4 inline" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zM7.119 20.452H3.554V9h3.565v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                    </a>
-                </h3>
-                <p class="text-xs font-bold text-indigo-600 uppercase tracking-wider mt-0.5">Founder & Security Architect</p>
-                <p class="text-sm text-slate-600 mt-2 leading-relaxed">
-                    Operating from Ratlam, Madhya Pradesh, Pratham translates the DPDP Act 2023 into technical, automated compliance safeguards for Indian pathology labs and diagnostic centers.
-                </p>
-            </div>
-        </div>
-
-        <div id="library" class="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-slate-200 scroll-mt-20">
-            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-5 sm:mb-6">Explore the Complete DPDP Compliance Library</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                <a href="/blog/dpdp-act-healthcare-compliance-guide" class="p-5 sm:p-6 border border-slate-200 rounded-2xl hover:border-indigo-500 hover:bg-indigo-50/40 transition-all group bg-white shadow-sm">
-                    <span class="text-[10px] sm:text-xs font-bold text-indigo-600 uppercase tracking-wider">Master Blueprint</span>
-                    <h3 class="text-base sm:text-lg font-bold text-slate-900 group-hover:text-indigo-600 mt-2 leading-snug">Healthcare DPDP Master Guide →</h3>
-                </a>
-            </div>
-        </div>
-
-        <section class="mt-10 sm:mt-14 pt-8 sm:pt-10 border-t border-slate-200">
-            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mb-5 sm:mb-6">Frequently Asked Questions (FAQs)</h2>
-            <div class="space-y-3 sm:space-y-4">
-                <details class="group bg-white p-4 sm:p-5 rounded-xl border border-slate-200">
-                    <summary class="flex justify-between items-center font-bold text-sm sm:text-base text-slate-900 cursor-pointer list-none">
-                        <span class="pr-4">Is sending lab reports over standard WhatsApp illegal under DPDP?</span>
-                        <span class="text-indigo-600 font-bold group-open:rotate-180 transition-transform shrink-0">↓</span>
-                    </summary>
-                    <p class="text-[13px] sm:text-sm text-slate-600 mt-3 leading-relaxed">
-                        Sending unencrypted patient reports from personal or unmanaged staff phones without auditable consent trails violates Section 8 (Reasonable Security Safeguards).
-                    </p>
-                </details>
-            </div>
-        </section>
-
-        <div class="mt-12 sm:mt-16 p-6 sm:p-8 bg-slate-900 rounded-2xl sm:rounded-3xl text-center text-white">
-            <h2 class="text-xl sm:text-2xl lg:text-3xl font-black mb-2 sm:mb-3">Join the Free Healthcare Pilot Program</h2>
-            <p class="text-slate-300 text-[13px] sm:text-sm max-w-xl mx-auto mb-5 sm:mb-6 leading-relaxed">
-                Protect your diagnostic center from multi-crore WhatsApp security risks.
-            </p>
-            <a href="/signup" class="inline-block w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 sm:px-8 py-3.5 rounded-xl shadow-lg transition-all text-xs sm:text-sm uppercase tracking-wider">
-                Claim Free Pilot Access
-            </a>
-        </div>
-    </main>
-</body>
-</html>
+    <article class="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-6">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">1. Endpoint Security Failures on Staff Devices</h2>
+        <p>When staff dispatch reports from personal phones, diagnostic PDFs are stored in unencrypted device folders and backed up to consumer cloud storage accounts. This constitutes an uncontrolled data flow under Section 8.</p>
+        
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">2. Compliant Dispatch Architecture</h2>
+        <p>To remain compliant, clinics must utilize automated API gateways that send one-time, password-protected download links rather than raw PDF attachments.</p>
+    </article>
+</div>
+{% endblock %}
