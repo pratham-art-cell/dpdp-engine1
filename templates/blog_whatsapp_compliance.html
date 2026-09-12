@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% title %}WhatsApp Medical Report Dispatch: DPDP Compliance Risks | ConsentLayer{% title %}
+{% block title %}WhatsApp Medical Report Dispatch: DPDP Compliance Risks | ConsentLayer{% endblock %}
 
 {% block meta %}
 <meta name="description" content="Why sharing diagnostic reports over personal WhatsApp accounts violates Section 8 safeguards and exposes clinics to regulatory penalties.">
@@ -25,24 +25,24 @@
             WhatsApp Medical Reports: Data Leakage Vulnerabilities Under the DPDP Act
         </h1>
         <p class="text-base text-slate-700 mt-4 leading-relaxed">
-            Ask any diagnostic lab manager how patient reports are delivered, and 90% will give the same answer: <em>"We just WhatsApp it to them."</em> While convenient, this practice represents one of the largest hidden legal liabilities in modern Indian healthcare.
+            Ask any diagnostic lab manager how patient reports are delivered, and most will give the same answer: <em>"We just WhatsApp it to them."</em> While convenient, this practice represents a major hidden legal liability.
         </p>
     </header>
 
     <article class="prose prose-slate max-w-none text-slate-800 leading-relaxed space-y-6 text-sm sm:text-base">
         <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">1. Endpoint Security Failures on Personal Staff Devices</h2>
         <p>
-            When a technician downloads a patient's lab report PDF on their personal smartphone and forwards it via WhatsApp, multiple security boundaries are broken. The file sits unencrypted in consumer local storage, often syncs automatically to personal cloud backups, and remains permanently accessible on messaging servers. Under Section 8 of the DPDP Act, this lack of rigorous endpoint control constitutes an avoidable security failure.
+            When a technician downloads a patient's lab report PDF on their personal smartphone and forwards it via WhatsApp, multiple security boundaries are broken. The file sits unencrypted in consumer local storage, often syncing automatically to personal cloud backups. Under Section 8 of the DPDP Act, this lack of rigorous endpoint control constitutes an avoidable security failure.
         </p>
 
         <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">2. The Risk of Misdirected Dispatches</h2>
         <p>
-            Front-desk operators handling dozens of calls frequently mix up phone numbers, resulting in confidential pathology results landing in the hands of unintended recipients. Under statutory reporting rules, exposing patient diagnostic data to unauthorized third parties triggers mandatory breach notifications and liability claims.
+            Front-desk operators handling dozens of calls frequently mix up phone numbers, resulting in confidential pathology results landing in the hands of unintended recipients. Exposing patient diagnostic data to unauthorized third parties triggers mandatory breach notifications.
         </p>
 
         <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">3. Transitioning to Compliant Tokenized Delivery</h2>
         <p>
-            Clinics do not need to abandon instant messaging entirely; rather, they must upgrade the underlying delivery mechanism. Instead of attaching raw PDFs, compliant systems transmit secure, time-bound verification links. When clicked, the patient authenticates via OTP to view their report inside an encrypted portal, preserving convenience while maintaining bulletproof Section 8 compliance.
+            Clinics do not need to abandon instant messaging entirely; rather, they must upgrade the underlying delivery mechanism. Instead of attaching raw PDFs, compliant systems transmit secure, time-bound verification links requiring OTP authentication.
         </p>
     </article>
 </div>

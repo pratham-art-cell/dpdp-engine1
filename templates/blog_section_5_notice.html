@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% title %}DPDP Section 5 Notice Compliance for Pathology Labs (2026) | ConsentLayer{% title %}
+{% block title %}DPDP Section 5 Notice Compliance for Pathology Labs (2026) | ConsentLayer{% endblock %}
 
 {% block meta %}
 <meta name="description" content="Step-by-step implementation guide for DPDP Act 2023 Section 5 consent notices in Indian diagnostic centers and pathology laboratories.">
@@ -32,22 +32,22 @@
     <article class="prose prose-slate max-w-none text-slate-800 leading-relaxed space-y-6 text-sm sm:text-base">
         <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">1. The Mandate for Clear, Itemized Notices</h2>
         <p>
-            Section 5(1) stipulates that every data fiduciary must provide a notice to the data principal either prior to or at the exact time of collecting personal data. For a pathology lab, this means when a patient registers for a lipid profile or pathology panel, they must be presented with an itemized notice detailing exactly what data is being gathered, why it is necessary, and how it will be stored.
+            Section 5(1) stipulates that every data fiduciary must provide a notice to the data principal either prior to or at the exact time of collecting personal data. For a pathology lab, this means when a patient registers for a test panel, they must be presented with an itemized notice detailing exactly what data is gathered, why it is necessary, and how it is stored.
         </p>
 
         <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">2. Eliminating Coerced and Bundled Consent</h2>
         <p>
-            A common flaw in legacy diagnostic software is "bundled consent"—wrapping diagnostic processing terms together with marketing permissions or third-party data sharing agreements in dense, unreadable privacy policies. The DPDP Act explicitly invalidates bundled consent. Patients must have the granular option to consent to diagnostic processing without being forced into secondary data monetization or marketing distributions.
+            A common flaw in legacy diagnostic software is "bundled consent"—wrapping diagnostic processing terms together with marketing permissions or third-party data sharing agreements in dense, unreadable privacy policies. The DPDP Act explicitly invalidates bundled consent. Patients must have the granular option to consent to diagnostic processing without being forced into secondary data monetization.
         </p>
 
         <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">3. Multilingual Accessibility (Eighth Schedule)</h2>
         <p>
-            Compliance requires practical localization. A notice presented exclusively in English to a patient in regional Madhya Pradesh or rural Karnataka fails statutory comprehension tests. Diagnostic centers must ensure their notice architecture supports regional languages specified under the Eighth Schedule of the Constitution, making terms transparent and accessible to every demographic.
+            Compliance requires practical localization. A notice presented exclusively in English fails statutory comprehension tests across regional demographics. Diagnostic centers must ensure their notice architecture supports regional languages specified under the Eighth Schedule of the Constitution.
         </p>
 
         <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">4. Operationalizing Notices at the Front Desk</h2>
         <p>
-            To solve this without creating bottlenecks at peak morning collection hours, labs are moving toward digital intake kiosks and QR-code-enabled consent confirmation links. These systems record exact timestamps and provide patients with immediate digital copies of their privacy notices, satisfying statutory mandates effortlessly.
+            To solve this without creating bottlenecks at peak morning collection hours, labs are moving toward digital intake kiosks and QR-code-enabled consent confirmation links. These systems record exact timestamps and provide patients with immediate digital copies of their privacy notices.
         </p>
     </article>
 </div>
