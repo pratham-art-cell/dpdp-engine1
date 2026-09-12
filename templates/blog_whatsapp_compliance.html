@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}WhatsApp Medical Report Dispatch: DPDP Compliance Risks | ConsentLayer{% endblock %}
+{% title %}WhatsApp Medical Report Dispatch: DPDP Compliance Risks | ConsentLayer{% title %}
 
 {% block meta %}
-<meta name="description" content="Why sharing diagnostic reports over personal WhatsApp accounts violates Section 8 safeguards and triggers statutory penalties.">
+<meta name="description" content="Why sharing diagnostic reports over personal WhatsApp accounts violates Section 8 safeguards and exposes clinics to regulatory penalties.">
 <link rel="canonical" href="https://consentlayers.in/blog/whatsapp-medical-reports-dpdp-compliance">
 {% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto space-y-8">
+<div class="max-w-4xl mx-auto space-y-8 py-4 sm:py-6">
     <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-xs font-semibold text-slate-600 uppercase tracking-widest">
         <a href="/" class="hover:text-indigo-600">Home</a>
         <span>/</span>
@@ -18,23 +18,32 @@
     </nav>
 
     <header class="border-b border-slate-200 pb-6">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold uppercase tracking-wider mb-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold uppercase tracking-wider mb-4">
             Security Safeguards • DPDP Section 8
         </div>
-        <h1 class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
             WhatsApp Medical Reports: Data Leakage Vulnerabilities Under the DPDP Act
         </h1>
-        <p class="text-sm sm:text-base text-slate-700 mt-4 leading-relaxed">
-            Why transmitting unencrypted diagnostic PDFs across personal staff devices violates Section 8 reasonable safeguards and triggers multi-crore liability exposure under Section 33.
+        <p class="text-base text-slate-700 mt-4 leading-relaxed">
+            Ask any diagnostic lab manager how patient reports are delivered, and 90% will give the same answer: <em>"We just WhatsApp it to them."</em> While convenient, this practice represents one of the largest hidden legal liabilities in modern Indian healthcare.
         </p>
     </header>
 
-    <article class="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-6">
-        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">1. Endpoint Security Failures on Staff Devices</h2>
-        <p>When staff dispatch reports from personal phones, diagnostic PDFs are stored in unencrypted device folders and backed up to consumer cloud storage accounts. This constitutes an uncontrolled data flow under Section 8.</p>
-        
-        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">2. Compliant Dispatch Architecture</h2>
-        <p>To remain compliant, clinics must utilize automated API gateways that send one-time, password-protected download links rather than raw PDF attachments.</p>
+    <article class="prose prose-slate max-w-none text-slate-800 leading-relaxed space-y-6 text-sm sm:text-base">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">1. Endpoint Security Failures on Personal Staff Devices</h2>
+        <p>
+            When a technician downloads a patient's lab report PDF on their personal smartphone and forwards it via WhatsApp, multiple security boundaries are broken. The file sits unencrypted in consumer local storage, often syncs automatically to personal cloud backups, and remains permanently accessible on messaging servers. Under Section 8 of the DPDP Act, this lack of rigorous endpoint control constitutes an avoidable security failure.
+        </p>
+
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">2. The Risk of Misdirected Dispatches</h2>
+        <p>
+            Front-desk operators handling dozens of calls frequently mix up phone numbers, resulting in confidential pathology results landing in the hands of unintended recipients. Under statutory reporting rules, exposing patient diagnostic data to unauthorized third parties triggers mandatory breach notifications and liability claims.
+        </p>
+
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">3. Transitioning to Compliant Tokenized Delivery</h2>
+        <p>
+            Clinics do not need to abandon instant messaging entirely; rather, they must upgrade the underlying delivery mechanism. Instead of attaching raw PDFs, compliant systems transmit secure, time-bound verification links. When clicked, the patient authenticates via OTP to view their report inside an encrypted portal, preserving convenience while maintaining bulletproof Section 8 compliance.
+        </p>
     </article>
 </div>
 {% endblock %}

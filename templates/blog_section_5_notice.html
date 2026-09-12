@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}DPDP Section 5 Notice Compliance for Pathology Labs (2026) | ConsentLayer{% endblock %}
+{% title %}DPDP Section 5 Notice Compliance for Pathology Labs (2026) | ConsentLayer{% title %}
 
 {% block meta %}
-<meta name="description" content="Step-by-step implementation guide for DPDP Act 2023 Section 5 consent notices in Indian diagnostic centers.">
+<meta name="description" content="Step-by-step implementation guide for DPDP Act 2023 Section 5 consent notices in Indian diagnostic centers and pathology laboratories.">
 <link rel="canonical" href="https://consentlayers.in/blog/dpdp-section-5-notice-pathology">
 {% endblock %}
 
 {% block content %}
-<div class="max-w-4xl mx-auto space-y-8">
+<div class="max-w-4xl mx-auto space-y-8 py-4 sm:py-6">
     <nav aria-label="Breadcrumb" class="flex items-center gap-2 text-xs font-semibold text-slate-600 uppercase tracking-widest">
         <a href="/" class="hover:text-indigo-600">Home</a>
         <span>/</span>
@@ -18,23 +18,37 @@
     </nav>
 
     <header class="border-b border-slate-200 pb-6">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-semibold uppercase tracking-wider mb-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold uppercase tracking-wider mb-4">
             Statutory Notice Mandate • DPDP Act Section 5
         </div>
-        <h1 class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
             DPDP Section 5 Notice Requirements for Pathology Labs & Diagnostic Centers
         </h1>
-        <p class="text-sm sm:text-base text-slate-700 mt-4 leading-relaxed">
-            A practical guide to drafting itemized data processing notices, implementing 8th Schedule multilingual workflows, and eliminating bundled consent liabilities.
+        <p class="text-base text-slate-700 mt-4 leading-relaxed">
+            In diagnostic healthcare, consent has historically been treated as an afterthought—a quick signature scribbled at the bottom of a registration clipboard. Under Section 5 of the DPDP Act 2023, this casual approach is no longer legally defensible.
         </p>
     </header>
 
-    <article class="prose prose-slate max-w-none text-slate-700 leading-relaxed space-y-6">
-        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">1. The Mandate for Multilingual Clear Notices</h2>
-        <p>Section 5(1) mandates that every healthcare facility must provide an explicit notice before or at the time of collecting patient information. The notice must specify the categories of data collected and provide a direct method for consent withdrawal.</p>
-        
-        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">2. Prohibiting Bundled Consent</h2>
-        <p>Consent cannot be coerced as a condition for receiving standard medical care. Pre-ticked checkboxes and opaque blanket privacy policies are explicitly non-compliant under DPDP rules.</p>
+    <article class="prose prose-slate max-w-none text-slate-800 leading-relaxed space-y-6 text-sm sm:text-base">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">1. The Mandate for Clear, Itemized Notices</h2>
+        <p>
+            Section 5(1) stipulates that every data fiduciary must provide a notice to the data principal either prior to or at the exact time of collecting personal data. For a pathology lab, this means when a patient registers for a lipid profile or pathology panel, they must be presented with an itemized notice detailing exactly what data is being gathered, why it is necessary, and how it will be stored.
+        </p>
+
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">2. Eliminating Coerced and Bundled Consent</h2>
+        <p>
+            A common flaw in legacy diagnostic software is "bundled consent"—wrapping diagnostic processing terms together with marketing permissions or third-party data sharing agreements in dense, unreadable privacy policies. The DPDP Act explicitly invalidates bundled consent. Patients must have the granular option to consent to diagnostic processing without being forced into secondary data monetization or marketing distributions.
+        </p>
+
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">3. Multilingual Accessibility (Eighth Schedule)</h2>
+        <p>
+            Compliance requires practical localization. A notice presented exclusively in English to a patient in regional Madhya Pradesh or rural Karnataka fails statutory comprehension tests. Diagnostic centers must ensure their notice architecture supports regional languages specified under the Eighth Schedule of the Constitution, making terms transparent and accessible to every demographic.
+        </p>
+
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mt-8">4. Operationalizing Notices at the Front Desk</h2>
+        <p>
+            To solve this without creating bottlenecks at peak morning collection hours, labs are moving toward digital intake kiosks and QR-code-enabled consent confirmation links. These systems record exact timestamps and provide patients with immediate digital copies of their privacy notices, satisfying statutory mandates effortlessly.
+        </p>
     </article>
 </div>
 {% endblock %}
