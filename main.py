@@ -1,14 +1,6 @@
 import json
 import os
 import jwt
-import mimetypes
-
-# 1. FIX: Manually register MIME types because python-slim lacks the OS database
-mimetypes.add_type("text/css", ".css")
-mimetypes.add_type("image/png", ".png")
-mimetypes.add_type("image/svg+xml", ".svg")
-mimetypes.add_type("application/javascript", ".js")
-
 from fastapi import FastAPI, Request, Depends, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -36,12 +28,22 @@ app.add_middleware(
 )
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
-# 2. FIX: Prevent the browser from locally locking onto broken static files
 class CachedStaticFiles(StaticFiles):
     async def get_response(self, path: str, scope) -> Response:
         response = await super().get_response(path, scope)
         if response.status_code == 200:
+            # Prevent aggressive browser caching of static files
             response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+            
+            # 100% Guaranteed MIME Type Fix: Bypasses Starlette mimetypes.init() wipeout
+            if path.endswith(".css"):
+                response.headers["Content-Type"] = "text/css; charset=utf-8"
+            elif path.endswith(".png"):
+                response.headers["Content-Type"] = "image/png"
+            elif path.endswith(".svg"):
+                response.headers["Content-Type"] = "image/svg+xml"
+            elif path.endswith(".js"):
+                response.headers["Content-Type"] = "application/javascript"
         return response
 
 app.mount("/static", CachedStaticFiles(directory="static"), name="static")
