@@ -32,10 +32,9 @@ class CachedStaticFiles(StaticFiles):
     async def get_response(self, path: str, scope) -> Response:
         response = await super().get_response(path, scope)
         if response.status_code == 200:
-            # Prevent aggressive browser caching of static files
             response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
             
-            # 100% Guaranteed MIME Type Fix: Bypasses Starlette mimetypes.init() wipeout
+            # Hardcoded MIME Types to bypass Docker Slim limitations
             if path.endswith(".css"):
                 response.headers["Content-Type"] = "text/css; charset=utf-8"
             elif path.endswith(".png"):
