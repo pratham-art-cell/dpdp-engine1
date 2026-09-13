@@ -29,9 +29,11 @@ app.add_middleware(
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 class CachedStaticFiles(StaticFiles):
-    def is_not_modified(self, response_headers, request_headers):
-        response_headers["Cache-Control"] = "public, max-age=31536000, immutable"
-        return super().is_not_modified(response_headers, request_headers)
+    async def get_response(self, path: str, scope) -> Response:
+        response = await super().get_response(path, scope)
+        if response.status_code == 200:
+            response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+        return response
 
 app.mount("/static", CachedStaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
