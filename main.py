@@ -35,7 +35,7 @@ class CachedStaticFiles(StaticFiles):
             response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
         return response
 
-app.mount("/static", CachedStaticFiles(directory="static"), name="static")
+app.mount("/assets", CachedStaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
 app.include_router(auth.router)

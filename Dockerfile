@@ -24,7 +24,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Compile and minify Tailwind CSS directly into the static directory
-RUN tailwindcss -i ./static/input.css -o ./static/styles.css --minify
+RUN tailwindcss -c tailwind.config.js -i ./static/input.css -o ./static/styles.css --minify
 
 # Expose the FastAPI port
 EXPOSE 8000
