@@ -1,6 +1,14 @@
 import json
 import os
 import jwt
+import mimetypes
+
+# 1. FIX: Manually register MIME types because python-slim lacks the OS database
+mimetypes.add_type("text/css", ".css")
+mimetypes.add_type("image/png", ".png")
+mimetypes.add_type("image/svg+xml", ".svg")
+mimetypes.add_type("application/javascript", ".js")
+
 from fastapi import FastAPI, Request, Depends, Response
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -28,11 +36,12 @@ app.add_middleware(
 )
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
+# 2. FIX: Prevent the browser from locally locking onto broken static files
 class CachedStaticFiles(StaticFiles):
     async def get_response(self, path: str, scope) -> Response:
         response = await super().get_response(path, scope)
         if response.status_code == 200:
-            response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+            response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
         return response
 
 app.mount("/static", CachedStaticFiles(directory="static"), name="static")
@@ -166,9 +175,3 @@ def sitemap_xml():
         xml_content += f"  <url>\n    <loc>{url}</loc>\n    <changefreq>weekly</changefreq>\n  </url>\n"
     xml_content += '</urlset>'
     return Response(content=xml_content, media_type="application/xml")
-
-@app.middleware("http")
-async def add_no_cache_header(request, call_next):
-    response = await call_next(request)
-    response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
-    return response
